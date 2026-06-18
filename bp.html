@@ -73,136 +73,146 @@ body{
   overflow-x:hidden;
 }
 
-/* 顶部品牌栏 - 玻璃质感 + 双品牌碰撞 */
+/* ============================================================
+   顶部品牌栏 - 2D 扁平 + 左右硬色块 + 中间融合块
+   ============================================================ */
 .brand-bar{
-  position:sticky;top:0;z-index:50;
-  display:flex;
+  position:relative;
+  display:grid;
+  grid-template-columns:1fr 1.4fr 1fr;
   align-items:stretch;
-  padding:0 24px;
-  min-height:72px;
-  background:var(--brand-gradient);
-  backdrop-filter:blur(var(--glass-blur));
-  -webkit-backdrop-filter:blur(var(--glass-blur));
-  box-shadow:var(--glass-shadow);
-  border-bottom:1px solid var(--glass-border-strong);
-  /* 动效容器的溢出必须可见 */
+  min-height:120px;
+  padding:0;
+  background:#FAF6F0;  /* 浅米纯色底（fallback） */
   overflow:visible;
+  border-bottom:1px solid #E8E0D5;
 }
-/* 左右品牌区块 */
-.brand-left,.brand-right{
+/* 左半边：宅咪暖奶橙块 */
+.brand-left{
+  position:relative;
   display:flex;
   align-items:center;
-  gap:10px;
-  padding:14px 0;
-  min-width:120px;
+  gap:14px;
+  padding:0 36px;
+  background:linear-gradient(135deg,#F4B860 0%,#E89A3C 100%);
+  border-top-left-radius:0;
+  border-bottom-left-radius:0;
+  clip-path:polygon(0 0, calc(100% - 24px) 0, 100% 50%, calc(100% - 24px) 100%, 0 100%);
 }
+.brand-left .brand-logo{order:0}
+/* 右半边：宅电深空科技蓝块 */
 .brand-right{
+  position:relative;
+  display:flex;
+  align-items:center;
   justify-content:flex-end;
+  gap:14px;
+  padding:0 36px;
+  background:linear-gradient(135deg,#1A6BFF 0%,#0D1B2A 100%);
+  clip-path:polygon(24px 0, 100% 0, 100% 100%, 24px 100%, 0 50%);
 }
-/* 品牌 logo */
-.brand-logo{
-  height:44px;
-  width:44px;
-  border-radius:50%;
-  object-fit:cover;
-  background:var(--glass-bg-strong);
-  backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
-  border:1.5px solid var(--glass-border);
-  padding:3px;
-  transition:transform 0.3s ease;
-}
-.brand-logo:hover{
-  transform:scale(1.1);
-}
-.brand-logo.zhaidian-img{
-  order:2;
-}
-/* 品牌文字标签 */
-.brand-label{
-  font-size:15px;
-  font-weight:800;
-  letter-spacing:2px;
-  text-shadow:0 1px 4px rgba(0,0,0,0.2);
-}
-.brand-label.zhaimi{
-  color:#5C3D2E;
-  text-shadow:0 1px 2px rgba(255,255,255,0.5);
-}
-.brand-label.zhaidian{
-  color:#fff;
-}
-
-/* 中间标题区 */
+.brand-right .brand-logo{order:1}
+/* 中间立体融合块 */
 .brand-center{
-  flex:1;
-  text-align:center;
+  position:relative;
+  z-index:5;
   display:flex;
   flex-direction:column;
   justify-content:center;
   align-items:center;
-  padding:10px 0;
-  position:relative;
-  z-index:2;
-  min-width:0;
+  text-align:center;
+  padding:18px 40px;
+  margin:0 -2px;  /* 与左右块轻微重叠 */
+  background:linear-gradient(180deg,#FFFFFF 0%,#FFF8EC 100%);
+  border-radius:24px;
+  box-shadow:
+    0 8px 24px rgba(232,154,60,0.18),
+    0 4px 12px rgba(13,27,42,0.12),
+    0 0 0 1px rgba(255,255,255,0.8) inset;
+  transform:translateY(8px);
+  min-height:96px;
 }
 .brand-center-title{
-  font-size:22px;
-  font-weight:800;
-  color:#fff;
-  letter-spacing:2px;
-  text-shadow:0 2px 8px rgba(0,0,0,0.3);
-  line-height:1.3;
+  font-size:30px;
+  font-weight:900;
+  color:#3A2818;
+  letter-spacing:6px;
+  margin-bottom:6px;
+  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
 }
 .brand-center-sub{
-  font-size:12px;
-  color:rgba(255,255,255,0.85);
-  letter-spacing:1.5px;
-  margin-top:2px;
-  font-weight:500;
+  font-size:13px;
+  color:#7A5238;
+  letter-spacing:2px;
+  font-weight:600;
 }
 
-/* 动效切换按钮 */
-.brand-style-toggle{
-  position:absolute;
-  bottom:0;
-  left:50%;
-  transform:translate(-50%,50%);
-  display:flex;
-  align-items:center;
-  gap:6px;
-  background:rgba(0,0,0,0.55);
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-  border:1px solid rgba(255,255,255,0.3);
-  border-radius:50px;
-  padding:4px 14px 4px 10px;
-  cursor:pointer;
-  z-index:55;
-  transition:all 0.25s ease;
-}
-.brand-style-toggle:hover{
-  background:rgba(0,0,0,0.7);
-  transform:translate(-50%,50%) scale(1.05);
-}
-.brand-style-toggle .dot{
-  width:10px;
-  height:10px;
+/* 品牌 logo - 哑光圆形 */
+.brand-logo{
+  height:56px;
+  width:56px;
   border-radius:50%;
-  border:1.5px solid rgba(255,255,255,0.5);
-  transition:all 0.3s ease;
+  object-fit:cover;
+  background:#FFFFFF;
+  padding:4px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+  flex-shrink:0;
 }
-.brand-style-toggle .dot.active{
-  background:#fff;
-  border-color:#fff;
-  box-shadow:0 0 8px rgba(255,255,255,0.5);
+.brand-label{
+  font-size:16px;
+  font-weight:800;
+  letter-spacing:3px;
+  color:#FFFFFF;
+  text-shadow:0 1px 2px rgba(0,0,0,0.15);
 }
-.style-label{
-  font-size:11px;
-  color:rgba(255,255,255,0.8);
-  font-weight:600;
-  letter-spacing:0.5px;
-  margin-left:2px;
+.brand-label.zhaimi{color:#FFFFFF;text-shadow:0 1px 2px rgba(92,61,46,0.3);}
+.brand-label.zhaidian{color:#FFFFFF;text-shadow:0 1px 2px rgba(0,0,0,0.4);}
+
+/* 装饰元素：橙区奶油泡沫（伪元素实现，2D 圆形堆叠，无动画） */
+.brand-left::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background-image:
+    radial-gradient(circle at 12% 30%,rgba(255,255,255,0.55) 0,rgba(255,255,255,0) 6px),
+    radial-gradient(circle at 22% 65%,rgba(255,255,255,0.45) 0,rgba(255,255,255,0) 8px),
+    radial-gradient(circle at 8% 75%,rgba(255,255,255,0.40) 0,rgba(255,255,255,0) 5px),
+    radial-gradient(circle at 30% 20%,rgba(255,255,255,0.35) 0,rgba(255,255,255,0) 4px),
+    radial-gradient(circle at 16% 88%,rgba(255,255,255,0.30) 0,rgba(255,255,255,0) 5px),
+    radial-gradient(circle at 5% 50%,rgba(255,255,255,0.50) 0,rgba(255,255,255,0) 7px);
+}
+/* 装饰元素：蓝区碎玻璃裂纹 */
+.brand-right::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background-image:
+    linear-gradient(45deg,transparent 48%,rgba(255,255,255,0.18) 49%,rgba(255,255,255,0.18) 51%,transparent 52%),
+    linear-gradient(135deg,transparent 60%,rgba(255,255,255,0.15) 61%,rgba(255,255,255,0.15) 63%,transparent 64%),
+    linear-gradient(90deg,transparent 30%,rgba(255,255,255,0.10) 31%,rgba(255,255,255,0.10) 33%,transparent 34%),
+    linear-gradient(60deg,transparent 75%,rgba(255,255,255,0.18) 76%,rgba(255,255,255,0.18) 78%,transparent 79%);
+  background-size:80px 80px,60px 60px,90px 90px,70px 70px;
+  background-position:0 0,20px 20px,40px 0,10px 30px;
+  opacity:0.7;
+}
+/* 中间融合块两侧的装饰条：泡沫→碎玻璃的汇聚感 */
+.brand-center::before,
+.brand-center::after{
+  content:"";
+  position:absolute;
+  top:50%;
+  width:60px;
+  height:60px;
+  transform:translateY(-50%);
+  background:radial-gradient(circle,rgba(244,184,96,0.18) 0%,rgba(244,184,96,0) 70%);
+  pointer-events:none;
+}
+.brand-center::before{left:-30px;}
+.brand-center::after{
+  right:-30px;
+  background:radial-gradient(circle,rgba(26,107,255,0.18) 0%,rgba(26,107,255,0) 70%);
 }
 /* 品牌栏动效容器 */
 .brand-effects{
