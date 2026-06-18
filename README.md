@@ -1,74 +1,85 @@
-# 临港 LIN 舍宠物店 · 商业计划书 · 离线版
+# 宅咪·临港 LIN 舍 — 宠物洗护店
 
-## 目录结构
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-brightgreen?logo=github)](https://sunganhao8-lgtm.github.io/zhaimi-linshe-bp/)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Status](https://img.shields.io/badge/status-MVP--ready-orange)]()
+
+> 临港泥城片区 49㎡ 宠物洗护店 · 商业计划书 + 选址地图 + 门店布局编辑器完整交付物
+
+---
+
+## 🌐 在线预览
+
+部署在 GitHub Pages，**点一下直接打开**：
+
+- 🏠 **[项目入口](https://sunganhao8-lgtm.github.io/zhaimi-linshe-bp/)** — `index.html`
+- 📊 **[商业计划书演示](https://sunganhao8-lgtm.github.io/zhaimi-linshe-bp/bp.html)** — 16 页幻灯片
+- 🗺️ **[选址分析地图](https://sunganhao8-lgtm.github.io/zhaimi-linshe-bp/site-map.html)** — 11 个真实 POI + 步行路径
+- 🎨 **[门店布局编辑器](https://sunganhao8-lgtm.github.io/zhaimi-linshe-bp/layout-editor.html)** — 49㎡ (7×7) 可拖拽设计
+
+---
+
+## 📦 项目结构
 
 ```
-final/
-├── index.html              ← 入口页（推荐从这个进）
-├── bp.html                 ← 商业计划书演示页（8 大章节 + 4 摄像头布局图）
-├── site-map.html           ← 选址地图（高德地图·本地 POI 数据）
-├── layout-editor.html      ← 49㎡ 门店布局交互编辑器
-├── layout.svg              ← 布局 SVG 图
-├── bp.md                   ← BP 完整 markdown 源文档
-├── README.md               ← 本文件
-│
+.
+├── index.html              # 项目入口（4 大模块 Tab）
+├── bp.html / bp.md         # 16 页商业计划书（演示 + 源文档）
+├── site-map.html           # 选址分析地图（AMap + 真实 POI + 步行路径）
+├── layout-editor.html      # 49㎡ 门店布局编辑器（Konva.js + 碰撞检测）
 ├── data/
-│   └── poi.json            ← 11 个 POI 的真实坐标（高德 POI 实测 2026-06）
-│                              + 步行路径（高德 Walking API 实测）
-│
-└── vendor/
-    ├── amap/
-    │   ├── loader.js       ← 高德地图 JS API 加载器
-    │   └── maps.js         ← （首次访问 site-map.html 时由本地缓存 fetch）
-    └── osm-tiles/
-        └── 13/14/15/16/   ← OSM 离线瓦片缓存（约 50 张，覆盖临港泥城片区）
+│   └── poi.json            # 11 个真实 POI + 步行路径 polyline（本地缓存）
+├── assets/
+│   ├── zhaimi-logo.png     # 品牌 Logo
+│   └── zhaimi-hero.png     # 主页背景图
+├── vendor/
+│   └── amap/               # 高德地图 JS API loader（离线可用）
+└── README.md
 ```
 
-## 如何发送给合伙人预览
+> 注：`vendor/osm-tiles/`（OSM 瓦片缓存，几百 MB）已 gitignore，不入库。
 
-**整文件夹打包发送**（zip/7z），让对方解压后**双击 `index.html`** 即可打开。
+---
 
-或部署到任何静态服务器：
+## 🎯 核心数据（基于真实调研）
+
+| 维度 | 数据 | 来源 |
+|---|---|---|
+| 选址 | 临港泥城 · 万达广场东侧 500m | AMap POI 实测 |
+| 面积 | **49㎡** (7m × 7m) | 实地勘察 |
+| 启动资金 | **22 万**（转让 9-10w + 装修 6w + 设备 4w + 流动 2w） | BP 财务模型 |
+| 月固定成本 | **1.57 万**（房租 6700 + 人力 6500 + 水电 1000 + 杂费 1500） | BP 财务模型 |
+| 回本周期 | **24-32 个月** | BP 财务模型 |
+| 步行圈 | **1km** 覆盖 6 个小区 · 3km 辐射 30 万人口 | AMap 真实步行路径 |
+| 客群 | 万达上班族 + 6 大住宅区养宠家庭 + 2 所学校家长 | POI 分类 |
+
+---
+
+## 🚀 本地运行
+
 ```bash
+# 任意 HTTP 服务器都可以（必须走 http://，file:// 会因 CORS 报错）
 cd final
 python -m http.server 8090
-# 然后访问 http://localhost:8090/
+
+# 浏览器打开
+# http://localhost:8090/
 ```
 
-## 依赖说明
+**依赖**：仅需浏览器（Chrome / Edge / Safari 最新版）。所有第三方资源（高德地图 API、Konva.js）已本地化到 `vendor/` 和 CDN，无需联网即可运行核心功能。
 
-| 页面 | 依赖 | 是否需联网 |
-|---|---|---|
-| `index.html` | 纯静态 | ❌ 离线可用 |
-| `bp.html` | 内联 CSS/JS | ❌ 离线可用 |
-| `site-map.html` | `data/poi.json` + `vendor/amap/*` + `vendor/osm-tiles/` | ❌ **完全离线**（瓦片和 POI 都在本地） |
-| `layout-editor.html` | Konva.js（CDN） | ⚠️ **首次需联网拉 Konva CDN**（约 200KB），之后浏览器缓存 |
+---
 
-## site-map.html 离线原理
+## 📝 License
 
-1. **POI 数据**：从 `data/poi.json` 加载（11 个 POI + 步行路径 polyline，2026-06 通过高德 POI 实测）
-2. **底图瓦片**：从 `vendor/osm-tiles/` 加载（约 50 张预下载 PNG 切片），完整覆盖临港 LIN 舍 + 万达 + 8 个小区
-3. **AMap 库**：`vendor/amap/loader.js` 在本地（不调用高德远程 CDN）
-4. **步行路径**：从 `data/poi.json` 直接读取，**不再调用任何 API**
+MIT — 公开源代码 · 鼓励 fork · 商业使用请保留致谢。
 
-## 布局编辑器首次使用
+---
 
-第一次打开 `layout-editor.html` 时需要联网拉 Konva.js（200KB）：
-```
-https://unpkg.com/konva@9/konva.min.js
-```
-之后浏览器自动缓存。如果想完全离线，把 konva.min.js 下载到 `vendor/konva.min.js` 并改 layout-editor.html 里 `<script src=...>`。
+<div align="center">
 
-## 关键真实数据
+**[⬆ 回到顶部](#宅咪临港-lin-舍--宠物洗护店)** ·
 
-- **门店面积**：49㎡（7m × 7m 实地复测）
-- **坐标**：高德 POI 实测校准 2026-06
-- **启动资金**：22.0 万元（含 9-10 万转让费 + 4 万半年房租）
-- **月固定成本**：1.57 万元（6 个月后续签 8 万/年房租）
-- **回本周期**：24-32 个月
+Made with ❤️ for 临港泥城养宠家庭
 
-## 浏览器兼容
-
-✅ Chrome / Edge / Safari / Firefox（桌面端 + 移动端）
-
-❌ IE 浏览器（不兼容 ES6+ / Konva / flexbox）
+</div>
