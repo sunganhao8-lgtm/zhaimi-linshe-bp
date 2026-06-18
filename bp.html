@@ -497,12 +497,11 @@ h3.z-h3::before{
 .chart-pie{
   width:160px;height:160px;border-radius:50%;
   background:conic-gradient(
-    var(--z-brown) 0 43.2%,
-    var(--z-orange-deep) 43.2% 62.3%,
-    var(--z-orange) 62.3% 81.4%,
-    var(--z-cream-yellow) 81.4% 95.0%,
-    var(--z-green) 95.0% 100%,
-    var(--z-beige) 100% 100%
+    #5C3D2E 0% 43.2%,
+    #E89A3C 43.2% 62.3%,
+    #F4B860 62.3% 81.4%,
+    #FFD89A 81.4% 95.0%,
+    #A8C99A 95.0% 100%
   );
   box-shadow:var(--shadow-3d-deep);
   position:relative;
@@ -1501,13 +1500,20 @@ const slides = [
   {kind:'text', title:'产品矩阵 · 三大业务', subtitle:'PRODUCT MATRIX',
     items:[
       {t:'洗护美容（核心引流）',d:'小型犬 88-128 / 中型犬 128-168 / 猫 128-168 / SPA 药浴 158-228 / 造型 188-388 元'},
-      {t:'宠物寄养（高利润）',d:'小型 98 / 中型 128 / 大型 168 元/天，含遛狗+实时视频+洗护接驳'},
+      {t:'宠物寄养（高利润）',d:'小型 30 / 中型 50 / 大型 80 元/天起，含遛狗+实时视频+洗护接驳（参考周边店定价）'},
       {t:'零售（粘性）',d:'主粮精选 3-5 品牌（皇家/麦富迪/爱肯拿/渴望/网易严选），100-150 个活跃 SKU'},
       {t:'增值服务',d:'上门接送 30 元 · 10 次卡 9 折 · 节日造型 +30~50% · 免费线上咨询'}
     ]
   },
-  // 9. 门店布局
-  {kind:'layout', title:'门店布局 · 49㎡ 平面图', subtitle:'7.0m × 7.0m · 干湿分区 · 9 功能区域 · 4 摄像头'},
+  // 9. 门店布局（PDF 暂时不放，布局还在商议中——详见 layout-editor.html）
+    {kind:'text', title:'门店布局 · 商议中', subtitle:'LAYOUT · 49㎡ 方案详见 layout-editor.html',
+      items:[
+        {t:'当前进度',d:'门店布局方案正在与装修方商议中，最终版未敲定'},
+        {t:'查看交互版',d:'详见 <a href="layout-editor.html" target="_blank" style="color:var(--z-orange-deep);font-weight:800;text-decoration:underline">layout-editor.html</a>（可拖拽调整 30 个组件）'},
+        {t:'面积',d:'49㎡ (7m × 7m) · 干湿分区 · 9 功能区域'},
+        {t:'核心功能',d:'主门（临街）+ 后门（员工通道）+ 收银台 + 沙发等候区 + 4 个洗护单间 + 美容台 + 烘干箱 + 寄养笼区 + 储物 + 卫生间'}
+      ]
+    },
   // 10. 财务 - 启动金饼图
   {kind:'chart-pie', title:'启动资金 22 万 · 构成', subtitle:'STARTUP CAPITAL ALLOCATION',
       note:'转让费 43.2% · 半年房租 18.2% · 设备笼具 19.1% · 流动资金 13.6% · 装修 9.1% · 首批囤货 6.8% · 证照招牌 4.5% · 营销 2.3% · 改造 1.4% · POS 0.9%'},
