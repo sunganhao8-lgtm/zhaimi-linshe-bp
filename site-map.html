@@ -591,19 +591,44 @@
   }
 
   .marker-estate {
-    width: 22px; height: 22px;
-    position: relative;
-    cursor: pointer;
-  }
-  .marker-estate .core {
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 16px; height: 16px;
-    transform: translate(-50%, -50%) rotate(45deg);
-    background: var(--c-estate);
-    border: 1.5px solid var(--brand-orange-deep);
-    box-shadow: 0 0 6px rgba(255, 216, 154, 0.6);
-  }
+      width: 22px; height: 22px;
+      position: relative;
+      cursor: pointer;
+    }
+    .marker-estate .core {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 16px; height: 16px;
+      transform: translate(-50%, -50%) rotate(45deg);
+      background: var(--c-estate);
+      border: 1.5px solid var(--brand-orange-deep);
+      box-shadow: 0 0 6px rgba(255, 216, 154, 0.6);
+    }
+
+    /* 竞品 POI - 红色显眼，区别于小区（黄）/ 万达（紫）/ 学校（蓝） */
+    .marker-competitor {
+      width: 28px; height: 28px;
+      position: relative;
+      cursor: pointer;
+    }
+    .marker-competitor .core {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 22px; height: 22px;
+      transform: translate(-50%, -50%);
+      background: #DC2626;
+      color: #FFFFFF;
+      font-weight: 900;
+      font-size: 14px;
+      line-height: 22px;
+      text-align: center;
+      border-radius: 50%;
+      border: 2.5px solid #7F1D1D;
+      box-shadow: 0 2px 8px rgba(220, 38, 38, 0.5);
+    }
+    .marker-competitor .core::after {
+      content: "⚔";
+    }
 
   .marker-pending {
     width: 24px; height: 24px;
@@ -1308,6 +1333,45 @@ diagLog('maps.js URL: ' + MAPS_URL.split('?')[0] + '?...');
         { id: 'e8', name: '新元·芳菲苑', role: 'estate',
           lng: 121.813352, lat: 30.886904,
           address: '浦东新区正茂路1397弄（万达南·正茂路）', population: 3800, buildYear: 2019, source: '高德POI实测' }
+      ],
+      competitors: [
+        { id: 'c1', name: '艾米尔宠物店（云松景庭店）', role: 'competitor',
+          lng: 121.8170, lat: 30.8955,
+          address: '浦东新区泥城镇彩云路555号',
+          category: '宠物综合',
+          distance_to_store_m: 900,
+          estimated: true },
+        { id: 'c2', name: '牛妞宠物生活馆', role: 'competitor',
+          lng: 121.8212, lat: 30.8940,
+          address: '浦东新区泥城镇池月路301号与霞光路交叉口向西30米',
+          category: '宠物综合',
+          distance_to_store_m: 1176,
+          estimated: true },
+        { id: 'c3', name: '萌萌哒宠物店（泥城店）', role: 'competitor',
+          lng: 121.8190, lat: 30.8975,
+          address: '浦东新区泥城镇彭平东路106号',
+          category: '宠物综合',
+          distance_to_store_m: 1189,
+          estimated: true },
+        { id: 'c4', name: '萌宠Family（泥城万达店）', role: 'competitor',
+          lng: 121.8125, lat: 30.8925,
+          address: '浦东新区泥城镇蓄芳路4号6号',
+          category: '宠物综合',
+          distance_to_store_m: 356,
+          note: '最近竞品！356m 步行 5 分钟可达',
+          estimated: true },
+        { id: 'c5', name: '萌喜宠物', role: 'competitor',
+          lng: 121.8060, lat: 30.8930,
+          address: '浦东新区泥城镇云夏路259号',
+          category: '宠物综合',
+          distance_to_store_m: 438,
+          estimated: true },
+        { id: 'c6', name: '喵汪家宠物店', role: 'competitor',
+          lng: 121.8155, lat: 30.8865,
+          address: '浦东新区泥城镇南镜湖路61号',
+          category: '宠物综合',
+          distance_to_store_m: 721,
+          estimated: true }
       ]
     };
 
@@ -1320,6 +1384,11 @@ diagLog('maps.js URL: ' + MAPS_URL.split('?')[0] + '?...');
     STORE_DATA.estates.forEach(e => {
       STATE.results[e.id] = { ...e, missing: false };
     });
+    if (STORE_DATA.competitors) {
+      STORE_DATA.competitors.forEach(c => {
+        STATE.results[c.id] = { ...c, missing: false };
+      });
+    }
     STATE.successCount = Object.keys(STATE.results).length;
     STATE.failCount = 0;
     diagLog(`✅ 本地数据：${STATE.successCount} 个 POI 全部就位，零网络依赖`);
@@ -1478,6 +1547,8 @@ diagLog('maps.js URL: ' + MAPS_URL.split('?')[0] + '?...');
       html = '<div class="marker-school"><div class="core">🏫</div></div>';
     } else if (item.role === 'estate') {
       html = '<div class="marker-estate"><div class="core"></div></div>';
+    } else if (item.role === 'competitor') {
+      html = '<div class="marker-competitor"><div class="core"></div></div>';
     } else {
       html = '<div class="marker-pending"><div class="core">?</div></div>';
     }
@@ -1493,11 +1564,19 @@ diagLog('maps.js URL: ' + MAPS_URL.split('?')[0] + '?...');
       title: item.name
     });
     marker.on('click', () => {
+      let extra = '';
+      if (item.role === 'competitor') {
+        const dist = item.distance_to_store_m ? `<div class="iw-extra" style="background:#FEE2E2;color:#7F1D1D;padding:4px 8px;border-radius:6px;margin-top:6px;font-weight:700">⚔ 竞品 · 距本店 ${item.distance_to_store_m} 米</div>` : '';
+        const note = item.note ? `<div class="iw-note" style="font-size:12px;color:#7F1D1D;margin-top:4px;font-weight:600">⚠ ${escapeHTML(item.note)}</div>` : '';
+        const warn = item.estimated ? `<div class="iw-warn" style="font-size:11px;color:#92400E;margin-top:4px">📍 坐标为视觉估算（待浏览器精修）</div>` : '';
+        extra = dist + note + warn;
+      }
       const iw = new AMap.InfoWindow({
         content: `<div class="custom-iw">
           <div class="iw-name">${escapeHTML(item.name)}</div>
           <div class="iw-addr">${escapeHTML(item.address || '')}</div>
           <div class="iw-coord">${item.lng.toFixed(6)}, ${item.lat.toFixed(6)}</div>
+          ${extra}
         </div>`,
         offset: new AMap.Pixel(0, -30),
         closeWhenClickMap: true

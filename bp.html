@@ -870,7 +870,7 @@ h3.z-h3::before{
   <div class="kpi-row">
     <div class="kpi-card">
       <div class="kpi-label">启动资金</div>
-      <div class="kpi-value">16<span class="kpi-unit">万元</span></div>
+      <div class="kpi-value">22<span class="kpi-unit">万元</span></div>
       <div class="kpi-note">含 1.5 万应急储备金</div>
     </div>
     <div class="kpi-card">
@@ -1437,6 +1437,18 @@ let currentSlide = 0;
     const h = location.hash.replace('#','');
     if(['doc','slide','layout','map','about'].includes(h)) switchTab(h);
   }
+  // URL 参数支持：?tab=slide&slide=5（PDF 打印用）
+  try {
+    const params = new URLSearchParams(location.search);
+    const tabParam = params.get('tab');
+    if(tabParam && ['doc','slide','layout','map','about'].includes(tabParam)) {
+      switchTab(tabParam);
+    }
+    const slideParam = parseInt(params.get('slide'));
+    if(!isNaN(slideParam) && slideParam >= 0 && slideParam < slides.length) {
+      setTimeout(()=>goSlide(slideParam), 200);
+    }
+  } catch(e){}
 })();
 
 /* ============================================================
