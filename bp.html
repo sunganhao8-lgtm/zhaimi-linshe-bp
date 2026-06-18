@@ -2215,6 +2215,83 @@ document.addEventListener('DOMContentLoaded',()=>{
   };
 
   addTriggers();
+
+  // ========== 品牌栏动效系统 ==========
+  const STYLES = ['particle','pulse','liquid'];
+  const LABELS = ['粒子','脉冲','液态'];
+  const barEl = document.querySelector('.brand-bar');
+  const effectsEl = document.getElementById('brandEffects');
+  const dots = document.querySelectorAll('.brand-style-toggle .dot');
+  const labelEl = document.getElementById('styleLabel');
+  let particleTimer = null;
+
+  // 粒子系统
+  function spawnParticles(){
+    if(!barEl || !effectsEl) return;
+    const rect = barEl.getBoundingClientRect();
+    const w = rect.width;
+    const h = rect.height;
+    const colors = ['p-blue','p-orange','p-glow'];
+    const sides = ['left','right'];
+    for(let i=0;i<8;i++){
+      const el = document.createElement('div');
+      el.className = 'particle ' + colors[i % colors.length];
+      const side = sides[i % 2];
+      if(side === 'left'){
+        el.style.left = (5 + Math.random() * 20) + '%';
+      } else {
+        el.style.left = (75 + Math.random() * 20) + '%';
+      }
+      el.style.top = (20 + Math.random() * 60) + '%';
+      el.style.animationDelay = (Math.random() * 3) + 's';
+      el.style.animationDuration = (2 + Math.random() * 2) + 's';
+      effectsEl.appendChild(el);
+      // auto-remove after animation
+      setTimeout(function(){ if(el.parentNode) el.remove(); }, (3 + Math.random() * 2) * 1000);
+    }
+  }
+
+  function startParticles(){
+    if(particleTimer) clearInterval(particleTimer);
+    particleTimer = setInterval(spawnParticles, 800);
+    spawnParticles();
+  }
+
+  function stopParticles(){
+    if(particleTimer){
+      clearInterval(particleTimer);
+      particleTimer = null;
+    }
+    if(effectsEl){
+      effectsEl.querySelectorAll('.particle').forEach(function(el){ el.remove(); });
+    }
+  }
+
+  // 切换动效
+  function switchStyle(idx){
+    // 移除所有 style 类
+    STYLES.forEach(function(s){ barEl.classList.remove('style-' + s); });
+    // 添加新类
+    barEl.classList.add('style-' + STYLES[idx]);
+    // 更新 dots
+    dots.forEach(function(d,i){ d.classList.toggle('active', i === idx); });
+    labelEl.textContent = LABELS[idx];
+    // 清理旧效果
+    stopParticles();
+    // 启动新效果
+    if(STYLES[idx] === 'particle') startParticles();
+  }
+
+  // 绑定点击事件
+  dots.forEach(function(dot, idx){
+    dot.addEventListener('click', function(e){
+      e.stopPropagation();
+      switchStyle(idx);
+    });
+  });
+
+  // 初始化：启动默认动效（particle）
+  switchStyle(0);
 })();
 </script>
 </body>
