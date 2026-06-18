@@ -1,8 +1,9 @@
 # 宅咪·临港 LIN 舍 — 宠物洗护店
 
 [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-brightgreen?logo=github)](https://sunganhao8-lgtm.github.io/zhaimi-linshe-bp/)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/status-MVP--ready-orange)]()
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Repo Size](https://img.shields.io/github/repo-size/sunganhao8-lgtm/zhaimi-linshe-bp)](https://github.com/sunganhao8-lgtm/zhaimi-linshe-bp)
+[![Last Commit](https://img.shields.io/github/last-commit/sunganhao8-lgtm/zhaimi-linshe-bp)](https://github.com/sunganhao8-lgtm/zhaimi-linshe-bp/commits/main)
 
 > 临港泥城片区 49㎡ 宠物洗护店 · 商业计划书 + 选址地图 + 门店布局编辑器完整交付物
 
@@ -19,6 +20,23 @@
 
 ---
 
+## 📸 项目预览
+
+<div align="center">
+
+### 🗺️ 选址分析地图
+![site-map 预览](assets/preview-site-map.png)
+
+### 📊 商业计划书
+![bp 预览](assets/preview-bp.png)
+
+### 🎨 门店布局编辑器
+![layout 预览](assets/preview-layout.png)
+
+</div>
+
+---
+
 ## 📦 项目结构
 
 ```
@@ -31,9 +49,13 @@
 │   └── poi.json            # 11 个真实 POI + 步行路径 polyline（本地缓存）
 ├── assets/
 │   ├── zhaimi-logo.png     # 品牌 Logo
-│   └── zhaimi-hero.png     # 主页背景图
+│   ├── zhaimi-hero.png     # 主页背景图
+│   ├── preview-site-map.png # 站点地图预览截图
+│   ├── preview-bp.png       # 商业计划书预览截图
+│   └── preview-layout.png   # 布局编辑器预览截图
 ├── vendor/
 │   └── amap/               # 高德地图 JS API loader（离线可用）
+├── LICENSE                  # MIT 开源协议
 └── README.md
 ```
 
@@ -72,7 +94,7 @@ python -m http.server 8090
 
 ## 📝 License
 
-MIT — 公开源代码 · 鼓励 fork · 商业使用请保留致谢。
+MIT — 公开源代码 · 鼓励 fork · 商业使用请保留致谢。详见 [LICENSE](LICENSE)。
 
 ---
 
