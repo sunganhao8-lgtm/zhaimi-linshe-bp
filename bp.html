@@ -97,7 +97,7 @@ body{
   border-bottom:3px solid #5C3D2E;
 }
 
-/* 橙区奶油泡沫（左侧 1-40% 区域） */
+/* 橙区奶油泡沫（左侧 1-40% 区域）— 硬边球体感（双层 radial 叠加：核心实心 + 软散外圈 + 高光点） */
 .brand-bar::before{
   content:"";
   position:absolute;
@@ -105,42 +105,42 @@ body{
   pointer-events:none;
   z-index:1;
   background-image:
-    /* 大泡沫（橙区中部密集） */
-    radial-gradient(circle at 8% 30%,rgba(255,255,255,0.85) 0,rgba(255,255,255,0) 18px),
-    radial-gradient(circle at 16% 65%,rgba(255,255,255,0.75) 0,rgba(255,255,255,0) 22px),
-    radial-gradient(circle at 24% 35%,rgba(255,255,255,0.65) 0,rgba(255,255,255,0) 14px),
-    radial-gradient(circle at 5% 80%,rgba(255,255,255,0.70) 0,rgba(255,255,255,0) 16px),
-    radial-gradient(circle at 30% 70%,rgba(255,255,255,0.55) 0,rgba(255,255,255,0) 12px),
-    radial-gradient(circle at 12% 50%,rgba(255,255,255,0.60) 0,rgba(255,255,255,0) 10px),
-    /* 小泡沫散布 */
-    radial-gradient(circle at 3% 15%,rgba(255,255,255,0.55) 0,rgba(255,255,255,0) 6px),
-    radial-gradient(circle at 20% 15%,rgba(255,255,255,0.50) 0,rgba(255,255,255,0) 5px),
-    radial-gradient(circle at 28% 90%,rgba(255,255,255,0.50) 0,rgba(255,255,255,0) 7px),
-    radial-gradient(circle at 18% 88%,rgba(255,255,255,0.45) 0,rgba(255,255,255,0) 5px),
-    radial-gradient(circle at 35% 25%,rgba(255,255,255,0.40) 0,rgba(255,255,255,0) 6px),
-    radial-gradient(circle at 35% 55%,rgba(255,255,255,0.40) 0,rgba(255,255,255,0) 5px),
-    radial-gradient(circle at 7% 60%,rgba(255,255,255,0.45) 0,rgba(255,255,255,0) 4px);
+    /* 大泡沫：核心实心硬白 + 外圈柔和散 */
+    radial-gradient(circle at 8% 28%, #FFFFFF 0, #FFFFFF 9px, rgba(255,255,255,0.5) 11px, rgba(255,255,255,0) 18px),
+    radial-gradient(circle at 16% 62%, #FFFFFF 0, #FFFFFF 7px, rgba(255,255,255,0.45) 9px, rgba(255,255,255,0) 14px),
+    radial-gradient(circle at 24% 34%, #FFFFFF 0, #FFFFFF 6px, rgba(255,255,255,0.4) 8px, rgba(255,255,255,0) 12px),
+    radial-gradient(circle at 5% 76%, #FFFFFF 0, #FFFFFF 7px, rgba(255,255,255,0.45) 9px, rgba(255,255,255,0) 14px),
+    radial-gradient(circle at 30% 68%, #FFFFFF 0, #FFFFFF 5px, rgba(255,255,255,0.4) 7px, rgba(255,255,255,0) 11px),
+    /* 中等泡沫 */
+    radial-gradient(circle at 12% 48%, #FFFFFF 0, #FFFFFF 4px, rgba(255,255,255,0.4) 6px, rgba(255,255,255,0) 9px),
+    radial-gradient(circle at 28% 88%, #FFFFFF 0, #FFFFFF 4px, rgba(255,255,255,0.4) 6px, rgba(255,255,255,0) 9px),
+    radial-gradient(circle at 3% 12%, #FFFFFF 0, #FFFFFF 3px, rgba(255,255,255,0.4) 5px, rgba(255,255,255,0) 8px),
+    radial-gradient(circle at 20% 10%, #FFFFFF 0, #FFFFFF 3px, rgba(255,255,255,0.4) 5px, rgba(255,255,255,0) 8px),
+    /* 小气泡 */
+    radial-gradient(circle at 18% 86%, #FFFFFF 0, #FFFFFF 2px, rgba(255,255,255,0.4) 3px, rgba(255,255,255,0) 5px),
+    radial-gradient(circle at 35% 22%, #FFFFFF 0, #FFFFFF 2px, rgba(255,255,255,0.4) 3px, rgba(255,255,255,0) 5px),
+    radial-gradient(circle at 35% 52%, #FFFFFF 0, #FFFFFF 2px, rgba(255,255,255,0.4) 3px, rgba(255,255,255,0) 5px),
+    radial-gradient(circle at 7% 58%, #FFFFFF 0, #FFFFFF 2px, rgba(255,255,255,0.4) 3px, rgba(255,255,255,0) 5px),
+    /* 高光点（球体顶部小亮斑） */
+    radial-gradient(circle at 6% 24%, #FFFFFF 0, #FFFFFF 1.5px, rgba(255,255,255,0) 3px),
+    radial-gradient(circle at 14% 58%, #FFFFFF 0, #FFFFFF 1.5px, rgba(255,255,255,0) 3px),
+    radial-gradient(circle at 22% 30%, #FFFFFF 0, #FFFFFF 1.5px, rgba(255,255,255,0) 3px),
+    radial-gradient(circle at 3% 73%, #FFFFFF 0, #FFFFFF 1.5px, rgba(255,255,255,0) 3px);
 }
 
 /* 蓝区玻璃碎裂纹（右侧 55-100% 区域） */
 .brand-bar::after{
   content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  z-index:1;
-  background-image:
-    /* 主裂纹 - 辐射状 */
-    linear-gradient(45deg,transparent 47.5%,rgba(255,255,255,0.35) 48.5%,rgba(255,255,255,0.35) 49.5%,transparent 50.5%),
-    linear-gradient(135deg,transparent 47%,rgba(255,255,255,0.30) 48%,rgba(255,255,255,0.30) 49.5%,transparent 50.5%),
-    linear-gradient(70deg,transparent 47%,rgba(255,255,255,0.30) 48%,rgba(255,255,255,0.30) 49%,transparent 50%),
-    linear-gradient(110deg,transparent 47%,rgba(255,255,255,0.30) 48%,rgba(255,255,255,0.30) 49%,transparent 50%),
-    linear-gradient(20deg,transparent 47%,rgba(255,255,255,0.28) 48%,rgba(255,255,255,0.28) 49%,transparent 50%),
-    linear-gradient(160deg,transparent 47%,rgba(255,255,255,0.28) 48%,rgba(255,255,255,0.28) 49%,transparent 50%);
-  background-size:140px 140px,100px 100px,180px 180px,160px 160px,120px 120px,200px 200px;
-  background-position:55% 50%,60% 30%,65% 70%,62% 40%,70% 60%,58% 80%;
-  background-repeat:no-repeat;
-}
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    z-index:1;
+    /* SVG inline：真正的破碎裂纹（白色锋利线条 + 分叉 + 碎玻璃亮点） */
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='160' viewBox='0 0 600 160'><g stroke='rgba(255,255,255,0.85)' stroke-width='1.5' stroke-linecap='round' fill='none'><line x1='400' y1='0' x2='500' y2='80'/><line x1='500' y1='80' x2='600' y2='50'/><line x1='500' y1='80' x2='480' y2='130'/><line x1='500' y1='80' x2='560' y2='110'/><line x1='400' y1='0' x2='420' y2='40'/><line x1='420' y1='40' x2='450' y2='30'/><line x1='480' y1='130' x2='530' y2='160'/><line x1='480' y1='130' x2='430' y2='160'/><line x1='350' y1='60' x2='430' y2='75'/><line x1='430' y1='75' x2='460' y2='95'/><line x1='460' y1='95' x2='510' y2='100'/><line x1='350' y1='100' x2='400' y2='110'/><line x1='400' y1='110' x2='440' y2='125'/></g><g stroke='rgba(180,210,255,0.7)' stroke-width='1' stroke-linecap='round' fill='none'><line x1='380' y1='20' x2='390' y2='60'/><line x1='540' y1='30' x2='580' y2='80'/><line x1='420' y1='130' x2='470' y2='145'/><line x1='520' y1='40' x2='550' y2='20'/><line x1='370' y1='120' x2='410' y2='135'/></g><g fill='white'><circle cx='500' cy='80' r='2'/><circle cx='420' cy='40' r='1.5'/><circle cx='480' cy='130' r='1.8'/><circle cx='430' cy='75' r='1.5'/><circle cx='460' cy='95' r='1.2'/><circle cx='400' cy='110' r='1.5'/><circle cx='440' cy='125' r='1.2'/><circle cx='540' cy='30' r='1.5'/><circle cx='580' cy='80' r='1.2'/></g><g fill='rgba(180,210,255,0.9)'><circle cx='390' cy='60' r='1.5'/><circle cx='550' cy='20' r='1.3'/><circle cx='420' cy='130' r='1.5'/><circle cx='470' cy='145' r='1.3'/><circle cx='370' cy='120' r='1.3'/></g></svg>");
+    background-size:100% 100%;
+    background-position:right center;
+    background-repeat:no-repeat;
+  }
 
 /* 左半边：宅咪 LOGO + 名称 */
 .brand-left{
@@ -187,15 +187,15 @@ body{
 
 /* 品牌 logo - 哑光圆形 */
 .brand-logo{
-  height:54px;
-  width:54px;
+  height:72px;
+  width:72px;
   border-radius:50%;
   object-fit:cover;
   background:#FFFFFF;
-  padding:3px;
-  border:2px solid #FFFFFF;
+  padding:4px;
+  border:3px solid #FFFFFF;
   flex-shrink:0;
-  box-shadow:0 3px 10px rgba(0,0,0,0.25);
+  box-shadow:0 4px 14px rgba(0,0,0,0.30);
 }
 .brand-label{
   font-size:16px;
@@ -225,26 +225,7 @@ body{
   font-weight:700;
 }
 
-/* 中间融合块两侧装饰：橙/蓝过渡汇聚小光圈 */
-.brand-center::before,
-.brand-center::after{
-  content:"";
-  position:absolute;
-  top:50%;
-  width:80px;
-  height:80px;
-  transform:translateY(-50%);
-  border-radius:50%;
-  pointer-events:none;
-}
-.brand-center::before{
-  left:-50px;
-  background:radial-gradient(circle,#F4B860 0%,rgba(244,184,96,0) 70%);
-}
-.brand-center::after{
-  right:-50px;
-  background:radial-gradient(circle,#1A6BFF 0%,rgba(26,107,255,0) 70%);
-}
+/* 中间融合块：不做额外装饰（背景已经是橙→紫→蓝融合渐变，不需要两侧光圈） */
 
 /* 品牌栏动效容器 - 已废弃 */
 .brand-effects{display:none}
