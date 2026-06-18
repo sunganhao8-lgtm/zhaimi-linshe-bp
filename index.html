@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>宅咪·临港 LIN 舍 · 商业计划书</title>
+<style>
+:root{
+  --z-orange:#F4B860;
+  --z-orange-deep:#E89A3C;
+  --z-cream-yellow:#FFD89A;
+  --z-cream-white:#FFF4E1;
+  --z-beige:#F5E6CB;
+  --z-brown:#5C3D2E;
+  --z-green:#A8C99A;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'PingFang SC','Microsoft YaHei','Hiragino Sans GB','Noto Sans SC',sans-serif;
+  background:linear-gradient(135deg,var(--z-cream-yellow) 0%,var(--z-cream-white) 50%,var(--z-beige) 100%);
+  min-height:100vh;
+  color:var(--z-brown);
+  padding:40px 20px;
+}
+.wrap{max-width:1100px;margin:0 auto}
+header{text-align:center;margin-bottom:40px}
+.logo{
+  width:100px;height:100px;border-radius:50%;
+  background:var(--z-orange);
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:48px;margin-bottom:16px;
+  box-shadow:0 8px 24px rgba(232,154,60,.4), inset 0 -4px 0 rgba(199,127,37,.3);
+  border:4px solid var(--z-cream-white);
+}
+h1{
+  font-size:42px;color:var(--z-orange-deep);
+  text-shadow:3px 3px 0 var(--z-cream-yellow),4px 4px 8px rgba(92,61,46,.15);
+  margin-bottom:8px;letter-spacing:2px;
+}
+.sub{
+  display:inline-block;padding:6px 18px;
+  background:var(--z-cream-yellow);
+  color:var(--z-brown);
+  border-radius:20px;
+  font-size:14px;font-weight:600;
+  margin-top:12px;border:2px solid var(--z-orange-deep);
+}
+.tagline{
+  margin-top:20px;font-size:16px;color:var(--z-brown);
+  font-weight:500;
+}
+.tagline .hl{color:var(--z-orange-deep);font-weight:800;font-size:1.15em}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:24px;margin-top:40px;
+}
+.card{
+  background:var(--z-cream-white);
+  border-radius:20px;
+  padding:28px 24px;
+  border:3px solid var(--z-cream-yellow);
+  box-shadow:0 8px 24px rgba(232,154,60,.15);
+  transition:all .25s ease;
+  text-decoration:none;color:inherit;
+  display:block;position:relative;overflow:hidden;
+}
+.card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 16px 36px rgba(232,154,60,.25);
+  border-color:var(--z-orange);
+}
+.card-icon{
+  width:64px;height:64px;border-radius:16px;
+  background:var(--z-cream-yellow);
+  display:flex;align-items:center;justify-content:center;
+  font-size:32px;margin-bottom:16px;
+  border:2px solid var(--z-orange-deep);
+}
+.card-title{
+  font-size:22px;font-weight:800;color:var(--z-orange-deep);
+  margin-bottom:8px;
+}
+.card-desc{
+  font-size:14px;color:var(--z-brown);
+  line-height:1.7;opacity:.85;
+}
+.card-tag{
+  display:inline-block;margin-top:12px;
+  padding:3px 10px;
+  background:var(--z-green);color:var(--z-brown);
+  border-radius:10px;font-size:11px;font-weight:700;
+}
+.main-card{
+  background:linear-gradient(135deg,var(--z-orange) 0%,var(--z-orange-deep) 100%);
+  color:var(--z-cream-white);
+  border-color:var(--z-orange-deep);
+}
+.main-card .card-title{color:var(--z-cream-white);text-shadow:2px 2px 0 rgba(92,61,46,.3)}
+.main-card .card-desc{color:var(--z-cream-white);opacity:.95}
+.main-card .card-icon{
+  background:var(--z-cream-white);border-color:var(--z-cream-yellow);
+}
+.main-card .card-tag{background:var(--z-cream-white);color:var(--z-orange-deep)}
+footer{
+  text-align:center;margin-top:60px;
+  padding-top:24px;
+  border-top:2px dashed var(--z-orange);
+  font-size:13px;color:var(--z-brown);opacity:.7;
+}
+.qa{
+  margin-top:40px;padding:24px;
+  background:var(--z-cream-white);
+  border-radius:16px;
+  border:2px solid var(--z-orange);
+}
+.qa h3{color:var(--z-orange-deep);margin-bottom:12px;font-size:18px}
+.qa code{
+  display:block;
+  background:var(--z-cream-yellow);
+  padding:12px;border-radius:8px;
+  font-family:'JetBrains Mono',Consolas,monospace;
+  font-size:13px;color:var(--z-brown);
+  margin:6px 0;word-break:break-all;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">🐾</div>
+    <h1>宅咪·临港 LIN 舍</h1>
+    <span class="sub">社区精细化洗护综合宠物店</span>
+    <div class="tagline">让宠主<span class="hl">宅</span>在家就能解决宠物相关的一切问题！</div>
+  </header>
+
+  <div class="grid">
+    <a class="card main-card" href="bp.html">
+      <div class="card-icon">📄</div>
+      <div class="card-title">完整 BP（推荐入口）</div>
+      <div class="card-desc">
+        5 个标签页一站式展示：文档 / 演示 / 门店布局（可编辑）/ 选址分析 / 关于
+      </div>
+      <span class="card-tag">主入口</span>
+    </a>
+
+    <a class="card" href="bp.md">
+      <div class="card-icon">📝</div>
+      <div class="card-title">BP 文档 (Markdown)</div>
+      <div class="card-desc">
+        11 章完整商业计划书正文，可直接打印 / 转 PDF / 拷贝到 Word 二次编辑
+      </div>
+      <span class="card-tag">.md</span>
+    </a>
+
+    <a class="card" href="site-map.html">
+      <div class="card-icon">📍</div>
+      <div class="card-title">选址分析地图</div>
+      <div class="card-desc">
+        高德真实坐标 + 步行到万达实测路径 + 1km/3km 覆盖范围 + 8 个小区分布
+      </div>
+      <span class="card-tag">高德 API</span>
+    </a>
+
+    <a class="card" href="layout-editor.html">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">门店布局编辑器</div>
+      <div class="card-desc">
+        交互式编辑器：拖拽组件 / 调整尺寸 / DeepSeek AI 辅助自动布置 / 导出 SVG/PNG
+      </div>
+      <span class="card-tag">可编辑</span>
+    </a>
+
+    <a class="card" href="layout.svg">
+      <div class="card-icon">🏪</div>
+      <div class="card-title">门店布局图 (静态)</div>
+      <div class="card-desc">
+        65㎡ 标准版 SVG，含 9 个分区 + 4 个摄像头 + 客户动线 + 猫狗分区（已过时，编辑器版本为准）
+      </div>
+      <span class="card-tag">.svg</span>
+    </a>
+
+    <a class="card" href="assets/zhaimi-logo.png">
+      <div class="card-icon">🎨</div>
+      <div class="card-title">宅咪品牌资产</div>
+      <div class="card-desc">
+        LOGO PNG + 主页背景图，所有品牌物料已就位，可直接用于宣传物料
+      </div>
+      <span class="card-tag">品牌</span>
+    </a>
+  </div>
+
+  <div class="qa">
+    <h3>📡 局域网访问地址</h3>
+    <code>本机访问：http://localhost:8090/</code>
+    <code>局域网客户：http://192.168.31.51:8090/</code>
+    <p style="margin-top:12px;font-size:13px;line-height:1.7">
+      服务已在 8090 端口启动。如客户打不开，请确认：<br>
+      ① 客户和本机在同一局域网（同一 WiFi / 路由器）<br>
+      ② 本机 Windows 防火墙允许 8090 端口（首次访问会弹窗，点"允许访问"）<br>
+      ③ 如本机有多个 IP，请改用对应 IP 访问
+    </p>
+  </div>
+
+  <footer>
+    🐾 宅咪 ZHAIMI · 商业计划书 v1.0 · 编制日期 2026-06-16<br>
+    <span style="font-size:11px;opacity:.6">© 2026 宅咪品牌 · 临港 LIN 舍 首店</span>
+  </footer>
+</div>
+</body>
+</html>

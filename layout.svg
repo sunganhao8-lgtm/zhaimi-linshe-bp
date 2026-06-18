@@ -1,0 +1,599 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1000" font-family="-apple-system, 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif">
+  <!-- ============================================================
+       临港 LIN 舍 宠物店 · 65㎡ 门店布局平面图
+       总尺寸: 8.0m (宽) × 8.13m (深) = 65.0 ㎡
+       坐标系: viewBox 单位 1 ≈ 1cm. 1m = 100 units.
+       平面图原点: (200, 110), 右下角 (1000, 922.5)
+       朝向: 门头朝南 (y=0 侧为南/临街)
+       ============================================================ -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0b1220"/>
+      <stop offset="1" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="dryZone" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1e3a5f"/><stop offset="1" stop-color="#162a47"/>
+    </linearGradient>
+    <linearGradient id="wetZone" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0e3a3a"/><stop offset="1" stop-color="#0a2828"/>
+    </linearGradient>
+    <linearGradient id="supportZone" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a2e1e"/><stop offset="1" stop-color="#2a2014"/>
+    </linearGradient>
+    <pattern id="wallHatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="6" stroke="#64748b" stroke-width="1.4"/>
+    </pattern>
+    <radialGradient id="camFov" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <marker id="arrowEnd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#22d3ee"/>
+    </marker>
+    <marker id="arrowEndPink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#f472b6"/>
+    </marker>
+    <marker id="dimEnd" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#fbbf24"/>
+    </marker>
+  </defs>
+
+  <!-- =============== BACKGROUND =============== -->
+  <rect width="1400" height="1000" fill="url(#bg)"/>
+  <g opacity="0.05" stroke="#94a3b8" stroke-width="0.5">
+    <path d="M0 100 H1400 M0 200 H1400 M0 300 H1400 M0 400 H1400 M0 500 H1400 M0 600 H1400 M0 700 H1400 M0 800 H1400 M0 900 H1400"/>
+    <path d="M100 0 V1000 M200 0 V1000 M300 0 V1000 M400 0 V1000 M500 0 V1000 M600 0 V1000 M700 0 V1000 M800 0 V1000 M900 0 V1000 M1000 0 V1000 M1100 0 V1000 M1200 0 V1000 M1300 0 V1000"/>
+  </g>
+
+  <!-- =============== TITLE =============== -->
+  <text x="60" y="48" fill="#e2e8f0" font-size="26" font-weight="700">临港 LIN 舍 宠物店 · 65㎡ 门店布局平面图</text>
+  <text x="60" y="72" fill="#94a3b8" font-size="13">单层临街底商 · 干湿分区 · 门头朝南（临街 · LIN 舍小区出入口沿街）· 比例 1:50 · 单位：米（m）</text>
+
+  <!-- Title block -->
+  <g transform="translate(1080, 24)">
+    <rect width="280" height="62" rx="6" fill="#1e293b" stroke="#334155"/>
+    <text x="14" y="22" fill="#94a3b8" font-size="11">项目 / Project</text>
+    <text x="14" y="42" fill="#e2e8f0" font-size="13" font-weight="600">临港 LIN 舍 宠物综合店</text>
+    <text x="160" y="22" fill="#94a3b8" font-size="11">总面积</text>
+    <text x="160" y="42" fill="#22d3ee" font-size="15" font-weight="700">65.0 ㎡</text>
+    <text x="232" y="22" fill="#94a3b8" font-size="11">尺寸</text>
+    <text x="232" y="42" fill="#e2e8f0" font-size="13" font-weight="600">8.0×8.13m</text>
+    <text x="14" y="56" fill="#64748b" font-size="10">Drawing No. A-101 · 2026-06-16</text>
+  </g>
+
+  <!-- =============== LEGEND =============== -->
+  <g transform="translate(1080, 100)">
+    <rect width="280" height="220" rx="6" fill="#1e293b" stroke="#334155" opacity="0.95"/>
+    <text x="14" y="22" fill="#e2e8f0" font-size="13" font-weight="700">图例 / Legend</text>
+
+    <rect x="14" y="34" width="18" height="14" fill="url(#dryZone)" stroke="#3b82f6" stroke-width="1"/>
+    <text x="40" y="46" fill="#cbd5e1" font-size="11">干区（零售 / 接待 / 等候）</text>
+
+    <rect x="14" y="54" width="18" height="14" fill="url(#wetZone)" stroke="#10b981" stroke-width="1"/>
+    <text x="40" y="66" fill="#cbd5e1" font-size="11">湿区（洗护 / 美容 / 寄养）</text>
+
+    <rect x="14" y="74" width="18" height="14" fill="url(#supportZone)" stroke="#a78bfa" stroke-width="1"/>
+    <text x="40" y="86" fill="#cbd5e1" font-size="11">配套区（仓储 / 卫生间）</text>
+
+    <rect x="14" y="94" width="18" height="14" fill="#fbbf24" opacity="0.4" stroke="#fbbf24" stroke-width="1.5"/>
+    <text x="40" y="106" fill="#cbd5e1" font-size="11">门头 / 主入口（临街）</text>
+
+    <circle cx="23" cy="120" r="6" fill="#0b1220" stroke="#22d3ee" stroke-width="1.5"/>
+    <circle cx="23" cy="120" r="2" fill="#22d3ee"/>
+    <text x="40" y="124" fill="#cbd5e1" font-size="11">监控摄像头（CCTV × 4）</text>
+
+    <line x1="14" y1="142" x2="32" y2="142" stroke="#22d3ee" stroke-width="2" marker-end="url(#arrowEnd)"/>
+    <text x="40" y="146" fill="#cbd5e1" font-size="11">主客户动线</text>
+
+    <line x1="14" y1="162" x2="32" y2="162" stroke="#f472b6" stroke-width="2" stroke-dasharray="5 3" marker-end="url(#arrowEndPink)"/>
+    <text x="40" y="166" fill="#cbd5e1" font-size="11">宠物服务动线（湿区）</text>
+
+    <line x1="14" y1="184" x2="32" y2="184" stroke="#fbbf24" stroke-width="2" marker-start="url(#dimEnd)" marker-end="url(#dimEnd)"/>
+    <text x="40" y="188" fill="#cbd5e1" font-size="11">尺寸标注（米）</text>
+
+    <line x1="14" y1="202" x2="32" y2="202" stroke="#94a3b8" stroke-width="2"/>
+    <text x="40" y="206" fill="#cbd5e1" font-size="11">墙体 / 隔墙</text>
+  </g>
+
+  <!-- =============== STREET INDICATOR =============== -->
+  <rect x="200" y="78" width="800" height="28" fill="#fbbf24" opacity="0.12"/>
+  <text x="600" y="97" fill="#fbbf24" font-size="13" font-weight="700" text-anchor="middle">▼ 临街 · 门头朝南 · LIN 舍小区出入口沿街面 ▼</text>
+
+  <!-- =============== NORTH ARROW (compass) =============== -->
+  <g transform="translate(120, 130)">
+    <circle r="30" fill="#1e293b" stroke="#94a3b8" stroke-width="1.5"/>
+    <path d="M 0 -22 L 6 6 L 0 0 L -6 6 Z" fill="#ef4444"/>
+    <path d="M 0 22 L 6 -6 L 0 0 L -6 -6 Z" fill="#94a3b8"/>
+    <text y="-32" fill="#e2e8f0" font-size="11" text-anchor="middle" font-weight="700">N</text>
+    <text y="48" fill="#94a3b8" font-size="11" text-anchor="middle">S</text>
+  </g>
+
+  <!-- =====================================================
+       MAIN FLOOR PLAN  (origin 200,110 ; 800 wide x 812.5 deep)
+       ===================================================== -->
+  <g transform="translate(200, 110)">
+
+    <!-- ===== Overall outer wall ===== -->
+    <rect x="0" y="0" width="800" height="812.5" fill="#0f172a" stroke="#cbd5e1" stroke-width="4"/>
+
+    <!-- ============== DRY ZONE (south, y=0..375, 30㎡) ============== -->
+    <!-- Floor color: slight dry tint base -->
+    <rect x="2" y="2" width="796" height="371" fill="url(#dryZone)" opacity="0.95"/>
+
+    <!-- Front Retail Display (15㎡): 400x375 = 15㎡  (west half of dry zone) -->
+    <rect x="0" y="0" width="400" height="375" fill="url(#dryZone)" stroke="#3b82f6" stroke-width="2"/>
+    <text x="200" y="28" fill="#93c5fd" font-size="15" font-weight="700" text-anchor="middle">前台零售展示区</text>
+    <text x="200" y="45" fill="#bfdbfe" font-size="11" text-anchor="middle">收银台 + 货架墙 + 会员展示 · 15.0 ㎡</text>
+
+    <!-- Left shelving wall -->
+    <rect x="15" y="70" width="30" height="240" fill="#1e40af" stroke="#60a5fa" stroke-width="1" rx="2"/>
+    <text x="30" y="190" fill="#dbeafe" font-size="10" text-anchor="middle" transform="rotate(-90 30 190)">货架墙 Shelves</text>
+
+    <!-- Right shelving wall (member display) -->
+    <rect x="355" y="70" width="30" height="240" fill="#1e40af" stroke="#60a5fa" stroke-width="1" rx="2"/>
+    <text x="370" y="190" fill="#dbeafe" font-size="10" text-anchor="middle" transform="rotate(-90 370 190)">会员展示 Member Wall</text>
+
+    <!-- Member display cabinet -->
+    <rect x="70" y="80" width="90" height="40" fill="#0c4a6e" stroke="#38bdf8" stroke-width="1" rx="2"/>
+    <text x="115" y="103" fill="#bae6fd" font-size="10" text-anchor="middle">会员展示柜</text>
+
+    <!-- New product display -->
+    <rect x="240" y="80" width="90" height="40" fill="#0c4a6e" stroke="#38bdf8" stroke-width="1" rx="2"/>
+    <text x="285" y="103" fill="#bae6fd" font-size="10" text-anchor="middle">新品展台</text>
+
+    <!-- Central aisle / pet accessory wall -->
+    <rect x="70" y="140" width="260" height="40" fill="#0c4a6e" stroke="#38bdf8" stroke-width="1" rx="2"/>
+    <text x="200" y="163" fill="#bae6fd" font-size="10" text-anchor="middle">宠物配件中岛 · Pet Accessories Island</text>
+
+    <!-- Pet food display rack -->
+    <rect x="70" y="200" width="120" height="50" fill="#0c4a6e" stroke="#38bdf8" stroke-width="1" rx="2"/>
+    <text x="130" y="223" fill="#bae6fd" font-size="10" text-anchor="middle">主粮 / 罐头</text>
+    <text x="130" y="237" fill="#bae6fd" font-size="9" text-anchor="middle">Pet Food</text>
+
+    <!-- Pet toy / apparel rack -->
+    <rect x="210" y="200" width="120" height="50" fill="#0c4a6e" stroke="#38bdf8" stroke-width="1" rx="2"/>
+    <text x="270" y="223" fill="#bae6fd" font-size="10" text-anchor="middle">玩具 / 服饰</text>
+    <text x="270" y="237" fill="#bae6fd" font-size="9" text-anchor="middle">Toy / Apparel</text>
+
+    <!-- Cashier counter (south part of retail, centered) -->
+    <rect x="140" y="270" width="120" height="60" fill="#1e40af" stroke="#60a5fa" stroke-width="1.5" rx="4"/>
+    <text x="200" y="298" fill="#dbeafe" font-size="12" font-weight="600" text-anchor="middle">收银台</text>
+    <text x="200" y="313" fill="#bfdbfe" font-size="9" text-anchor="middle">Cashier · POS</text>
+    <!-- Cashier display -->
+    <rect x="155" y="276" width="40" height="22" fill="#0c4a6e" stroke="#38bdf8" rx="2"/>
+    <text x="175" y="290" fill="#bae6fd" font-size="7" text-anchor="middle">POS</text>
+    <rect x="205" y="276" width="40" height="22" fill="#0c4a6e" stroke="#38bdf8" rx="2"/>
+    <text x="225" y="290" fill="#bae6fd" font-size="7" text-anchor="middle">副屏</text>
+
+    <!-- Decorative entry mat below cashier -->
+    <rect x="155" y="345" width="90" height="15" fill="#451a03" stroke="#fbbf24" stroke-width="1" opacity="0.6"/>
+    <text x="200" y="356" fill="#fbbf24" font-size="7" text-anchor="middle">Customer Path</text>
+
+    <!-- ===== Waiting Area (6㎡): 400..800 x 0..150 = 400x150 = 6㎡  ✓ ===== -->
+    <rect x="400" y="0" width="400" height="150" fill="url(#dryZone)" stroke="#3b82f6" stroke-width="2"/>
+    <text x="600" y="22" fill="#93c5fd" font-size="14" font-weight="700" text-anchor="middle">客户等候区 · Waiting Lounge</text>
+    <text x="600" y="38" fill="#bfdbfe" font-size="10" text-anchor="middle">6.0 ㎡ · 沙发 + 茶几 + 实时监控屏</text>
+
+    <!-- 3-seat sofa -->
+    <rect x="420" y="55" width="120" height="35" fill="#0c4a6e" stroke="#60a5fa" stroke-width="1" rx="6"/>
+    <text x="480" y="78" fill="#dbeafe" font-size="10" text-anchor="middle">三人沙发</text>
+
+    <!-- Single chairs -->
+    <rect x="555" y="55" width="40" height="40" fill="#0c4a6e" stroke="#60a5fa" stroke-width="1" rx="3"/>
+    <text x="575" y="80" fill="#dbeafe" font-size="8" text-anchor="middle">单椅 1</text>
+    <rect x="730" y="55" width="40" height="40" fill="#0c4a6e" stroke="#60a5fa" stroke-width="1" rx="3"/>
+    <text x="750" y="80" fill="#dbeafe" font-size="8" text-anchor="middle">单椅 2</text>
+
+    <!-- Coffee table -->
+    <rect x="450" y="105" width="160" height="28" fill="#1e40af" stroke="#60a5fa" stroke-width="1" rx="3"/>
+    <text x="530" y="122" fill="#dbeafe" font-size="9" text-anchor="middle">茶几 · Coffee Table</text>
+
+    <!-- CCTV monitor (showing grooming cameras live) -->
+    <rect x="620" y="50" width="100" height="60" fill="#020617" stroke="#22d3ee" stroke-width="2" rx="2"/>
+    <text x="670" y="75" fill="#22d3ee" font-size="10" text-anchor="middle" font-weight="600">实时监控屏</text>
+    <text x="670" y="88" fill="#67e8f9" font-size="8" text-anchor="middle">Live CCTV</text>
+    <g transform="translate(625, 56)">
+      <rect width="28" height="18" fill="#0e7490" opacity="0.7"/>
+      <rect x="32" width="28" height="18" fill="#0e7490" opacity="0.7"/>
+      <rect y="22" width="28" height="18" fill="#0e7490" opacity="0.7"/>
+      <rect x="32" y="22" width="28" height="18" fill="#0e7490" opacity="0.7"/>
+      <!-- REC dot -->
+      <circle cx="84" cy="6" r="2" fill="#ef4444"/>
+    </g>
+
+    <!-- Circulation / aisle in dry zone east -->
+    <rect x="400" y="150" width="400" height="225" fill="url(#dryZone)" opacity="0.6"/>
+    <text x="600" y="245" fill="#93c5fd" font-size="14" font-weight="600" text-anchor="middle" opacity="0.9">客户通道 / 接待动线区</text>
+    <text x="600" y="265" fill="#bfdbfe" font-size="10" text-anchor="middle" opacity="0.7">Customer Circulation Zone</text>
+    <!-- small decorative plants -->
+    <circle cx="445" cy="200" r="10" fill="#065f46" stroke="#10b981" stroke-width="1"/>
+    <text x="445" y="204" fill="#a7f3d0" font-size="8" text-anchor="middle">绿植</text>
+    <circle cx="755" cy="200" r="10" fill="#065f46" stroke="#10b981" stroke-width="1"/>
+    <text x="755" y="204" fill="#a7f3d0" font-size="8" text-anchor="middle">绿植</text>
+    <circle cx="445" cy="320" r="10" fill="#065f46" stroke="#10b981" stroke-width="1"/>
+    <text x="445" y="324" fill="#a7f3d0" font-size="8" text-anchor="middle">绿植</text>
+
+    <!-- ===== MAIN ENTRY (south wall, right of center) ===== -->
+    <!-- Door opening in south wall -->
+    <line x1="595" y1="375" x2="715" y2="375" stroke="#0f172a" stroke-width="6"/>
+    <line x1="600" y1="375" x2="710" y2="375" stroke="#fbbf24" stroke-width="2"/>
+    <!-- Door (swing into store) -->
+    <path d="M 600 375 L 600 305 A 70 70 0 0 1 670 375" fill="none" stroke="#fbbf24" stroke-width="2.5"/>
+    <!-- Door swing indicator -->
+    <path d="M 600 305 A 70 70 0 0 1 670 375" fill="none" stroke="#fbbf24" stroke-width="1" stroke-dasharray="3 2" opacity="0.5"/>
+    <text x="635" y="365" fill="#fbbf24" font-size="10" font-weight="700" text-anchor="middle">MAIN ENTRY</text>
+    <!-- "IN" arrow pointing into store -->
+    <line x1="655" y1="395" x2="655" y2="345" stroke="#fbbf24" stroke-width="2.5" marker-end="url(#arrowEnd)"/>
+    <text x="655" y="408" fill="#fbbf24" font-size="9" text-anchor="middle">入口</text>
+
+    <!-- ============== PARTITION WALL (dry/wet) ============== -->
+    <rect x="0" y="375" width="800" height="8" fill="url(#wallHatch)" stroke="#475569" stroke-width="0.5"/>
+    <text x="14" y="382" fill="#94a3b8" font-size="9" font-weight="600">隔墙 · Partition Wall (干湿分离 · 防异味 + 防噪音)</text>
+    <text x="14" y="392" fill="#94a3b8" font-size="8" opacity="0.7">Solid wall with sealed service door</text>
+
+    <!-- Service door in partition (middle) -->
+    <line x1="380" y1="375" x2="420" y2="375" stroke="#0f172a" stroke-width="6"/>
+    <path d="M 380 383 L 380 430 L 420 430 L 420 383" fill="#0f172a" stroke="#fbbf24" stroke-width="2"/>
+    <path d="M 420 383 A 40 40 0 0 1 380 423" fill="none" stroke="#fbbf24" stroke-width="1" stroke-dasharray="3 2" opacity="0.6"/>
+    <text x="400" y="412" fill="#fbbf24" font-size="9" text-anchor="middle" font-weight="600">服务门</text>
+    <text x="400" y="423" fill="#fbbf24" font-size="7" text-anchor="middle" opacity="0.7">Staff Door</text>
+
+    <!-- ============== WET ZONE (north, y=383..812.5, 34.4㎡) ============== -->
+    <!-- Wet zone base -->
+    <rect x="2" y="383" width="796" height="427.5" fill="url(#wetZone)" opacity="0.95"/>
+
+    <!-- Wet zone label -->
+    <text x="400" y="400" fill="#6ee7b7" font-size="11" font-weight="600" text-anchor="middle" opacity="0.85">▼ 后端湿区 · 完全干湿分离 · 独立排水 + 独立排风 ▼</text>
+
+    <!-- ===== Grid planning for wet zone (x: 0..800, y: 383..812.5 = 800 wide x 429.5 deep) ===== -->
+    <!-- Plan (west to east, top to bottom): -->
+    <!--   Col A (x=0..200):    Grooming Rm 1 (top) + Grooming Rm 2 (bottom) = 200x429.5 -->
+    <!--   Col B (x=200..400):  Open Grooming Station (top) + Disinfection/Drying (bottom) = 200x429.5 -->
+    <!--   Col C (x=400..800):  Boarding (top) + Storage+WC (bottom) = 400x429.5 -->
+
+    <!-- ============== Grooming Room 1 (NW corner, 4.5㎡) ============== -->
+    <!-- x=0..200, y=383..597 = 200x214 ≈ 4.28㎡, label as 4.5㎡ -->
+    <rect x="0" y="383" width="200" height="214" fill="#0a3d3d" stroke="#10b981" stroke-width="2"/>
+    <text x="100" y="405" fill="#6ee7b7" font-size="12" font-weight="700" text-anchor="middle">洗护单间 ①</text>
+    <text x="100" y="421" fill="#a7f3d0" font-size="10" text-anchor="middle">Grooming Room 1</text>
+    <text x="100" y="435" fill="#a7f3d0" font-size="9" text-anchor="middle">≈ 4.3 ㎡ · 独立门 · 独立排水</text>
+
+    <!-- Bathtub (left) -->
+    <rect x="15" y="450" width="70" height="55" fill="#064e3b" stroke="#34d399" stroke-width="1.2" rx="4"/>
+    <text x="50" y="478" fill="#d1fae5" font-size="9" text-anchor="middle">洗护池</text>
+    <text x="50" y="490" fill="#d1fae5" font-size="7" text-anchor="middle">Tub</text>
+    <!-- Drying cabinet (right) -->
+    <rect x="100" y="450" width="85" height="60" fill="#064e3b" stroke="#34d399" stroke-width="1.2" rx="3"/>
+    <text x="142" y="478" fill="#d1fae5" font-size="9" text-anchor="middle">烘干机</text>
+    <text x="142" y="490" fill="#d1fae5" font-size="7" text-anchor="middle">Dryer</text>
+    <!-- Floor drain -->
+    <circle cx="40" cy="555" r="5" fill="#fbbf24" stroke="#f59e0b" opacity="0.9"/>
+    <text x="40" y="572" fill="#fbbf24" font-size="7" text-anchor="middle">地漏</text>
+    <!-- Vent -->
+    <rect x="155" y="555" width="32" height="14" fill="#fbbf24" opacity="0.85" stroke="#fbbf24"/>
+    <text x="171" y="565" fill="#0f172a" font-size="7" text-anchor="middle">排风</text>
+    <!-- Door (south wall of room) -->
+    <line x1="75" y1="597" x2="125" y2="597" stroke="#0f172a" stroke-width="5"/>
+    <path d="M 75 597 L 75 575 A 22 22 0 0 1 97 597" fill="none" stroke="#fbbf24" stroke-width="2"/>
+    <text x="100" y="592" fill="#fbbf24" font-size="8" text-anchor="middle">门</text>
+
+    <!-- ============== Grooming Room 2 (SW wet, 4.5㎡) ============== -->
+    <!-- x=0..200, y=597..812.5 = 200x215.5 ≈ 4.3㎡ -->
+    <rect x="0" y="597" width="200" height="215.5" fill="#0a3d3d" stroke="#10b981" stroke-width="2"/>
+    <text x="100" y="618" fill="#6ee7b7" font-size="12" font-weight="700" text-anchor="middle">洗护单间 ②</text>
+    <text x="100" y="633" fill="#a7f3d0" font-size="10" text-anchor="middle">Grooming Room 2</text>
+    <text x="100" y="647" fill="#a7f3d0" font-size="9" text-anchor="middle">≈ 4.3 ㎡ · 独立门 · 独立排水</text>
+
+    <!-- Bathtub -->
+    <rect x="15" y="665" width="70" height="55" fill="#064e3b" stroke="#34d399" stroke-width="1.2" rx="4"/>
+    <text x="50" y="693" fill="#d1fae5" font-size="9" text-anchor="middle">洗护池</text>
+    <!-- Drying cabinet -->
+    <rect x="100" y="665" width="85" height="60" fill="#064e3b" stroke="#34d399" stroke-width="1.2" rx="3"/>
+    <text x="142" y="693" fill="#d1fae5" font-size="9" text-anchor="middle">烘干机</text>
+    <!-- Floor drain -->
+    <circle cx="40" cy="775" r="5" fill="#fbbf24" stroke="#f59e0b" opacity="0.9"/>
+    <text x="40" y="791" fill="#fbbf24" font-size="7" text-anchor="middle">地漏</text>
+    <!-- Vent -->
+    <rect x="155" y="775" width="32" height="14" fill="#fbbf24" opacity="0.85" stroke="#fbbf24"/>
+    <text x="171" y="785" fill="#0f172a" font-size="7" text-anchor="middle">排风</text>
+    <!-- Door (south wall of room, opening to wet corridor) -->
+    <line x1="75" y1="812.5" x2="125" y2="812.5" stroke="#0f172a" stroke-width="5"/>
+    <path d="M 75 812.5 L 75 790 A 22 22 0 0 1 97 812.5" fill="none" stroke="#fbbf24" stroke-width="2"/>
+    <text x="100" y="808" fill="#fbbf24" font-size="8" text-anchor="middle">门</text>
+
+    <!-- ============== Open Grooming Station (4㎡) ============== -->
+    <!-- x=200..400, y=383..597 = 200x214 ≈ 4.3㎡ -->
+    <rect x="200" y="383" width="200" height="214" fill="#0a3d3d" stroke="#10b981" stroke-width="2"/>
+    <text x="300" y="405" fill="#6ee7b7" font-size="12" font-weight="700" text-anchor="middle">美容造型台</text>
+    <text x="300" y="421" fill="#a7f3d0" font-size="10" text-anchor="middle">Beauty Station (Open)</text>
+    <text x="300" y="435" fill="#a7f3d0" font-size="9" text-anchor="middle">≈ 4.3 ㎡ · 开放式</text>
+
+    <!-- Grooming table -->
+    <rect x="240" y="455" width="120" height="55" fill="#064e3b" stroke="#34d399" stroke-width="1.5" rx="4"/>
+    <text x="300" y="478" fill="#d1fae5" font-size="10" text-anchor="middle">造型台 · Grooming Table</text>
+    <text x="300" y="492" fill="#d1fae5" font-size="8" text-anchor="middle">液压升降 · 含固定夹</text>
+    <!-- Tool cart -->
+    <rect x="215" y="525" width="55" height="38" fill="#065f46" stroke="#34d399" stroke-width="1" rx="2"/>
+    <text x="242" y="547" fill="#d1fae5" font-size="8" text-anchor="middle">工具车</text>
+    <!-- Beauty products shelf -->
+    <rect x="330" y="525" width="55" height="38" fill="#065f46" stroke="#34d399" stroke-width="1" rx="2"/>
+    <text x="357" y="547" fill="#d1fae5" font-size="8" text-anchor="middle">美容品架</text>
+    <!-- Floor drain -->
+    <circle cx="245" cy="580" r="5" fill="#fbbf24" stroke="#f59e0b" opacity="0.9"/>
+    <text x="245" y="594" fill="#fbbf24" font-size="7" text-anchor="middle">地漏</text>
+
+    <!-- ============== Disinfection / Drying Room (≈4.6㎡) ============== -->
+    <!-- x=200..400, y=597..812.5 = 200x215.5 ≈ 4.3㎡ -->
+    <rect x="200" y="597" width="200" height="215.5" fill="#0a3d3d" stroke="#10b981" stroke-width="2"/>
+    <text x="300" y="618" fill="#6ee7b7" font-size="12" font-weight="700" text-anchor="middle">消毒操作间 / 烘干</text>
+    <text x="300" y="633" fill="#a7f3d0" font-size="10" text-anchor="middle">Disinfection / Drying</text>
+    <text x="300" y="647" fill="#a7f3d0" font-size="9" text-anchor="middle">≈ 4.3 ㎡ · UV + 烘干箱</text>
+
+    <!-- UV lamp -->
+    <rect x="215" y="662" width="85" height="22" fill="#facc15" stroke="#fbbf24" stroke-width="1" rx="2" opacity="0.85"/>
+    <text x="257" y="677" fill="#0f172a" font-size="9" text-anchor="middle" font-weight="700">UV 紫外消毒灯</text>
+    <!-- Drying cabinet (large) -->
+    <rect x="310" y="662" width="80" height="60" fill="#064e3b" stroke="#34d399" stroke-width="1.2" rx="3"/>
+    <text x="350" y="690" fill="#d1fae5" font-size="9" text-anchor="middle">大型烘干箱</text>
+    <text x="350" y="703" fill="#d1fae5" font-size="8" text-anchor="middle">Drying Cabinet</text>
+    <!-- Sink -->
+    <rect x="215" y="695" width="80" height="38" fill="#065f46" stroke="#34d399" stroke-width="1" rx="2"/>
+    <text x="255" y="712" fill="#d1fae5" font-size="8" text-anchor="middle">清洗池</text>
+    <text x="255" y="724" fill="#d1fae5" font-size="7" text-anchor="middle">Sink</text>
+    <!-- Tool sterilizer -->
+    <rect x="310" y="730" width="80" height="30" fill="#065f46" stroke="#34d399" stroke-width="1" rx="2"/>
+    <text x="350" y="749" fill="#d1fae5" font-size="8" text-anchor="middle">器械消毒柜</text>
+    <!-- Floor drain -->
+    <circle cx="240" cy="775" r="5" fill="#fbbf24" stroke="#f59e0b" opacity="0.9"/>
+    <text x="240" y="791" fill="#fbbf24" font-size="7" text-anchor="middle">地漏</text>
+    <!-- Note: 排风独立系统 -->
+    <text x="300" y="805" fill="#fbbf24" font-size="7" text-anchor="middle" opacity="0.85">↻ 独立排风系统</text>
+
+    <!-- ============== Boarding / Quarantine (10㎡) ============== -->
+    <!-- x=400..800, y=383..597 = 400x214 ≈ 8.6㎡ — need 10㎡. Expand: y=383..633 = 400x250 = 10㎡ ✓ -->
+    <rect x="400" y="383" width="400" height="250" fill="#0a3d3d" stroke="#10b981" stroke-width="2"/>
+    <text x="600" y="405" fill="#6ee7b7" font-size="13" font-weight="700" text-anchor="middle">通风隔离寄养笼区</text>
+    <text x="600" y="421" fill="#a7f3d0" font-size="10" text-anchor="middle">Boarding &amp; Quarantine · 10.0 ㎡ · 猫狗分区 · 独立通风</text>
+
+    <!-- Cat zone (left half) -->
+    <rect x="415" y="430" width="180" height="190" fill="#082f2f" stroke="#14b8a6" stroke-width="1.5" rx="3"/>
+    <text x="505" y="450" fill="#5eead4" font-size="12" font-weight="700" text-anchor="middle">🐱 猫寄养区</text>
+    <text x="505" y="464" fill="#99f6e4" font-size="8" text-anchor="middle">Cat Boarding · 上下叠笼 · 静音</text>
+    <!-- Cat cages (2 rows × 3 columns) -->
+    <g>
+      <rect x="425" y="475" width="50" height="60" fill="#134e4a" stroke="#2dd4bf" stroke-width="1" rx="2"/>
+      <text x="450" y="510" fill="#ccfbf1" font-size="9" text-anchor="middle">笼 1</text>
+      <rect x="480" y="475" width="50" height="60" fill="#134e4a" stroke="#2dd4bf" stroke-width="1" rx="2"/>
+      <text x="505" y="510" fill="#ccfbf1" font-size="9" text-anchor="middle">笼 2</text>
+      <rect x="535" y="475" width="50" height="60" fill="#134e4a" stroke="#2dd4bf" stroke-width="1" rx="2"/>
+      <text x="560" y="510" fill="#ccfbf1" font-size="9" text-anchor="middle">笼 3</text>
+      <!-- Upper row -->
+      <rect x="425" y="540" width="50" height="60" fill="#134e4a" stroke="#2dd4bf" stroke-width="1" rx="2"/>
+      <text x="450" y="575" fill="#ccfbf1" font-size="9" text-anchor="middle">笼 4</text>
+      <rect x="480" y="540" width="50" height="60" fill="#134e4a" stroke="#2dd4bf" stroke-width="1" rx="2"/>
+      <text x="505" y="575" fill="#ccfbf1" font-size="9" text-anchor="middle">笼 5</text>
+      <rect x="535" y="540" width="50" height="60" fill="#134e4a" stroke="#2dd4bf" stroke-width="1" rx="2"/>
+      <text x="560" y="575" fill="#ccfbf1" font-size="9" text-anchor="middle">笼 6</text>
+    </g>
+
+    <!-- Dog zone (right half) -->
+    <rect x="605" y="430" width="180" height="190" fill="#1f1410" stroke="#f97316" stroke-width="1.5" rx="3"/>
+    <text x="695" y="450" fill="#fdba74" font-size="12" font-weight="700" text-anchor="middle">🐶 狗寄养区</text>
+    <text x="695" y="464" fill="#fed7aa" font-size="8" text-anchor="middle">Dog Boarding · 中大型犬</text>
+    <!-- Dog kennels -->
+    <rect x="615" y="475" width="80" height="80" fill="#431407" stroke="#fb923c" stroke-width="1" rx="2"/>
+    <text x="655" y="512" fill="#ffedd5" font-size="9" text-anchor="middle">大犬笼 1</text>
+    <text x="655" y="525" fill="#ffedd5" font-size="8" text-anchor="middle">80×80</text>
+    <rect x="700" y="475" width="80" height="80" fill="#431407" stroke="#fb923c" stroke-width="1" rx="2"/>
+    <text x="740" y="512" fill="#ffedd5" font-size="9" text-anchor="middle">大犬笼 2</text>
+    <text x="740" y="525" fill="#ffedd5" font-size="8" text-anchor="middle">80×80</text>
+    <rect x="615" y="560" width="80" height="55" fill="#431407" stroke="#fb923c" stroke-width="1" rx="2"/>
+    <text x="655" y="592" fill="#ffedd5" font-size="9" text-anchor="middle">中犬笼 3</text>
+    <rect x="700" y="560" width="80" height="55" fill="#431407" stroke="#fb923c" stroke-width="1" rx="2"/>
+    <text x="740" y="592" fill="#ffedd5" font-size="9" text-anchor="middle">中犬笼 4</text>
+
+    <!-- ============== Storage (≈5.4㎡, 240×215) ============== -->
+    <!-- x=400..640, y=633..812.5 = 240x179.5 ≈ 4.3㎡  -->
+    <!-- To get ≈6㎡, expand: x=400..700, y=633..812.5 = 300x179.5 ≈ 5.4㎡ -->
+    <rect x="400" y="633" width="300" height="179.5" fill="url(#supportZone)" stroke="#a78bfa" stroke-width="2"/>
+    <text x="550" y="655" fill="#c4b5fd" font-size="12" font-weight="700" text-anchor="middle">仓储储物区</text>
+    <text x="550" y="670" fill="#ddd6fe" font-size="10" text-anchor="middle">Storage · ≈ 5.4 ㎡</text>
+    <text x="550" y="682" fill="#ddd6fe" font-size="8" text-anchor="middle" opacity="0.8">货架 · 冷柜 · 包材</text>
+
+    <!-- Shelving units -->
+    <rect x="415" y="695" width="80" height="105" fill="#3b2667" stroke="#a78bfa" stroke-width="1" rx="2"/>
+    <text x="455" y="752" fill="#ede9fe" font-size="9" text-anchor="middle">货架 A</text>
+    <line x1="415" y1="720" x2="495" y2="720" stroke="#a78bfa" stroke-width="0.5"/>
+    <line x1="415" y1="750" x2="495" y2="750" stroke="#a78bfa" stroke-width="0.5"/>
+    <line x1="415" y1="780" x2="495" y2="780" stroke="#a78bfa" stroke-width="0.5"/>
+
+    <rect x="505" y="695" width="80" height="105" fill="#3b2667" stroke="#a78bfa" stroke-width="1" rx="2"/>
+    <text x="545" y="752" fill="#ede9fe" font-size="9" text-anchor="middle">货架 B</text>
+    <line x1="505" y1="720" x2="585" y2="720" stroke="#a78bfa" stroke-width="0.5"/>
+    <line x1="505" y1="750" x2="585" y2="750" stroke="#a78bfa" stroke-width="0.5"/>
+    <line x1="505" y1="780" x2="585" y2="780" stroke="#a78bfa" stroke-width="0.5"/>
+
+    <!-- Refrigerator -->
+    <rect x="595" y="695" width="95" height="105" fill="#1e1b4b" stroke="#818cf8" stroke-width="1" rx="2"/>
+    <text x="642" y="745" fill="#e0e7ff" font-size="10" text-anchor="middle">冷藏柜</text>
+    <text x="642" y="760" fill="#e0e7ff" font-size="8" text-anchor="middle">鲜粮 / 疫苗</text>
+    <text x="642" y="775" fill="#e0e7ff" font-size="7" text-anchor="middle">Refrigerator</text>
+
+    <!-- ============== WC + Staff Locker (≈3㎡, 100×179.5) ============== -->
+    <!-- x=700..800, y=633..812.5 = 100x179.5 ≈ 1.8㎡. To get 3㎡: expand to 130 wide -->
+    <!-- Adjust: shrink storage to 270 wide: x=400..670; WC at x=670..800 = 130x179.5 ≈ 2.3㎡. -->
+    <!-- Actually let's keep storage at 300 wide and re-label WC as "≈2.5㎡, 含更衣" by widening -->
+    <!-- Better: storage x=400..640 (240 wide × 179.5 = 4.3㎡), WC x=640..800 (160 wide × 179.5 = 2.9㎡ ≈ 3㎡ ✓) -->
+    <!-- Reposition: erase previous storage rect; re-draw -->
+  </g>
+
+  <!-- =============== OVERLAY: Re-draw Storage &amp; WC with corrected widths =============== -->
+  <!-- These overlay the previous (incorrect) storage/wc rectangles -->
+  <g transform="translate(200, 110)">
+    <!-- ERASE old storage/wc with backdrop rect (only covering needed area) -->
+    <rect x="400" y="633" width="400" height="179.5" fill="url(#supportZone)"/>
+    <!-- Storage (≈4.3㎡): x=400..640 -->
+    <rect x="400" y="633" width="240" height="179.5" fill="url(#supportZone)" stroke="#a78bfa" stroke-width="2"/>
+    <text x="520" y="655" fill="#c4b5fd" font-size="12" font-weight="700" text-anchor="middle">仓储储物区</text>
+    <text x="520" y="670" fill="#ddd6fe" font-size="10" text-anchor="middle">Storage · ≈ 4.3 ㎡</text>
+    <text x="520" y="682" fill="#ddd6fe" font-size="8" text-anchor="middle" opacity="0.8">货架 · 冷柜 · 包材</text>
+    <!-- Shelving -->
+    <rect x="415" y="695" width="80" height="105" fill="#3b2667" stroke="#a78bfa" stroke-width="1" rx="2"/>
+    <text x="455" y="752" fill="#ede9fe" font-size="9" text-anchor="middle">货架 A</text>
+    <line x1="415" y1="720" x2="495" y2="720" stroke="#a78bfa" stroke-width="0.5"/>
+    <line x1="415" y1="750" x2="495" y2="750" stroke="#a78bfa" stroke-width="0.5"/>
+    <line x1="415" y1="780" x2="495" y2="780" stroke="#a78bfa" stroke-width="0.5"/>
+    <rect x="505" y="695" width="80" height="105" fill="#3b2667" stroke="#a78bfa" stroke-width="1" rx="2"/>
+    <text x="545" y="752" fill="#ede9fe" font-size="9" text-anchor="middle">货架 B</text>
+    <line x1="505" y1="720" x2="585" y2="720" stroke="#a78bfa" stroke-width="0.5"/>
+    <line x1="505" y1="750" x2="585" y2="750" stroke="#a78bfa" stroke-width="0.5"/>
+    <line x1="505" y1="780" x2="585" y2="780" stroke="#a78bfa" stroke-width="0.5"/>
+    <!-- Refrigerator -->
+    <rect x="595" y="695" width="40" height="105" fill="#1e1b4b" stroke="#818cf8" stroke-width="1" rx="2"/>
+    <text x="615" y="745" fill="#e0e7ff" font-size="8" text-anchor="middle">冷柜</text>
+    <text x="615" y="758" fill="#e0e7ff" font-size="6" text-anchor="middle">疫苗</text>
+
+    <!-- WC + Staff Locker (≈2.9㎡): x=640..800 -->
+    <rect x="640" y="633" width="160" height="179.5" fill="url(#supportZone)" stroke="#a78bfa" stroke-width="2"/>
+    <text x="720" y="655" fill="#c4b5fd" font-size="12" font-weight="700" text-anchor="middle">卫生间 + 更衣</text>
+    <text x="720" y="670" fill="#ddd6fe" font-size="10" text-anchor="middle">WC &amp; Staff Locker</text>
+    <text x="720" y="682" fill="#ddd6fe" font-size="8" text-anchor="middle" opacity="0.8">≈ 2.9 ㎡</text>
+    <!-- partition between WC and locker -->
+    <line x1="720" y1="690" x2="720" y2="813" stroke="#a78bfa" stroke-width="1" stroke-dasharray="3 2" opacity="0.7"/>
+
+    <!-- Toilet -->
+    <rect x="650" y="695" width="60" height="45" fill="#3b2667" stroke="#a78bfa" stroke-width="1" rx="3"/>
+    <ellipse cx="680" cy="717" rx="14" ry="10" fill="#1e1b4b" stroke="#c4b5fd"/>
+    <text x="680" y="755" fill="#ede9fe" font-size="8" text-anchor="middle">马桶</text>
+    <!-- Sink -->
+    <rect x="650" y="760" width="60" height="30" fill="#3b2667" stroke="#a78bfa" stroke-width="1" rx="2"/>
+    <text x="680" y="780" fill="#ede9fe" font-size="8" text-anchor="middle">洗手池</text>
+
+    <!-- Staff locker -->
+    <rect x="730" y="695" width="60" height="95" fill="#3b2667" stroke="#a78bfa" stroke-width="1" rx="2"/>
+    <text x="760" y="745" fill="#ede9fe" font-size="9" text-anchor="middle">员工更衣柜</text>
+    <text x="760" y="758" fill="#ede9fe" font-size="7" text-anchor="middle">Locker</text>
+    <line x1="730" y1="720" x2="790" y2="720" stroke="#a78bfa" stroke-width="0.5"/>
+    <line x1="730" y1="755" x2="790" y2="755" stroke="#a78bfa" stroke-width="0.5"/>
+    <!-- WC door -->
+    <line x1="650" y1="730" x2="650" y2="660" stroke="none"/>
+    <path d="M 650 690 L 650 660 A 30 30 0 0 1 680 690" fill="none" stroke="#fbbf24" stroke-width="2"/>
+    <text x="665" y="685" fill="#fbbf24" font-size="7" text-anchor="middle">门</text>
+  </g>
+
+  <!-- =============== CCTV CAMERAS (4 locations) =============== -->
+  <!-- Camera 1: above retail zone (north-west corner of dry zone) -->
+  <g transform="translate(225, 150)">
+    <circle r="10" fill="#0b1220" stroke="#22d3ee" stroke-width="2"/>
+    <circle r="3" fill="#22d3ee"/>
+    <text y="-16" fill="#22d3ee" font-size="9" text-anchor="middle" font-weight="700">CAM-1</text>
+    <!-- FOV cone -->
+    <path d="M -2 6 L -50 80 L 50 80 L 2 6 Z" fill="url(#camFov)" opacity="0.7"/>
+  </g>
+  <!-- Camera 2: above waiting (covers waiting + circulation) -->
+  <g transform="translate(660, 165)">
+    <circle r="10" fill="#0b1220" stroke="#22d3ee" stroke-width="2"/>
+    <circle r="3" fill="#22d3ee"/>
+    <text y="-16" fill="#22d3ee" font-size="9" text-anchor="middle" font-weight="700">CAM-2</text>
+    <path d="M -2 6 L -45 70 L 45 70 L 2 6 Z" fill="url(#camFov)" opacity="0.7"/>
+  </g>
+  <!-- Camera 3: covers cashier / entry -->
+  <g transform="translate(550, 305)">
+    <circle r="10" fill="#0b1220" stroke="#22d3ee" stroke-width="2"/>
+    <circle r="3" fill="#22d3ee"/>
+    <text y="-16" fill="#22d3ee" font-size="9" text-anchor="middle" font-weight="700">CAM-3</text>
+    <path d="M -2 6 L -40 60 L 40 60 L 2 6 Z" fill="url(#camFov)" opacity="0.7"/>
+  </g>
+  <!-- Camera 4: covers wet zone (grooming + boarding) -->
+  <g transform="translate(620, 525)">
+    <circle r="10" fill="#0b1220" stroke="#22d3ee" stroke-width="2"/>
+    <circle r="3" fill="#22d3ee"/>
+    <text y="-16" fill="#22d3ee" font-size="9" text-anchor="middle" font-weight="700">CAM-4</text>
+    <path d="M -2 6 L -180 80 L 180 80 L 2 6 Z" fill="url(#camFov)" opacity="0.7"/>
+  </g>
+
+  <!-- =============== CUSTOMER FLOW (cyan) =============== -->
+  <!-- From entry → reception → waiting → service door (pet handover) → exit -->
+  <g fill="none" stroke="#22d3ee" stroke-width="2.5" marker-end="url(#arrowEnd)" opacity="0.85">
+    <!-- Entry upward -->
+    <path d="M 855 510 L 855 470"/>
+    <!-- To reception -->
+    <path d="M 855 470 Q 855 380, 600 380"/>
+    <!-- Loop: reception → waiting -->
+    <path d="M 600 380 Q 800 380, 800 320"/>
+    <!-- Return: waiting → reception (for checkout) -->
+    <path d="M 800 320 Q 700 350, 600 380"/>
+  </g>
+  <!-- Arrows (with explicit arrows) -->
+  <path d="M 855 510 L 855 470" stroke="#22d3ee" stroke-width="2.5" fill="none" marker-end="url(#arrowEnd)"/>
+  <path d="M 855 470 L 670 380" stroke="#22d3ee" stroke-width="2.5" fill="none" marker-end="url(#arrowEnd)"/>
+  <text x="690" y="420" fill="#22d3ee" font-size="10" font-weight="600">客户入口 → 收银</text>
+
+  <!-- =============== PET SERVICE FLOW (pink dashed) =============== -->
+  <!-- Pet handover: customer → service door → grooming/boarding → back -->
+  <g fill="none" stroke="#f472b6" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrowEndPink)" opacity="0.85">
+    <!-- Service door to grooming rooms -->
+    <path d="M 600 530 L 350 530"/>
+    <!-- To boarding -->
+    <path d="M 350 530 L 350 700"/>
+    <path d="M 350 700 L 700 700"/>
+  </g>
+  <text x="540" y="690" fill="#f472b6" font-size="10" font-weight="600">宠物服务动线 · Pet Service Flow</text>
+
+  <!-- =============== DIMENSION LINES =============== -->
+  <!-- Bottom horizontal: 8.0m total -->
+  <g stroke="#fbbf24" stroke-width="1" fill="none">
+    <!-- Main bottom dimension -->
+    <line x1="200" y1="945" x2="1000" y2="945"/>
+    <!-- Ticks at boundaries -->
+    <line x1="200" y1="938" x2="200" y2="952"/>
+    <line x1="1000" y1="938" x2="1000" y2="952"/>
+    <!-- Tick at 4m (midway of bottom) -->
+    <line x1="600" y1="938" x2="600" y2="952"/>
+  </g>
+  <text x="600" y="965" fill="#fbbf24" font-size="13" font-weight="700" text-anchor="middle">总宽 8.0 m</text>
+  <text x="200" y="965" fill="#fbbf24" font-size="10" text-anchor="start" dx="-6">0</text>
+  <text x="1000" y="965" fill="#fbbf24" font-size="10" text-anchor="end" dx="6">8.0</text>
+
+  <!-- Right vertical: 8.13m total -->
+  <g stroke="#fbbf24" stroke-width="1" fill="none">
+    <line x1="1020" y1="110" x2="1020" y2="922.5"/>
+    <line x1="1013" y1="110" x2="1027" y2="110"/>
+    <line x1="1013" y1="922.5" x2="1027" y2="922.5"/>
+    <line x1="1013" y1="485" x2="1027" y2="485"/>
+  </g>
+  <text x="1035" y="110" fill="#fbbf24" font-size="10">0</text>
+  <text x="1035" y="922.5" fill="#fbbf24" font-size="10">8.13</text>
+  <text transform="translate(1042, 516) rotate(-90)" fill="#fbbf24" font-size="13" font-weight="700" text-anchor="middle">总深 8.13 m</text>
+
+  <!-- Horizontal partitions -->
+  <!-- 3.75m (dry zone depth) -->
+  <g stroke="#fbbf24" stroke-width="1" fill="none">
+    <line x1="980" y1="110" x2="980" y2="485"/>
+    <line x1="973" y1="485" x2="987" y2="485"/>
+  </g>
+  <text transform="translate(995, 300) rotate(-90)" fill="#fbbf24" font-size="11" text-anchor="middle">干区深 3.75 m</text>
+
+  <text transform="translate(995, 700) rotate(-90)" fill="#fbbf24" font-size="11" text-anchor="middle">湿区深 4.38 m</text>
+
+  <!-- Vertical partitions -->
+  <!-- 4.0m (west column) -->
+  <g stroke="#fbbf24" stroke-width="1" fill="none">
+    <line x1="200" y1="900" x2="600" y2="900"/>
+    <line x1="200" y1="893" x2="200" y2="907"/>
+    <line x1="600" y1="893" x2="600" y2="907"/>
+  </g>
+  <text x="400" y="892" fill="#fbbf24" font-size="10" text-anchor="middle">零售区宽 4.0 m</text>
+
+  <text x="800" y="892" fill="#fbbf24" font-size="10" text-anchor="middle">等候 + 通道 4.0 m</text>
+
+  <!-- =============== SUMMARY STATS BOX =============== -->
+  <g transform="translate(60, 940)">
+    <rect width="1280" height="50" rx="6" fill="#1e293b" stroke="#334155" opacity="0.95"/>
+    <text x="20" y="20" fill="#94a3b8" font-size="11" font-weight="600">面积汇总 / Area Summary</text>
+    <text x="20" y="38" fill="#e2e8f0" font-size="12">干区 21㎡（零售 15 + 等候 6）· 湿区 ≈27.3㎡（洗护① 4.3 + 洗护② 4.3 + 美容 4.3 + 消毒 4.3 + 寄养 10）· 配套 ≈7.2㎡（仓储 4.3 + 卫更 2.9）· 走廊/隔墙 ≈9.5㎡</text>
+    <text x="20" y="38" fill="#e2e8f0" font-size="12"></text>
+  </g>
+
+</svg>

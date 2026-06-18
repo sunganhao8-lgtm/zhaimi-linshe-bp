@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌍 地图加载诊断工具</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #0d0d0d;
+  color: #0f0;
+  font: 14px/1.6 'Consolas','Courier New','Fira Code',monospace;
+  padding: 20px;
+  min-height: 100vh;
+}
+h1 {
+  font-size: 22px;
+  color: #fff;
+  border-bottom: 1px solid #333;
+  padding-bottom: 10px;
+  margin-bottom: 16px;
+}
+h1 span { color: #0f0; }
+.section {
+  background: #111;
+  border: 1px solid #222;
+  border-radius: 6px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+}
+.section-title {
+  font-size: 12px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #1a1a1a;
+  padding-bottom: 4px;
+}
+#timeline { margin-bottom: 0; }
+.line { padding: 1px 0; white-space: pre-wrap; word-break: break-all; }
+.line.time { color: #66f; }
+.line.ok  { color: #0f0; }
+.line.err { color: #f44; }
+.line.warn { color: #fa0; }
+.line.info { color: #ccc; }
+.line.pending { color: #666; }
+.line.good { color: #0f0; font-weight: bold; }
+.line.bad  { color: #f44; font-weight: bold; }
+.line.url  { color: #8af; font-size: 12px; }
+.timestamp { color: #555; font-size: 11px; margin-right: 6px; }
+.copy-btn {
+  display: inline-block;
+  margin: 10px 0 0 0;
+  padding: 8px 16px;
+  background: #1a1a1a;
+  color: #0f0;
+  border: 1px solid #333;
+  border-radius: 4px;
+  cursor: pointer;
+  font: 12px monospace;
+}
+.copy-btn:hover { background: #222; border-color: #0f0; }
+.footer {
+  margin-top: 16px;
+  font-size: 11px;
+  color: #555;
+  border-top: 1px solid #222;
+  padding-top: 10px;
+}
+</style>
+</head>
+<body>
+
+<h1>🌍 地图加载诊断 <span>v1.0</span></h1>
+
+<div id="env" class="section">
+  <div class="section-title">📍 环境信息</div>
+  <div class="line info" id="env-url">URL: 等待中...</div>
+  <div class="line info" id="env-host">Hostname: 等待中...</div>
+  <div class="line info" id="env-protocol">Protocol: 等待中...</div>
+</div>
+
+<div id="loader-status" class="section">
+  <div class="section-title">📦 loader.js 加载状态</div>
+  <div class="line pending" id="loader-fetch">⏳ 正在检测 loader.js...</div>
+</div>
+
+<div id="mapsjs-status" class="section">
+  <div class="section-title">🗺 maps.js 加载状态</div>
+  <div class="line pending" id="mapsjs-fetch">⏳ 正在检测 maps.js...</div>
+  <div class="line pending" id="mapsjs-script">⏳ 正在检测 maps.js 脚本执行...</div>
+</div>
+
+<div id="amap-status" class="section">
+  <div class="section-title">🧩 AMap / AMapLoader</div>
+  <div class="line pending" id="amap-amap">⏳ AMap: 等待中...</div>
+  <div class="line pending" id="amap-loader">⏳ AMapLoader: 等待中...</div>
+  <div class="line pending" id="amap-security">⏳ _AMapSecurityConfig: 等待中...</div>
+</div>
+
+<div id="network-status" class="section">
+  <div class="section-title">📡 网络连通性测试</div>
+  <div class="line pending" id="net-restapi">⏳ 高德 REST API: 检测中...</div>
+  <div class="line pending" id="net-osm">⏳ OSM 瓦片: 检测中...</div>
+  <div class="line pending" id="net-google">⏳ 通用网络: 检测中...</div>
+</div>
+
+<div id="timeline" class="section">
+  <div class="section-title">⏱ 详细时间线</div>
+  <div id="timeline-content">等待诊断结果...</div>
+</div>
+
+<div style="text-align:right">
+  <button class="copy-btn" onclick="copyAllResults()">📋 复制全部诊断结果</button>
+</div>
+
+<div class="footer">
+  诊断工具 | 打开 F12 → Console 查看更多细节 | 截图发回即可
+</div>
+
+<script>
+// ============================================================
+// 诊断工具主逻辑
+// ============================================================
+
+// ---- 捕获所有 console 输出显示在页面 ----
+const __logLines = [];
+
+function addLine(msg, cls = 'info') {
+  const ts = new Date().toISOString().slice(11, 23);
+  __logLines.push({ ts, msg, cls });
+  // 同时输出到真实 console
+  const orig = cls === 'err' ? console.error : cls === 'warn' ? console.warn : console.log;
+  orig('[' + ts + ']', msg);
+}
+
+// 覆盖 console.log/error/warn 的同时保留原始功能
+const origConsole = {
+  log: console.log,
+  error: console.error,
+  warn: console.warn
+};
+console.log = (...args) => {
+  addLine(args.join(' '), 'info');
+  origConsole.log(...args);
+};
+console.error = (...args) => {
+  addLine(args.join(' '), 'err');
+  origConsole.error(...args);
+};
+console.warn = (...args) => {
+  addLine(args.join(' '), 'warn');
+  origConsole.warn(...args);
+};
+
+// ---- DOM 更新辅助 ----
+function $(id) { return document.getElementById(id); }
+function setText(id, text, cls = 'info') {
+  const el = $(id);
+  if (el) { el.textContent = text; el.className = 'line ' + cls; }
+}
+function setHTML(id, html) {
+  const el = $(id);
+  if (el) el.innerHTML = html;
+}
+
+// ---- 1. 环境信息 ----
+addLine('=== 诊断开始 ===', 'good');
+setText('env-url', 'URL: ' + window.location.href, 'url');
+setText('env-host', 'Hostname: ' + window.location.hostname);
+setText('env-protocol', 'Protocol: ' + window.location.protocol);
+addLine('Location: ' + window.location.href, 'info');
+addLine('Hostname: ' + window.location.hostname, 'info');
+
+// ---- 2. AMap/AMapLoader 状态（同步检查） ----
+setText('amap-amap', 'AMap: ' + (typeof window.AMap !== 'undefined' ? '✅ 已定义 (' + typeof window.AMap + ')' : '❌ 未定义'), typeof window.AMap !== 'undefined' ? 'ok' : 'err');
+setText('amap-loader', 'AMapLoader: ' + (typeof window.AMapLoader !== 'undefined' ? '✅ 已定义 (' + typeof window.AMapLoader + ')' : '❌ 未定义'), typeof window.AMapLoader !== 'undefined' ? 'ok' : 'err');
+setText('amap-security', '_AMapSecurityConfig: ' + (window._AMapSecurityConfig ? '✅ 已设置 (securityJsCode=' + (window._AMapSecurityConfig.securityJsCode || '').slice(0, 6) + '...)' : '❌ 未设置'), window._AMapSecurityConfig ? 'ok' : 'err');
+addLine('AMap: ' + (typeof window.AMap), 'info');
+addLine('AMapLoader: ' + (typeof window.AMapLoader), 'info');
+
+// ---- 3. 检查 loader.js ----
+fetch('vendor/amap/loader.js', { method: 'HEAD', cache: 'no-cache' })
+  .then(r => {
+    const size = r.headers.get('content-length') || '?';
+    const status = r.status;
+    setText('loader-fetch', '✅ loader.js HTTP ' + status + ' · ' + size + ' bytes', 'ok');
+    addLine('loader.js HEAD: HTTP ' + status + ', size=' + size, 'ok');
+    return r.text ? fetch('vendor/amap/loader.js', { cache: 'no-cache' }).then(r2 => r2.text()) : '';
+  })
+  .then(body => {
+    if (body && typeof body === 'string' && body.length > 10) {
+      addLine('loader.js 内容长度: ' + body.length + ' 字符, 前100字: ' + body.slice(0, 100).replace(/\n/g, '\\n'), 'info');
+    }
+    return fetch('vendor/amap/loader.js', { cache: 'no-cache' });
+  })
+  .then(r => r.text())
+  .then(body => {
+    addLine('loader.js 实际内容长度: ' + body.length + ' 字符', 'info');
+    // 检查关键内容
+    if (body.includes('AMapLoader')) addLine('✅ loader.js 包含 AMapLoader 定义', 'ok');
+    else addLine('⚠️ loader.js 未包含 AMapLoader？', 'warn');
+    if (body.includes('maps.js')) addLine('✅ loader.js 引用了 maps.js', 'ok');
+    else addLine('⚠️ loader.js 未引用 maps.js', 'warn');
+    // 检查是否还有 lbs.amap.com 域名引用
+    if (body.includes('lbs.amap.com')) addLine('⚠️ loader.js 仍引用 lbs.amap.com（可能跨域拦截）', 'warn');
+    else addLine('✅ 无 lbs.amap.com 引用（已本地化）', 'ok');
+  })
+  .catch(e => {
+    setText('loader-fetch', '❌ loader.js 加载失败: ' + e.message, 'err');
+    addLine('loader.js FAILED: ' + e.message, 'err');
+  });
+
+// ---- 4. 检查 maps.js ----
+fetch('vendor/amap/maps.js', { method: 'HEAD', cache: 'no-cache' })
+  .then(r => {
+    const size = r.headers.get('content-length') || '?';
+    setText('mapsjs-fetch', '✅ maps.js HTTP ' + r.status + ' · ' + size + ' bytes', 'ok');
+    addLine('maps.js HEAD: HTTP ' + r.status + ', size=' + size, 'ok');
+  })
+  .catch(e => {
+    setText('mapsjs-fetch', '❌ maps.js HEAD 失败: ' + e.message, 'err');
+    addLine('maps.js HEAD FAILED: ' + e.message, 'err');
+  });
+
+// ---- 5. 测试 maps.js 是否能作为 script 执行 ----
+(function testMapsScript() {
+  const s = document.createElement('script');
+  s.src = 'vendor/amap/maps.js?t=' + Date.now();
+  s.onload = () => {
+    const msg = 'maps.js 脚本执行成功 ✅ AMap=' + (typeof window.AMap);
+    setText('mapsjs-script', '✅ ' + msg, 'ok');
+    addLine(msg, 'ok');
+    // 更新 AMap 状态
+    setText('amap-amap', 'AMap: ✅ 已定义 (' + typeof window.AMap + ')', 'ok');
+  };
+  s.onerror = (e) => {
+    // 注意：script onerror 不给出 HTTP 状态详情
+    const msg = 'maps.js 脚本执行失败 ❌ (检查网络或控制台详细错误)';
+    setText('mapsjs-script', '❌ ' + msg, 'err');
+    addLine(msg, 'err');
+    // 再尝试 fetch 看是否 CORS
+    fetch('vendor/amap/maps.js', { method: 'HEAD', cache: 'no-cache' })
+      .then(r => addLine('maps.js 可 fetch (HTTP ' + r.status + ')，但 <script> 执行失败 —— 可能是 JS 语法错误或依赖缺失', 'warn'))
+      .catch(fe => addLine('maps.js 也无法 fetch: ' + fe.message + ' —— 可能是路径不对或服务器拒绝', 'err'));
+  };
+  document.body.appendChild(s);
+  addLine('已注入 <script src=\"vendor/amap/maps.js\"> 等待执行...', 'pending');
+})();
+
+// ---- 6. 网络连通性 ----
+// 6a) 高德 REST API
+fetch('https://restapi.amap.com/v3/geocode/geo?key=47ff8f012ae1c05def4454f0285bbbc9&address=test&city=test', { mode: 'no-cors' })
+  .then(() => {
+    setText('net-restapi', '✅ 高德 REST API: 可访问 (no-cors, 状态200+)', 'ok');
+    addLine('高德 REST API: 可访问', 'ok');
+  })
+  .catch(e => {
+    setText('net-restapi', '❌ 高德 REST API: ' + e.message, 'err');
+    addLine('高德 REST API FAILED: ' + e.message, 'err');
+  });
+
+// 6b) OSM 瓦片
+fetch('https://tile.openstreetmap.org/15/27471/13423.png', { mode: 'no-cors' })
+  .then(() => {
+    setText('net-osm', '✅ OSM 瓦片: 可访问 (no-cors)', 'ok');
+    addLine('OSM 瓦片: 可访问', 'ok');
+  })
+  .catch(e => {
+    setText('net-osm', '❌ OSM 瓦片: ' + e.message, 'err');
+    addLine('OSM 瓦片 FAILED: ' + e.message, 'err');
+  });
+
+// 6c) 通用网络（测试基本外网访问）
+fetch('https://www.baidu.com/', { mode: 'no-cors' })
+  .then(() => {
+    setText('net-google', '✅ 通用网络: 可访问 (no-cors)', 'ok');
+    addLine('通用网络: 可访问', 'ok');
+  })
+  .catch(e => {
+    setText('net-google', '❌ 通用网络: ' + e.message, 'err');
+    addLine('通用网络 FAILED: ' + e.message + ' (是否在公司内网/代理环境?)', 'err');
+  });
+
+// ---- 7. 等待所有异步检测完成，输出最终结论 ----
+let __checkCount = 0;
+const __checkTotal = 7; // loader, maps-head, maps-script, restapi, osm, network + init timeout
+
+function finalize() {
+  __checkCount++;
+  if (__checkCount >= __checkTotal) {
+    setTimeout(() => {
+      addLine('=== 诊断完成 ===', 'good');
+      addLine('请将以上结果完整截图发送给开发者', 'info');
+      renderTimeline();
+      showSummary();
+    }, 1000);
+  }
+}
+
+// 在 async 末尾调用 finalize
+function wrapFinalize(promise) {
+  return promise.then(() => { finalize(); }).catch(() => { finalize(); });
+}
+
+// 将上面的 fetch 调用包装一下以触发 finalize
+// 但上面的代码已经结构化了，我们直接用 setTimeout 作为兜底
+setTimeout(() => {
+  addLine('⏱ 诊断超时兜底: 部分检测可能未完成', 'warn');
+  addLine('=== 诊断完成（超时兜底） ===', 'good');
+  renderTimeline();
+}, 15000); // 15 秒后强制完成
+
+// ---- 8. 渲染时间线 ----
+function renderTimeline() {
+  const container = $('timeline-content');
+  if (!container) return;
+  container.innerHTML = __logLines.map(l =>
+    '<div class="line ' + l.cls + '"><span class="timestamp">' + l.ts + '</span>' + escapeHTML(l.msg) + '</div>'
+  ).join('');
+}
+
+function escapeHTML(s) {
+  return String(s || '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+
+// ---- 9. 简单结论 ----
+function showSummary() {
+  const hasAMap = typeof window.AMap !== 'undefined';
+  const hasLoader = typeof window.AMapLoader !== 'undefined';
+  const hasSecurity = !!window._AMapSecurityConfig;
+  let conclusion = '\n=== 诊断结论 ===\n';
+  if (hasAMap && hasLoader && hasSecurity) {
+    conclusion += '✅ 所有核心组件就绪，地图应可正常加载。\n';
+  } else {
+    conclusion += '❌ 存在问题：\n';
+    if (!hasSecurity) conclusion += '  - _AMapSecurityConfig 未设置 → 安全密钥缺失\n';
+    if (!hasLoader) conclusion += '  - AMapLoader 未定义 → loader.js 未加载\n';
+    if (!hasAMap) conclusion += '  - AMap 未定义 → maps.js 未完成加载\n';
+  }
+  addLine(conclusion, hasAMap && hasLoader ? 'good' : 'bad');
+}
+
+// ---- 10. 复制全部结果 ----
+function copyAllResults() {
+  const text = __logLines.map(l => '[' + l.ts + '] ' + l.msg).join('\n');
+  navigator.clipboard.writeText(text).then(() => {
+    alert('✅ 诊断结果已复制到剪贴板');
+  }).catch(() => {
+    // fallback
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    alert('✅ 诊断结果已复制（备选方式）');
+  });
+}
+
+// 暴露到全局
+window.copyAllResults = copyAllResults;
+
+// ---- 启动诊断 ----
+addLine('🚀 诊断引擎已启动，等待异步检测...', 'good');
+addLine('（如果 15 秒后仍未完成，请检查 F12 Console 是否有错误信息）', 'info');
+</script>
+
+</body>
+</html>

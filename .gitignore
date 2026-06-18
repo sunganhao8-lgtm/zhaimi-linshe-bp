@@ -1,0 +1,17 @@
+# OSM 瓦片缓存（几十到几百 MB，本地浏览器离线用，不传 repo）
+vendor/osm-tiles/
+
+# 系统垃圾
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 编辑器
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Windows 临时
+~$*
+*.tmp

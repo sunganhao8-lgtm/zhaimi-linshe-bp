@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="UTF-8" />
+<title>POI 真实坐标抓取测试</title>
+<script>
+window._AMapSecurityConfig = { securityJsCode: 'be6d552ed971cd0d540b57297e68b030' };
+</script>
+<script src="https://webapi.amap.com/loader.js"></script>
+</head><body>
+<h1>POI 真实坐标抓取</h1>
+<pre id="out" style="background:#f5f5f5;padding:20px;border-radius:8px;font-size:14px;line-height:1.8;"></pre>
+<script>
+const out = document.getElementById('out');
+const log = (msg) => { out.textContent += msg + '\n'; console.log(msg); };
+
+const POIs = [
+  { id: 'store',   name: '宅咪·临港 LIN 舍（门店）', keywords: ['上海浦东临港五岭路咏梅路', '上海浦东新区泥城镇五岭路咏梅路交叉口', '五岭路咏梅路 临港'] },
+  { id: 'wanda',   name: '临港万达广场',             keywords: ['上海临港万达广场', '上海浦东新区临港万达广场', '临港万达 鸿音路', '浦东新区鸿音路2555号'] },
+  { id: 'school',  name: '交大附中',                  keywords: ['上海交通大学附属浦东临港实验中学', '浦东临港实验中学 五岭路1301号', '上海浦东新区泥城镇五岭路1301号'] },
+  { id: 'luhua',   name: '新元·露华苑',                keywords: ['新元露华苑', '上海浦东露华苑', '浦东新区临港露华苑'] },
+  { id: 'zehui',   name: '新元·泽辉苑',                keywords: ['新元泽辉苑', '上海浦东泽辉苑', '浦东新区临港泽辉苑'] },
+  { id: 'weilai',  name: '万达·未来城',                keywords: ['万达未来城 浦东', '上海浦东万达未来城', '临港万达未来城'] },
+  { id: 'zhuyu',   name: '新元·著雨苑',                keywords: ['新元著雨苑', '上海浦东著雨苑', '浦东新区临港著雨苑'] },
+  { id: 'lincai',  name: '新元·林彩苑',                keywords: ['新元林彩苑', '上海浦东林彩苑', '浦东新区临港林彩苑'] },
+  { id: 'xinyu',   name: '新元·新雨苑',                keywords: ['新元新雨苑', '上海浦东新雨苑', '浦东新区临港新雨苑'] },
+  { id: 'shengjing', name: '新元·盛璟苑',              keywords: ['新元盛璟苑', '上海浦东盛璟苑', '浦东新区泥城盛璟苑'] },
+  { id: 'fangfei', name: '新元·芳菲苑',                keywords: ['新元芳菲苑', '上海浦东芳菲苑', '浦东新区临港芳菲苑'] }
+];
+
+AMapLoader.load({
+  key: '47ff8f012ae1c05def4454f0285bbbc9',
+  version: '2.0',
+  plugins: ['AMap.PlaceSearch','AMap.Geocoder']
+}).then((AMap) => {
+  log('✅ AMapLoader 加载成功');
+  const ps = new AMap.PlaceSearch({ pageSize: 5, city: '上海', citylimit: false });
+  const gc = new AMap.Geocoder({ city: '上海' });
+
+  const results = {};
+  let i = 0;
+  function next() {
+    if (i >= POIs.length) {
+      log('\n=== 🎯 最终结果（JSON 格式，可直接复制到 site-map.html 的 FALLBACK_COORDS）===');
+      log(JSON.stringify(results, null, 2));
+      return;
+    }
+    const p = POIs[i++];
+    searchPOI(p, results, next);
+  }
+  next();
+}).catch(e => log('❌ AMapLoader 失败: ' + e.message));
+
+function searchPOI(p, results, cb) {
+  let k = 0;
+  function tryKw() {
+    if (k >= p.keywords.length) {
+      log(`⚠️ ${p.name}: POI 全部失败，尝试 Geocoder 地址搜索`);
+      tryGeo(p, results, cb);
+      return;
+    }
+    const kw = p.keywords[k++];
+    log(`🔍 ${p.name}: search "${kw}"`);
+    ps.search(kw, (status, result) => {
+      if (status === 'complete' && result.poiList && result.poiList.pois && result.poiList.pois.length) {
+        const top = result.poiList.pois[0];
+        const loc = top.location;
+        log(`  ✅ 命中: ${top.name} | ${loc.lng.toFixed(6)}, ${loc.lat.toFixed(6)} | ${top.address || top.adname || ''}`);
+        results[p.id] = { lng: +loc.lng.toFixed(6), lat: +loc.lat.toFixed(6), name: top.name, addr: top.address || top.adname || '' };
+        cb();
+        return;
+      }
+      tryKw();
+    });
+  }
+  tryKw();
+}
+
+function tryGeo(p, results, cb) {
+  if (!p.geoAddr) {
+    log(`❌ ${p.name}: 无地址可 Geocode`);
+    results[p.id] = { lng: null, lat: null, name: p.name, addr: '未找到' };
+    cb();
+    return;
+  }
+  gc.getLocation(p.geoAddr, (status, result) => {
+    if (status === 'complete' && result.geocodes && result.geocodes.length) {
+      const loc = result.geocodes[0].location;
+      log(`  ✅ Geocoder 命中: ${loc.lng.toFixed(6)}, ${loc.lat.toFixed(6)}`);
+      results[p.id] = { lng: +loc.lng.toFixed(6), lat: +loc.lat.toFixed(6), name: p.name, addr: result.geocodes[0].formatted_address };
+    } else {
+      log(`❌ ${p.name}: Geocoder 也失败`);
+      results[p.id] = { lng: null, lat: null, name: p.name, addr: '未找到' };
+    }
+    cb();
+  });
+}
+</script>
+</body></html>

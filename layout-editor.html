@@ -1,0 +1,2664 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🐾 宅咪·临港 LIN 舍 · 门店布局编辑器</title>
+<style>
+/* ======================= RESET & BASE ======================= */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+:root {
+  --orange: #F4B860;
+  --dark-orange: #E89A3C;
+  --cream: #FFF4E1;
+  --beige: #F5E6CB;
+  --brown: #5C3D2E;
+  --green: #A8C99A;
+  --pink: #F4B5A8;
+  --warm-white: #FFFAF0;
+  --text-dark: #3D2B1F;
+  --text-light: #FFF9F0;
+  --border: #E5D5B5;
+  --header-bg: linear-gradient(135deg, #5C3D2E 0%, #7A5540 100%);
+  --sidebar-bg: #FFF9F0;
+  --panel-bg: #FFF9F0;
+  --canvas-bg: #FFFDF8;
+  --shadow: 0 2px 12px rgba(92,61,46,0.12);
+  --radius: 8px;
+  --font: -apple-system,'PingFang SC','Microsoft YaHei','Segoe UI',sans-serif;
+}
+body{font-family:var(--font);background:#F5E6CB;color:var(--text-dark)}
+input,textarea,button,select{font-family:var(--font)}
+/* ======================= UTILITY ======================= */
+.flash-ai{animation:flashAI 1.1s ease-out 1}
+@keyframes flashAI{0%{stroke:#22c55e;stroke-width:4;opacity:1}100%{stroke:#22c55e;stroke-width:1;opacity:1}}
+.toast{
+  position:fixed;left:50%;bottom:38px;transform:translateX(-50%);
+  background:rgba(61,43,31,.92);color:#FFF9F0;padding:8px 16px;border-radius:20px;
+  font-size:12px;z-index:1500;opacity:0;pointer-events:none;transition:opacity .25s;
+  box-shadow:0 4px 14px rgba(0,0,0,.2);
+}
+.toast.show{opacity:1}
+
+/* Snap guide lines */
+.snap-guide{stroke:#22c55e;stroke-width:1;stroke-dasharray:4 3;pointer-events:none}
+
+/* Alignment toolbar */
+.align-toolbar{
+  display:none;position:absolute;top:6px;left:50%;transform:translateX(-50%);
+  background:var(--warm-white);border:1px solid var(--border);border-radius:6px;
+  padding:3px 6px;box-shadow:0 2px 8px rgba(92,61,46,.18);z-index:8;gap:2px;
+  font-size:11px;align-items:center;
+}
+.align-toolbar.show{display:flex}
+.align-btn{
+  background:transparent;border:1px solid transparent;color:var(--brown);
+  padding:3px 6px;border-radius:3px;cursor:pointer;font-size:13px;
+  display:inline-flex;align-items:center;justify-content:center;line-height:1;
+}
+.align-btn:hover{background:var(--beige);border-color:var(--orange)}
+.align-btn[title]:hover::after{content:attr(title);position:absolute;top:130%;left:50%;transform:translateX(-50%);background:#3D2B1F;color:#FFF9F0;padding:2px 6px;border-radius:3px;font-size:10px;white-space:nowrap}
+.align-sep{width:1px;height:16px;background:var(--border);margin:0 3px}
+
+/* Context menu */
+.ctx-menu{
+  position:fixed;background:var(--warm-white);border:1px solid var(--border);
+  border-radius:6px;box-shadow:0 4px 16px rgba(0,0,0,.18);padding:4px 0;
+  z-index:1100;display:none;min-width:140px;font-size:12px;
+}
+.ctx-menu.show{display:block}
+.ctx-item{padding:6px 14px;cursor:pointer;display:flex;align-items:center;gap:8px;color:var(--text-dark)}
+.ctx-item:hover{background:var(--beige)}
+.ctx-item.danger{color:#b14545}
+.ctx-item.danger:hover{background:#fbe3e3}
+.ctx-sep{height:1px;background:var(--border);margin:3px 0}
+
+/* Bottom status bar */
+.status-bar{
+  background:var(--warm-white);border-top:1px solid var(--border);
+  padding:4px 14px;display:flex;align-items:center;gap:18px;
+  font-size:11px;color:#5C3D2E;flex-shrink:0;
+}
+.status-bar .sep{color:#D4B896;user-select:none}
+.status-bar .item{display:flex;align-items:center;gap:4px}
+.status-bar .badge{background:var(--beige);color:var(--brown);padding:1px 6px;border-radius:3px;font-weight:600}
+.status-bar .op-log{flex:1;text-align:center;color:#9a8a7a;font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.status-bar .op-log .key{color:var(--brown);font-weight:600}
+
+/* ======================= LAYOUT ======================= */
+.app-wrapper{display:flex;flex-direction:column;height:100vh}
+
+/* Header */
+.header{
+  background:var(--header-bg);padding:8px 20px;display:flex;
+  align-items:center;justify-content:space-between;flex-shrink:0;
+  box-shadow:0 2px 8px rgba(0,0,0,0.15);z-index:10;
+}
+.header-left{display:flex;align-items:center;gap:12px}
+.header-logo{font-size:24px}
+.header-title{color:var(--orange);font-size:18px;font-weight:700;letter-spacing:1px}
+.header-sub{color:#D4B896;font-size:12px;font-weight:400;margin-left:8px}
+.header-right{display:flex;align-items:center;gap:10px}
+.api-key-btn{
+  background:rgba(255,255,255,0.1);border:1px solid var(--orange);color:var(--orange);
+  padding:4px 12px;border-radius:4px;cursor:pointer;font-size:12px;transition:all 0.2s;
+}
+.api-key-btn:hover{background:var(--orange);color:var(--brown)}
+.api-key-badge{
+  font-size:11px;color:#D4B896;background:rgba(255,255,255,0.08);
+  padding:2px 8px;border-radius:10px;display:none;
+}
+.api-key-badge.active{display:inline-block}
+
+/* Toolbar */
+.toolbar{
+  background:var(--warm-white);padding:6px 16px;display:flex;
+  align-items:center;gap:6px;flex-shrink:0;border-bottom:1px solid var(--border);
+  flex-wrap:wrap;
+}
+.toolbar-group{display:flex;align-items:center;gap:4px;padding:0 6px;border-right:1px solid var(--border)}
+.toolbar-group:last-child{border-right:none}
+.tool-btn{
+  background:transparent;border:1px solid transparent;color:var(--brown);
+  padding:5px 10px;border-radius:4px;cursor:pointer;font-size:13px;
+  transition:all 0.15s;white-space:nowrap;display:flex;align-items:center;gap:4px;
+}
+.tool-btn:hover{background:var(--beige);border-color:var(--orange)}
+.tool-btn:active{background:var(--orange);color:var(--text-light)}
+.tool-btn.icon-only{padding:5px 8px;font-size:16px}
+.tool-btn:disabled{opacity:0.35;cursor:not-allowed;background:transparent;border-color:transparent}
+
+/* Main body */
+.main-body{display:flex;flex:1;overflow:hidden}
+
+/* Left sidebar - Component Library */
+.sidebar-left{
+  width:200px;min-width:200px;background:var(--sidebar-bg);
+  border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;
+}
+.sidebar-title{
+  padding:10px 14px 8px;font-size:14px;font-weight:700;color:var(--brown);
+  border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;flex-shrink:0;
+}
+.sidebar-title span{font-size:11px;font-weight:400;color:#9a8a7a}
+.comp-list{flex:1;overflow-y:auto;padding:6px 8px}
+.comp-item{
+  display:flex;align-items:center;gap:8px;padding:6px 8px;margin:2px 0;
+  border-radius:5px;cursor:grab;font-size:13px;color:var(--text-dark);
+  transition:all 0.15s;border:1px solid transparent;user-select:none;
+}
+.comp-item:hover{background:var(--beige);border-color:var(--orange)}
+.comp-item:active{cursor:grabbing;background:var(--orange);color:var(--text-light)}
+.comp-item.locked{opacity:0.6;cursor:not-allowed}
+.comp-item.locked:active{cursor:not-allowed}
+.comp-icon{font-size:18px;width:24px;text-align:center;flex-shrink:0}
+.comp-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.comp-badge{font-size:10px;background:var(--beige);color:var(--brown);padding:1px 5px;border-radius:3px}
+.comp-divider{height:1px;background:var(--border);margin:4px 0}
+
+/* Canvas Area */
+.canvas-area{flex:1;position:relative;background:#f0e8d8;overflow:hidden}
+.canvas-area .canvas-wrapper{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  box-shadow:var(--shadow);
+}
+#canvas-container{display:block}
+.canvas-status{
+  position:absolute;bottom:8px;left:12px;font-size:11px;color:#9a8a7a;
+  background:rgba(255,250,240,0.85);padding:3px 10px;border-radius:4px;
+  pointer-events:none;display:flex;align-items:center;gap:12px;
+}
+.canvas-status .coord{color:var(--brown);font-weight:600}
+.canvas-status .scale-bar{
+  display:inline-flex;align-items:center;gap:4px;
+}
+.canvas-status .scale-bar .scale-line{
+  display:inline-block;width:50px;height:2px;background:var(--brown);position:relative;
+}
+.canvas-status .scale-bar .scale-line::before,
+.canvas-status .scale-bar .scale-line::after{
+  content:'';position:absolute;top:-3px;width:2px;height:8px;background:var(--brown);
+}
+.canvas-status .scale-bar .scale-line::before{left:0}
+.canvas-status .scale-bar .scale-line::after{right:0}
+
+/* Right panel */
+.panel-right{
+  width:260px;min-width:260px;background:var(--panel-bg);
+  border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;
+}
+.panel-tabs{display:flex;border-bottom:1px solid var(--border);flex-shrink:0}
+.panel-tab{
+  flex:1;padding:8px;text-align:center;cursor:pointer;font-size:12px;font-weight:600;
+  color:#9a8a7a;border-bottom:2px solid transparent;transition:all 0.15s;
+}
+.panel-tab:hover{color:var(--brown)}
+.panel-tab.active{color:var(--brown);border-bottom-color:var(--orange)}
+.panel-content{flex:1;overflow-y:auto;padding:10px 14px}
+
+/* Property panel */
+.prop-group{margin-bottom:12px}
+.prop-label{font-size:11px;color:#9a8a7a;margin-bottom:3px;font-weight:600}
+.prop-value{font-size:13px;color:var(--text-dark);padding:4px 8px;background:var(--beige);border-radius:4px;word-break:break-all}
+.prop-row{display:flex;gap:8px;margin-bottom:6px}
+.prop-row .prop-group{flex:1;margin-bottom:0}
+.prop-input{
+  width:100%;padding:4px 8px;border:1px solid var(--border);border-radius:4px;
+  font-size:12px;background:var(--warm-white);color:var(--text-dark);
+}
+.prop-input:focus{outline:none;border-color:var(--orange)}
+.prop-color-input{width:100%;height:30px;border:1px solid var(--border);border-radius:4px;cursor:pointer;padding:2px}
+
+/* AI Panel */
+.ai-panel .ai-title{
+  font-size:13px;font-weight:700;color:var(--brown);margin-bottom:8px;
+  display:flex;align-items:center;gap:6px;
+}
+.ai-panel .ai-desc{font-size:11px;color:#9a8a7a;margin-bottom:8px;line-height:1.5}
+.ai-panel textarea{
+  width:100%;height:70px;padding:8px;border:1px solid var(--border);border-radius:5px;
+  font-size:12px;resize:vertical;background:var(--warm-white);color:var(--text-dark);
+}
+.ai-panel textarea:focus{outline:none;border-color:var(--orange)}
+.ai-btn{
+  width:100%;padding:8px;background:linear-gradient(135deg,var(--orange),var(--dark-orange));
+  color:var(--text-light);border:none;border-radius:5px;font-size:13px;font-weight:700;
+  cursor:pointer;transition:all 0.2s;margin-top:6px;display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.ai-btn:hover{opacity:0.9;transform:translateY(-1px)}
+.ai-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+.ai-result{
+  margin-top:8px;padding:8px;background:var(--beige);border-radius:5px;
+  font-size:12px;color:var(--text-dark);line-height:1.5;max-height:150px;overflow-y:auto;display:none;
+}
+.ai-result.show{display:block}
+.ai-loading{text-align:center;padding:10px;color:#9a8a7a;font-size:12px;display:none}
+.ai-loading.show{display:block}
+.ai-loading .spinner{display:inline-block;width:14px;height:14px;border:2px solid var(--beige);border-top-color:var(--orange);border-radius:50%;animation:spin 0.8s linear infinite;vertical-align:middle;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Fallback "no selection" */
+.no-selection{text-align:center;padding:30px 10px;color:#9a8a7a;font-size:13px}
+.no-selection .big-icon{font-size:40px;display:block;margin-bottom:10px}
+
+/* Canvas label style for Konva text - needs to match code */
+/* Modal/Dialog */
+.dialog-overlay{
+  position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(61,43,31,0.4);
+  display:flex;align-items:center;justify-content:center;z-index:1000;display:none;
+}
+.dialog-overlay.show{display:flex}
+.dialog-box{
+  background:var(--warm-white);border-radius:12px;padding:24px;width:400px;max-width:90vw;
+  box-shadow:0 8px 32px rgba(61,43,31,0.2);
+}
+.dialog-box h3{font-size:16px;color:var(--brown);margin-bottom:12px}
+.dialog-box p{font-size:13px;color:#9a8a7a;margin-bottom:16px;line-height:1.5}
+.dialog-box label{font-size:12px;font-weight:600;color:var(--brown);display:block;margin-bottom:4px}
+.dialog-box input[type="password"],.dialog-box input[type="text"]{
+  width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:5px;
+  font-size:13px;margin-bottom:14px;background:var(--cream);
+}
+.dialog-box input:focus{outline:none;border-color:var(--orange)}
+.dialog-actions{display:flex;gap:8px;justify-content:flex-end}
+.dialog-actions button{
+  padding:7px 20px;border-radius:5px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s;
+}
+.dialog-actions .btn-primary{background:var(--orange);color:var(--text-light);border:none}
+.dialog-actions .btn-primary:hover{background:var(--dark-orange)}
+.dialog-actions .btn-secondary{background:var(--beige);color:var(--brown);border:1px solid var(--border)}
+.dialog-actions .btn-secondary:hover{background:#e8d5b5}
+
+/* File input hidden */
+#fileInput{display:none}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#D4B896;border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--dark-orange)}
+
+/* Responsive */
+@media(max-width:1024px){
+  .sidebar-left{width:160px;min-width:160px}
+  /* ========== 全屏查看按钮 ========== */
+  #fs-trigger {
+    position: fixed; top: 12px; right: 12px; z-index: 9998;
+    background: linear-gradient(135deg, #F4B860 0%, #E89A3C 100%);
+    color: #1a1410; border: 2px solid #FFD89A;
+    border-radius: 8px; padding: 8px 14px;
+    font: 600 13px/1 "PingFang SC", "Microsoft YaHei", sans-serif;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(244,184,96,0.4), 0 0 0 1px rgba(0,0,0,0.05);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  #fs-trigger:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 22px rgba(244,184,96,0.6);
+  }
+  #fs-trigger:active { transform: translateY(0); }
+  #fs-indicator {
+    display: none; position: fixed; top: 16px; right: 16px; z-index: 99999;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: rgba(244,184,96,0.95); color: #1a1410; border: 2px solid #FFD89A;
+    font: 700 20px/1 sans-serif; cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+    align-items: center; justify-content: center;
+  }
+  .fs-active #fs-indicator { display: flex; }
+  .fs-active #fs-trigger { display: none; }
+</style>
+</head>
+<body>
+<!-- 全屏查看按钮/指示器 -->
+<button id="fs-trigger" title="全屏打开">⛶ 全屏</button>
+<button id="fs-indicator" title="按 ESC 退出全屏" style="display:none">✕</button>
+
+<div class="app-wrapper">
+  <!-- ===================== HEADER ===================== -->
+  <header class="header">
+    <div class="header-left">
+      <span class="header-logo">🐾</span>
+      <span class="header-title">宅咪·临港 LIN 舍</span>
+      <span class="header-sub">门店布局编辑器</span>
+    </div>
+    <div class="header-right">
+      <span class="api-key-badge" id="apiKeyBadge">🔑 Key 已设置</span>
+      <button class="api-key-btn" id="apiKeyBtn">⚙️ AI 设置</button>
+    </div>
+  </header>
+
+  <!-- ===================== TOOLBAR ===================== -->
+  <div class="toolbar">
+    <div class="toolbar-group">
+      <button class="tool-btn" id="btnSave" title="保存布局到 localStorage">💾 保存</button>
+      <button class="tool-btn" id="btnImport" title="导入 JSON 布局文件">📂 导入</button>
+      <button class="tool-btn" id="btnExportSVG" title="导出为 SVG">📤 导出SVG</button>
+      <button class="tool-btn" id="btnExportPNG" title="导出为 PNG">🖼️ 导出PNG</button>
+    </div>
+    <div class="toolbar-group">
+      <button class="tool-btn icon-only" id="btnUndo" title="撤销 (Ctrl+Z)">↶</button>
+      <button class="tool-btn icon-only" id="btnRedo" title="重做 (Ctrl+Shift+Z)">↷</button>
+    </div>
+    <div class="toolbar-group">
+      <button class="tool-btn" id="btnCanvasProps" title="画布尺寸/比例/网格">📐 画布属性</button>
+      <button class="tool-btn" id="btnAutoFit" title="自动适应窗口">↔️ 自适应</button>
+      <button class="tool-btn" id="btnReloadDefault" title="重新载入默认初始布局">🔄 重新载入默认</button>
+      <button class="tool-btn" id="btnClearAll" title="清空所有可移动组件">🧹 清空</button>
+    </div>
+    <div class="toolbar-group" style="margin-left:auto">
+      <span style="font-size:12px;color:#9a8a7a" id="compCount">组件: 0</span>
+    </div>
+  </div>
+
+  <!-- ===================== MAIN BODY ===================== -->
+  <div class="main-body">
+    <!-- Left Sidebar: Component Library -->
+    <aside class="sidebar-left">
+      <div class="sidebar-title">
+        组件库 <span>拖拽到画布</span>
+      </div>
+      <div class="comp-list" id="compList">
+        <!-- populated by JS -->
+      </div>
+    </aside>
+
+    <!-- Canvas -->
+    <main class="canvas-area" id="canvasArea">
+      <div class="canvas-wrapper">
+        <div id="canvas-container"></div>
+      </div>
+      <!-- Alignment toolbar (shown when a component is selected) -->
+      <div class="align-toolbar" id="alignToolbar">
+        <span style="color:#9a8a7a;font-size:11px;padding:0 4px">对齐</span>
+        <button class="align-btn" data-align="left"   title="左对齐">⇤</button>
+        <button class="align-btn" data-align="hcenter" title="水平居中">↔</button>
+        <button class="align-btn" data-align="right"  title="右对齐">⇥</button>
+        <span class="align-sep"></span>
+        <button class="align-btn" data-align="top"    title="顶对齐">⤒</button>
+        <button class="align-btn" data-align="vcenter" title="垂直居中">↕</button>
+        <button class="align-btn" data-align="bottom" title="底对齐">⤓</button>
+        <span class="align-sep"></span>
+        <button class="align-btn" data-align="dup"   title="复制 (Ctrl+D)">⎘</button>
+        <button class="align-btn" data-align="front" title="置顶">▲</button>
+        <button class="align-btn" data-align="back"  title="置底">▼</button>
+        <span class="align-sep"></span>
+        <button class="align-btn" data-align="delete" title="删除 (Del)" style="color:#b14545">🗑</button>
+      </div>
+      <div class="canvas-status" id="canvasStatus">
+        <span>📏 <span class="scale-bar"><span class="scale-line"></span> 1m</span></span>
+        <span>📍 X: <span class="coord" id="coordX">0.00</span>m  Y: <span class="coord" id="coordY">0.00</span>m</span>
+        <span id="canvasInfo">📐 7.4m × 7.0m</span>
+      </div>
+    </main>
+
+    <!-- Right Panel -->
+    <aside class="panel-right">
+      <div class="panel-tabs">
+        <div class="panel-tab active" data-tab="properties">📋 属性</div>
+        <div class="panel-tab" data-tab="ai">🤖 AI助手</div>
+      </div>
+      <div class="panel-content" id="panelProperties">
+        <!-- Properties shown here -->
+        <div class="no-selection" id="noSelection">
+          <span class="big-icon">🖱️</span>
+          点击画布上的组件查看属性
+        </div>
+        <div id="propPanel" style="display:none">
+          <div class="prop-group">
+            <div class="prop-label">名称</div>
+            <div class="prop-value" id="propName">-</div>
+          </div>
+          <div class="prop-row">
+            <div class="prop-group">
+              <div class="prop-label">X (m)</div>
+              <input class="prop-input" type="number" step="0.1" id="propX">
+            </div>
+            <div class="prop-group">
+              <div class="prop-label">Y (m)</div>
+              <input class="prop-input" type="number" step="0.1" id="propY">
+            </div>
+          </div>
+          <div class="prop-row">
+            <div class="prop-group">
+              <div class="prop-label">宽 W (m)</div>
+              <input class="prop-input" type="number" step="0.1" id="propW" min="0.2">
+            </div>
+            <div class="prop-group">
+              <div class="prop-label">高 H (m)</div>
+              <input class="prop-input" type="number" step="0.1" id="propH" min="0.2">
+            </div>
+          </div>
+          <div class="prop-group">
+            <div class="prop-label">颜色</div>
+            <input class="prop-color-input" type="color" id="propColor">
+          </div>
+          <div class="prop-group" style="margin-top:10px">
+            <div class="prop-row">
+              <div class="prop-group">
+                <div class="prop-label">画布宽 (m)</div>
+                <input class="prop-input" type="number" step="0.1" id="canvasW" min="1" max="20">
+              </div>
+              <div class="prop-group">
+                <div class="prop-label">画布高 (m)</div>
+                <input class="prop-input" type="number" step="0.1" id="canvasH" min="1" max="20">
+              </div>
+            </div>
+            <button class="ai-btn" style="font-size:11px;padding:4px" id="btnResizeCanvas">🔄 更新画布</button>
+          </div>
+        </div>
+      </div>
+      <div class="panel-content" id="panelAI" style="display:none">
+        <div class="ai-panel">
+          <div class="ai-title">🤖 AI 布局助手</div>
+          <div class="ai-desc">用自然语言描述你想要的布局调整，AI 会自动帮你重新布置组件。</div>
+          <textarea id="aiInput" placeholder='例如：把洗护单间②移到后门旁边，在柜台前加一个货架'></textarea>
+          <button class="ai-btn" id="btnAI">🤖 AI 布置</button>
+          <button class="ai-btn" id="btnAIAuto" style="background:linear-gradient(135deg,#5C3D2E,#7A5540)">🤖 AI 自动优化布局（无输入）</button>
+          <div class="ai-loading" id="aiLoading"><span class="spinner"></span>AI 思考中...</div>
+          <div class="ai-result" id="aiResult"></div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ===================== BOTTOM STATUS BAR ===================== -->
+  <div class="status-bar" id="statusBar">
+    <span class="item">📦 组件: <span class="badge" id="sbCompCount">0</span></span>
+    <span class="sep">|</span>
+    <span class="item">🎯 选中: <span class="badge" id="sbSel">无</span></span>
+    <span class="sep">|</span>
+    <span class="item">📐 画布: <span class="badge" id="sbCanvas">7.4m × 7.0m</span></span>
+    <span class="sep">|</span>
+    <span class="item">🔍 比例: <span class="badge" id="sbScale">100px/m</span></span>
+    <span class="op-log" id="sbOpLog">准备就绪</span>
+    <span class="item">🧭 鼠标: <span class="badge" id="sbMouse">0.00m, 0.00m</span></span>
+  </div>
+</div>
+
+<!-- ===================== MODAL ===================== -->
+<div class="dialog-overlay" id="apiDialog">
+  <div class="dialog-box">
+    <h3>⚙️ AI 设置</h3>
+    <p>请输入你的 DeepSeek API Key。Key 会保存到浏览器本地存储，不会上传到服务器。</p>
+    <label for="apiKeyInput">DeepSeek API Key</label>
+    <input type="password" id="apiKeyInput" placeholder="sk-xxx...xxxx">
+    <div class="dialog-actions">
+      <button class="btn-secondary" id="btnCloseDialog">取消</button>
+      <button class="btn-primary" id="btnSaveKey">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== CANVAS PROPERTIES DIALOG ===================== -->
+<div class="dialog-overlay" id="canvasPropsDialog">
+  <div class="dialog-box" style="width:480px">
+    <h3>📐 画布属性</h3>
+    <p style="margin-bottom:12px">调整画布尺寸、缩放比例和网格设置。修改后画布会立即重绘。</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;margin-bottom:14px">
+      <div>
+        <label>画布宽 (m)</label>
+        <input type="number" id="cpWidth" min="1" max="30" step="0.1" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:5px;font-size:13px;background:var(--cream)">
+      </div>
+      <div>
+        <label>画布深 (m)</label>
+        <input type="number" id="cpHeight" min="1" max="30" step="0.1" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:5px;font-size:13px;background:var(--cream)">
+      </div>
+      <div>
+        <label>缩放比例 (px/m)</label>
+        <select id="cpScale" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:5px;font-size:13px;background:var(--cream)">
+          <option value="50">50 (粗略)</option>
+          <option value="75">75</option>
+          <option value="100" selected>100 (推荐)</option>
+          <option value="125">125</option>
+          <option value="150">150 (精细)</option>
+        </select>
+      </div>
+      <div>
+        <label>网格大小 (m)</label>
+        <select id="cpGrid" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:5px;font-size:13px;background:var(--cream)">
+          <option value="0.1">0.1 (精细)</option>
+          <option value="0.25">0.25</option>
+          <option value="0.5" selected>0.5 (推荐)</option>
+          <option value="1">1.0 (粗略)</option>
+        </select>
+      </div>
+    </div>
+    <div style="display:flex;gap:14px;margin-bottom:14px;flex-wrap:wrap">
+      <label style="display:flex;align-items:center;gap:5px;font-weight:400;cursor:pointer"><input type="checkbox" id="cpShowGrid" checked> 显示网格</label>
+      <label style="display:flex;align-items:center;gap:5px;font-weight:400;cursor:pointer"><input type="checkbox" id="cpShowLabels" checked> 显示尺寸标签</label>
+      <label style="display:flex;align-items:center;gap:5px;font-weight:400;cursor:pointer"><input type="checkbox" id="cpShowSnap" checked> 拖拽对齐辅助线</label>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:14px">
+      <button type="button" class="btn-secondary" id="cpPresetSmall" style="flex:1;padding:7px;font-size:12px">📦 小型 7×7</button>
+      <button type="button" class="btn-secondary" id="cpPresetMed"   style="flex:1;padding:7px;font-size:12px">🏪 中型 8×7.5</button>
+      <button type="button" class="btn-secondary" id="cpPresetLarge" style="flex:1;padding:7px;font-size:12px">🏬 大型 9×8</button>
+    </div>
+    <div class="dialog-actions" style="border-top:1px solid var(--border);padding-top:12px;margin-top:4px">
+      <button class="btn-secondary" id="cpReset" style="background:#fbe3e3;color:#b14545;border-color:#f1c2c2">🔄 重置画布</button>
+      <span style="flex:1"></span>
+      <button class="btn-secondary" id="cpClose">取消</button>
+      <button class="btn-primary" id="cpApply">应用</button>
+    </div>
+  </div>
+</div>
+
+<!-- Right-click context menu -->
+<div class="ctx-menu" id="ctxMenu"></div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Hidden file input -->
+<input type="file" id="fileInput" accept=".json">
+
+<!-- ===================== SCRIPTS ===================== -->
+<script src="https://unpkg.com/konva@9/konva.min.js"></script>
+<script>
+// ===================================================================
+// CONSTANTS & CONFIGURATION
+// ===================================================================
+let SCALE = 100; // px per meter (user-adjustable)
+let GRID_M = 0.5; // grid every N meters (user-adjustable)
+let SHOW_GRID = true;
+let SHOW_LABELS = true;
+let SHOW_SNAP = true;
+const SNAP_M = 0.1; // snap to 0.1m
+const MAX_HISTORY = 50;
+const DEFAULT_CANVAS_W = 7.0; // meters · 7×7=49㎡ 实际测量
+const DEFAULT_CANVAS_H = 7.0; // meters
+
+const BRAND = {
+  orange: '#F4B860',
+  darkOrange: '#E89A3C',
+  cream: '#FFF4E1',
+  beige: '#F5E6CB',
+  brown: '#5C3D2E',
+  green: '#A8C99A',
+  pink: '#F4B5A8',
+  warmWhite: '#FFFAF0',
+  textDark: '#3D2B1F',
+  textLight: '#FFF9F0',
+  border: '#E5D5B5',
+};
+
+// ===================================================================
+// COMPONENT DEFINITIONS
+// ===================================================================
+const COMPONENT_DEFS = [
+  // ---- 固定结构（不能移动）----
+  { id:'door_main',     name:'主门（临街）', w:0.9, h:0.1, color:'#F4B860', icon:'🚪', fixed:true },
+  { id:'door_back',     name:'后门',         w:0.9, h:0.1, color:'#E89A3C', icon:'🚪', fixed:true },
+
+  // ---- 墙壁：充当障碍物，参与碰撞但不画框线（深色长条表示墙）----
+  // 默认尺寸 w=2.0m, h=0.15m（厚墙），用户拖进画布后可自由旋转
+  { id:'wall_h',        name:'墙（横 2m）',  w:2.0, h:0.15, color:'#3D2B1F', icon:'▬', isWall:true },
+  { id:'wall_h3',       name:'墙（横 3m）',  w:3.0, h:0.15, color:'#3D2B1F', icon:'▬', isWall:true },
+  { id:'wall_v',        name:'墙（竖 2m）',  w:0.15, h:2.0, color:'#3D2B1F', icon:'▮', isWall:true },
+  { id:'wall_v3',       name:'墙（竖 3m）',  w:0.15, h:3.0, color:'#3D2B1F', icon:'▮', isWall:true },
+
+  // ---- 保留结构（不可拖动）----
+  { id:'counter',       name:'柜台（保留）', w:4.5, h:0.6, color:'#8B6F47', icon:'🛒', locked:true },
+
+  // ---- 家具设备 ----
+  { id:'wash_station',  name:'洗护池',       w:0.8, h:0.6, color:'#5C3D2E', icon:'🛁' },
+  { id:'wash_room_1',   name:'洗护单间①',   w:1.5, h:1.5, color:'#A8C99A', icon:'🚿' },
+  { id:'wash_room_2',   name:'洗护单间②',   w:1.5, h:1.5, color:'#A8C99A', icon:'🚿' },
+  { id:'groom_table',   name:'美容造型台',   w:1.2, h:0.8, color:'#F4B860', icon:'🪑' },
+  { id:'dryer',         name:'烘干箱',       w:0.8, h:0.6, color:'#E89A3C', icon:'🔥' },
+  { id:'cage_cat',      name:'猫寄养笼',     w:1.2, h:0.6, color:'#FFD89A', icon:'🐈' },
+  { id:'cage_dog',      name:'狗寄养笼',     w:1.5, h:0.8, color:'#F4B860', icon:'🐕' },
+  { id:'storage',       name:'储物柜',       w:0.8, h:0.4, color:'#5C3D2E', icon:'📦' },
+  { id:'shelf',         name:'货架墙',       w:2.0, h:0.4, color:'#F5E6CB', icon:'🗄️' },
+  { id:'cashier',       name:'收银台',       w:1.0, h:0.6, color:'#E89A3C', icon:'💰' },
+  { id:'sofa',          name:'客户沙发',     w:1.5, h:0.7, color:'#F4B5A8', icon:'🛋️' },
+  { id:'camera',        name:'监控摄像头',   w:0.2, h:0.2, color:'#5C3D2E', icon:'🎥' },
+  { id:'toilet',        name:'卫生间',       w:1.0, h:1.0, color:'#5C3D2E', icon:'🚽' },
+  { id:'custom',        name:'自定义',       w:1.0, h:1.0, color:'#F5E6CB', icon:'➕' },
+];
+
+// ===================================================================
+// INITIAL DEFAULT LAYOUT (宅咪·临港 LIN 舍 宠物店)
+// ===================================================================
+// Can add multiple instances of same component by giving unique ids
+let nextId = 100;
+
+function makeId(base) { return base + '_' + (nextId++); }
+
+const INITIAL_COMPONENTS = [
+  // ---- 外围墙壁（7m × 7m 边界，4 面实墙）----
+  // 顶墙：7m × 0.15m
+  { id:makeId('wall_h'), name:'顶墙', x:0,    y:0,    w:7.0, h:0.15, color:'#3D2B1F', icon:'▬', isWall:true },
+  // 底墙：7m × 0.15m
+  { id:makeId('wall_h'), name:'底墙', x:0,    y:6.85, w:7.0, h:0.15, color:'#3D2B1F', icon:'▬', isWall:true },
+  // 左墙：0.15m × 7m
+  { id:makeId('wall_v'), name:'左墙', x:0,    y:0,    w:0.15, h:7.0, color:'#3D2B1F', icon:'▮', isWall:true },
+  // 右墙：0.15m × 7m
+  { id:makeId('wall_v'), name:'右墙', x:6.85, y:0,    w:0.15, h:7.0, color:'#3D2B1F', icon:'▮', isWall:true },
+
+  // ---- 入口（固定）----
+  { id:'door_main',  name:'主门（临街）', x:3.0, y:6.85, w:1.0, h:0.15, color:'#F4B860', icon:'🚪', fixed:true },
+  { id:'door_back',  name:'后门',         x:0,    y:3.0, w:0.15, h:1.0, color:'#E89A3C', icon:'🚪', fixed:true },
+
+  // ---- 干湿分区墙（横墙隔开前后）----
+  // 湿区（洗护+寄养）vs 干区（零售+等候），分隔墙位于 y=4.7，贯穿 0.15 → 6.0
+  { id:makeId('wall_h'), name:'分区墙①', x:0.15, y:4.55, w:3.0, h:0.15, color:'#3D2B1F', icon:'▬', isWall:true },
+  { id:makeId('wall_h'), name:'分区墙②', x:3.85, y:4.55, w:3.0, h:0.15, color:'#3D2B1F', icon:'▬', isWall:true },
+  // 洗护单间三面墙（围出独立空间）
+  { id:makeId('wall_v'), name:'单间左墙', x:3.85, y:4.70, w:0.15, h:1.5, color:'#3D2B1F', icon:'▮', isWall:true },
+  { id:makeId('wall_v'), name:'单间右墙', x:5.35, y:4.70, w:0.15, h:1.5, color:'#3D2B1F', icon:'▮', isWall:true },
+  { id:makeId('wall_h'), name:'单间顶墙', x:3.85, y:4.70, w:1.5, h:0.15, color:'#3D2B1F', icon:'▬', isWall:true },
+
+  // ---- 干区（前方，y < 4.5）：零售+收银+等候+货架 ----
+  // 柜台（保留）
+  { id:'counter',    name:'柜台（保留）', x:1.0,  y:3.9, w:5.0, h:0.6, color:'#8B6F47', icon:'🛒', locked:true },
+  // 收银台
+  { id:makeId('cashier'), name:'收银台',   x:5.4, y:3.2, w:1.0, h:0.6, color:'#E89A3C', icon:'💰' },
+  // 等候沙发
+  { id:makeId('sofa'),    name:'客户沙发', x:0.5, y:2.5, w:1.5, h:0.7, color:'#F4B5A8', icon:'🛋️' },
+  // 货架墙（左墙边）
+  { id:makeId('shelf'),   name:'货架墙',   x:0.4, y:0.5, w:2.0, h:0.4, color:'#F5E6CB', icon:'🗄️' },
+  { id:makeId('shelf'),   name:'货架墙',   x:0.4, y:1.1, w:2.0, h:0.4, color:'#F5E6CB', icon:'🗄️' },
+
+  // ---- 湿区（后方，y > 4.7）：洗护+寄养+卫生间 ----
+  // 洗护单间（墙已围好，内部放洗护池）
+  { id:makeId('wash_station'), name:'洗护池①', x:4.1, y:5.0, w:0.6, h:0.5, color:'#5C3D2E', icon:'🛁' },
+  { id:makeId('wash_station'), name:'洗护池②', x:4.8, y:5.0, w:0.6, h:0.5, color:'#5C3D2E', icon:'🛁' },
+  // 烘干箱（洗护间右）
+  { id:makeId('dryer'),    name:'烘干箱',     x:5.7, y:5.0, w:0.8, h:0.6, color:'#E89A3C', icon:'🔥' },
+  // 美容造型台
+  { id:makeId('groom_table'), name:'美容造型台', x:5.7, y:5.8, w:0.8, h:0.7, color:'#F4B860', icon:'🪑' },
+  // 寄养区（左后方，湿区左侧）
+  { id:makeId('cage_cat'), name:'猫寄养笼①', x:0.5, y:5.0, w:1.2, h:0.6, color:'#FFD89A', icon:'🐈' },
+  { id:makeId('cage_cat'), name:'猫寄养笼②', x:0.5, y:5.8, w:1.2, h:0.6, color:'#FFD89A', icon:'🐈' },
+  { id:makeId('cage_dog'), name:'狗寄养笼①', x:1.8, y:5.0, w:1.5, h:0.8, color:'#F4B860', icon:'🐕' },
+  { id:makeId('cage_dog'), name:'狗寄养笼②', x:1.8, y:5.9, w:1.5, h:0.8, color:'#F4B860', icon:'🐕' },
+  // 储物柜
+  { id:makeId('storage'), name:'储物柜',  x:3.4, y:5.0, w:0.4, h:0.5, color:'#5C3D2E', icon:'📦' },
+
+  // ---- 卫生间（右下角）----
+  { id:makeId('toilet'),  name:'卫生间',  x:5.7, y:6.0, w:1.0, h:0.7, color:'#5C3D2E', icon:'🚽' },
+
+  // ---- 摄像头 ----
+  { id:makeId('camera'), name:'CAM-1 入口',   x:3.4, y:6.65, w:0.2, h:0.2, color:'#5C3D2E', icon:'🎥' },
+  { id:makeId('camera'), name:'CAM-2 营业区', x:3.5, y:2.0, w:0.2, h:0.2, color:'#5C3D2E', icon:'🎥' },
+  { id:makeId('camera'), name:'CAM-3 洗护区', x:4.5, y:5.4, w:0.2, h:0.2, color:'#5C3D2E', icon:'🎥' },
+  { id:makeId('camera'), name:'CAM-4 寄养区', x:2.5, y:6.4, w:0.2, h:0.2, color:'#5C3D2E', icon:'🎥' },
+];
+
+// INITIAL_COMPONENTS 现在已经预编排好坐标，无需 fixInitial
+// 保留旧的 fixInitial 流程作为兼容（如果是老用户 localStorage 数据）
+(function fixInitial() {
+  // 仅清洗重复/冲突：移除名为「洗护单间①」和「洗护单间②」但 isWall 的
+  for (let i = INITIAL_COMPONENTS.length - 1; i >= 0; i--) {
+    const c = INITIAL_COMPONENTS[i];
+    if (c.name === '洗护单间①' || c.name === '洗护单间②') {
+      // 现在洗护间由墙+洗护池组合表示，不需要这个独立组件
+      INITIAL_COMPONENTS.splice(i, 1);
+    }
+  }
+})();
+
+// ===================================================================
+// STATE
+// ===================================================================
+let state = {
+  canvasW: DEFAULT_CANVAS_W,
+  canvasH: DEFAULT_CANVAS_H,
+  components: JSON.parse(JSON.stringify(INITIAL_COMPONENTS)),
+};
+
+let history = [];
+let historyIndex = -1;
+let selectedId = null;
+
+// Konva objects
+let stage, gridLayer, compLayer, overlayLayer, transformer;
+let compNodes = {}; // id -> Konva.Group
+
+let isDragging = false;
+let suppressHistory = false;
+
+// ===================================================================
+// DOM REFS
+// ===================================================================
+const $ = id => document.getElementById(id);
+const container = $('canvas-container');
+const compList = $('compList');
+const noSelection = $('noSelection');
+const propPanel = $('propPanel');
+const coordX = $('coordX');
+const coordY = $('coordY');
+const canvasInfo = $('canvasInfo');
+const compCount = $('compCount');
+const propName = $('propName');
+const propX = $('propX');
+const propY = $('propY');
+const propW = $('propW');
+const propH = $('propH');
+const propColor = $('propColor');
+const canvasW = $('canvasW');
+const canvasH = $('canvasH');
+
+// ===================================================================
+// KONVA INIT
+// ===================================================================
+function initKonva() {
+  const w = state.canvasW * SCALE;
+  const h = state.canvasH * SCALE;
+  const padding = 60;
+
+  // Size the container
+  const area = $('canvasArea');
+  const maxW = area.clientWidth - 20;
+  const maxH = area.clientHeight - 40;
+  const stageW = Math.min(w + padding * 2, maxW);
+  const stageH = Math.min(h + padding * 2, maxH);
+  const fitScale = Math.min((maxW - 20) / w, (maxH - 20) / h, 1.2);
+
+  const containerEl = container;
+  containerEl.style.width = (w + padding * 2) + 'px';
+  containerEl.style.height = (h + padding * 2) + 'px';
+
+  stage = new Konva.Stage({
+    container: containerEl,
+    width: w + padding * 2,
+    height: h + padding * 2,
+    draggable: false,
+  });
+
+  gridLayer = new Konva.Layer();
+  compLayer = new Konva.Layer();
+  overlayLayer = new Konva.Layer();
+
+  stage.add(gridLayer);
+  stage.add(compLayer);
+  stage.add(overlayLayer);
+
+  // Transformer
+  transformer = new Konva.Transformer({
+    nodes: [],
+    enabledAnchors: ['top-left','top-right','bottom-left','bottom-right'],
+    keepRatio: false,
+    borderStroke: BRAND.orange,
+    borderStrokeWidth: 2,
+    anchorFill: BRAND.cream,
+    anchorStroke: BRAND.orange,
+    anchorSize: 10,
+    rotateEnabled: false,
+    boundBoxFunc: (oldBox, newBox) => {
+      // Keep within canvas
+      if (newBox.x < 0 || newBox.y < 0) return oldBox;
+      if (newBox.x + newBox.width > state.canvasW * SCALE) return oldBox;
+      if (newBox.y + newBox.height > state.canvasH * SCALE) return oldBox;
+      return newBox;
+    },
+  });
+  overlayLayer.add(transformer);
+
+  transformer.on('transformend', () => {
+    const node = transformer.nodes()[0];
+    if (!node) return;
+    const comp = node._compData;
+    if (!comp) return;
+    // Update comp data from node position
+    const newW = Math.max(node.width() / SCALE, 0.2);
+    const newH = Math.max(node.height() / SCALE, 0.2);
+    const snapX = Math.round(node.x() / SCALE / SNAP_M) * SNAP_M;
+    const snapY = Math.round(node.y() / SCALE / SNAP_M) * SNAP_M;
+    node.x(snapX * SCALE);
+    node.y(snapY * SCALE);
+    node.width(newW * SCALE);
+    node.height(newH * SCALE);
+    comp.x = snapX;
+    comp.y = snapY;
+    comp.w = newW;
+    comp.h = newH;
+    updateCompLabel(node);
+    updateProps();
+    updateStatusBar();
+    if (!suppressHistory) pushHistory();
+    setOpLog(`已调整 <span class="key">${comp.name}</span> 大小 → ${newW.toFixed(1)}m × ${newH.toFixed(1)}m`);
+  });
+
+  // Draw background + grid
+  drawGrid();
+
+  // Build all component nodes
+  state.components.forEach(c => addComponentNode(c, false));
+
+  // Update UI
+  updateCompCount();
+  updateProps();
+  pushHistory(true);
+
+  // Stage events
+  stage.on('click', e => {
+    if (e.target === stage || e.target === gridLayer) {
+      deselectAll();
+    }
+  });
+
+  stage.on('mousemove', () => {
+    const pos = stage.getPointerPosition();
+    if (pos) {
+      const x = Math.max(0, Math.min((pos.x - padding) / SCALE, state.canvasW));
+      const y = Math.max(0, Math.min((pos.y - padding) / SCALE, state.canvasH));
+      coordX.textContent = x.toFixed(2);
+      coordY.textContent = y.toFixed(2);
+      const sbM = $('sbMouse');
+      if (sbM) sbM.textContent = `${x.toFixed(2)}m, ${y.toFixed(2)}m`;
+    }
+  });
+
+  // Keyboard
+  window.addEventListener('keydown', e => {
+    if (e.target.closest('input,textarea,select')) return;
+    if (e.key === 'Delete' || e.key === 'Backspace') {
+      if (selectedId) {
+        deleteComponent(selectedId);
+        e.preventDefault();
+      }
+    }
+    if (e.ctrlKey && e.key === 'z' && !e.shiftKey) {
+      e.preventDefault();
+      undo();
+    }
+    if (e.ctrlKey && (e.key === 'Z' || (e.key === 'z' && e.shiftKey))) {
+      e.preventDefault();
+      redo();
+    }
+    if (e.ctrlKey && (e.key === 'd' || e.key === 'D')) {
+      e.preventDefault();
+      if (selectedId) duplicateComponent(selectedId);
+    }
+    // Arrow keys → nudge selected
+    const big = e.shiftKey;
+    let dx = 0, dy = 0;
+    if (e.key === 'ArrowLeft')  dx = -1;
+    if (e.key === 'ArrowRight') dx =  1;
+    if (e.key === 'ArrowUp')    dy = -1;
+    if (e.key === 'ArrowDown')  dy =  1;
+    if (dx !== 0 || dy !== 0) {
+      if (selectedId) { nudgeSelected(dx, dy, big); e.preventDefault(); }
+    }
+  });
+
+  // Drag and drop from sidebar
+  stage.on('dragenter', e => { e.evt.preventDefault(); });
+  stage.on('dragover', e => { e.evt.preventDefault(); });
+
+  stage.on('drop', e => {
+    e.evt.preventDefault();
+    const raw = e.evt.dataTransfer.getData('text/plain');
+    if (!raw) return;
+    try {
+      const def = JSON.parse(raw);
+      const pos = stage.getPointerPosition();
+      if (!pos) return;
+      let x = (pos.x - padding) / SCALE;
+      let y = (pos.y - padding) / SCALE;
+      x = Math.round(Math.max(0, Math.min(x, state.canvasW - def.w)) / SNAP_M) * SNAP_M;
+      y = Math.round(Math.max(0, Math.min(y, state.canvasH - def.h)) / SNAP_M) * SNAP_M;
+      const comp = {
+        id: makeId(def.id),
+        name: def.name,
+        x, y,
+        w: def.w, h: def.h,
+        color: def.color,
+        icon: def.icon,
+        fixed: !!def.fixed,
+        locked: !!def.locked,
+      };
+      state.components.push(comp);
+      addComponentNode(comp, true);
+      selectComponent(comp.id);
+      updateCompCount();
+      updateStatusBar();
+      pushHistory();
+      highlightSaveBtn();
+      setOpLog(`已添加 <span class="key">${comp.icon} ${comp.name}</span> (${x.toFixed(1)}, ${y.toFixed(1)})`);
+      toast(`✅ 已添加 ${comp.name}`);
+    } catch(err) { console.error('Drop error', err); }
+  });
+
+  // Update canvas info
+  updateCanvasInfo();
+  applyFitScale();
+}
+
+function applyFitScale() {
+  // Attempt to fit canvas in view
+  const area = $('canvasArea');
+  const availW = area.clientWidth - 10;
+  const availH = area.clientHeight - 10;
+  const totalW = state.canvasW * SCALE + 120;
+  const totalH = state.canvasH * SCALE + 120;
+  const scale = Math.min(availW / totalW, availH / totalH, 1);
+  if (scale < 1) {
+    container.style.transform = `scale(${scale})`;
+    container.style.transformOrigin = 'center center';
+  } else {
+    container.style.transform = '';
+  }
+}
+
+// ===================================================================
+// GRID
+// ===================================================================
+function drawGrid() {
+  gridLayer.destroyChildren();
+  const w = state.canvasW * SCALE;
+  const h = state.canvasH * SCALE;
+  const padding = 60;
+
+  // Background
+  const bg = new Konva.Rect({
+    x: padding, y: padding, width: w, height: h,
+    fill: BRAND.warmWhite,
+    stroke: BRAND.brown,
+    strokeWidth: 2,
+  });
+  gridLayer.add(bg);
+
+  // Grid lines (only if SHOW_GRID)
+  if (SHOW_GRID) {
+    const gridStep = GRID_M * SCALE;
+    for (let gx = padding + gridStep; gx < padding + w; gx += gridStep) {
+      const line = new Konva.Line({
+        points: [gx, padding, gx, padding + h],
+        stroke: '#E5D5B5',
+        strokeWidth: 0.5,
+        dash: [4, 4],
+      });
+      gridLayer.add(line);
+    }
+    for (let gy = padding + gridStep; gy < padding + h; gy += gridStep) {
+      const line = new Konva.Line({
+        points: [padding, gy, padding + w, gy],
+        stroke: '#E5D5B5',
+        strokeWidth: 0.5,
+        dash: [4, 4],
+      });
+      gridLayer.add(line);
+    }
+  }
+
+  // Dimension labels (only if SHOW_LABELS)
+  if (SHOW_LABELS) {
+    const gridStep = GRID_M * SCALE;
+    for (let gx = padding; gx <= padding + w; gx += gridStep) {
+      const meter = Math.round((gx - padding) / SCALE * 10) / 10;
+      const txt = new Konva.Text({
+        x: gx - 10, y: padding - 18,
+        text: meter + 'm',
+        fontSize: 9, fill: '#9a8a7a',
+        width: 20, align: 'center',
+      });
+      gridLayer.add(txt);
+    }
+    for (let gy = padding; gy <= padding + h; gy += gridStep) {
+      const meter = Math.round((gy - padding) / SCALE * 10) / 10;
+      const txt = new Konva.Text({
+        x: padding - 28, y: gy - 5,
+        text: meter + 'm',
+        fontSize: 9, fill: '#9a8a7a',
+        width: 25, align: 'right',
+      });
+      gridLayer.add(txt);
+    }
+  }
+
+  // North/South direction labels
+  const nsText = new Konva.Text({
+    x: padding + w / 2 - 20, y: padding + h + 5,
+    text: '🧭 北 ↑ 小区侧',
+    fontSize: 10, fill: '#9a8a7a',
+  });
+  gridLayer.add(nsText);
+  const ssText = new Konva.Text({
+    x: padding + w / 2 - 20, y: padding - 32,
+    text: '🧭 南 ↑ 临街',
+    fontSize: 10, fill: '#9a8a7a',
+  });
+  gridLayer.add(ssText);
+
+  // Scale bar at bottom-left inside canvas
+  const scaleBarY = padding + h - 18;
+  const scaleBarX = padding + 10;
+  const scaleLen = 50; // 0.5m at 100px/m
+  const scaleLine = new Konva.Line({
+    points: [scaleBarX, scaleBarY, scaleBarX + scaleLen, scaleBarY],
+    stroke: BRAND.brown,
+    strokeWidth: 2,
+  });
+  gridLayer.add(scaleLine);
+  // Ticks
+  gridLayer.add(new Konva.Line({ points:[scaleBarX, scaleBarY-4, scaleBarX, scaleBarY+4], stroke:BRAND.brown, strokeWidth:2 }));
+  gridLayer.add(new Konva.Line({ points:[scaleBarX+scaleLen, scaleBarY-4, scaleBarX+scaleLen, scaleBarY+4], stroke:BRAND.brown, strokeWidth:2 }));
+  const scaleLabel = new Konva.Text({
+    x: scaleBarX + scaleLen/2 - 10, y: scaleBarY - 16,
+    text: '0.5m',
+    fontSize: 9, fill: BRAND.brown,
+  });
+  gridLayer.add(scaleLabel);
+
+  // Total size label
+  const sizeLabel = new Konva.Text({
+    x: padding + w - 80, y: padding + h + 5,
+    text: `${state.canvasW.toFixed(1)}m × ${state.canvasH.toFixed(1)}m`,
+    fontSize: 10, fill: '#9a8a7a',
+  });
+  gridLayer.add(sizeLabel);
+
+  gridLayer.batchDraw();
+}
+
+// ===================================================================
+// COMPONENT NODES
+// ===================================================================
+function addComponentNode(comp, animate) {
+  const padding = 60;
+  const group = new Konva.Group({
+    x: comp.x * SCALE + padding,
+    y: comp.y * SCALE + padding,
+    draggable: !comp.locked && !comp.fixed,
+    name: 'component',
+    id: comp.id,
+  });
+  group._compData = comp;
+
+  const w = comp.w * SCALE;
+  const h = comp.h * SCALE;
+
+  const rect = new Konva.Rect({
+    width: w,
+    height: h,
+    fill: comp.color,
+    stroke: comp.locked ? BRAND.darkOrange : (comp.isWall ? '#1a1410' : BRAND.brown),
+    strokeWidth: comp.locked ? 2.5 : (comp.isWall ? 0 : 1.5),
+    cornerRadius: comp.isWall ? 0 : 4,
+    opacity: comp.locked ? 0.85 : (comp.isWall ? 1 : 1),
+    shadowColor: 'rgba(92,61,46,0.15)',
+    shadowBlur: comp.isWall ? 0 : 4,
+    shadowOffset: comp.isWall ? {x:0,y:0} : { x: 1, y: 2 },
+  });
+
+  // 墙壁额外画砖纹理：3-4 条横线模拟砖缝
+  if (comp.isWall) {
+    // 在矩形上下各画一条浅色细线模拟砖缝
+    const isHoriz = comp.w > comp.h;
+    const lineColor = '#5C3D2E';
+    if (isHoriz) {
+      // 横向墙：3 条横线
+      for (let i = 1; i < 3; i++) {
+        group.add(new Konva.Line({
+          points: [0, (h / 3) * i, w, (h / 3) * i],
+          stroke: lineColor, strokeWidth: 1, opacity: 0.5,
+        }));
+      }
+    } else {
+      // 竖向墙：3 条竖线
+      for (let i = 1; i < 3; i++) {
+        group.add(new Konva.Line({
+          points: [(w / 3) * i, 0, (w / 3) * i, h],
+          stroke: lineColor, strokeWidth: 1, opacity: 0.5,
+        }));
+      }
+    }
+  }
+
+  // Pattern for locked items
+  if (comp.locked) {
+    rect.dash([4, 3]);
+  }
+
+  const label = comp.icon + ' ' + (comp.name || '');
+  const text = new Konva.Text({
+    text: label,
+    fontSize: Math.min(w / label.length * 2.2, 12),
+    fill: BRAND.textDark,
+    width: w,
+    height: h,
+    align: 'center',
+    verticalAlign: 'middle',
+    padding: 4,
+    wrap: 'char',
+  });
+
+  group.add(rect);
+  group.add(text);
+
+  // Events
+  group.on('click', e => {
+    e.cancelBubble = true;
+    selectComponent(comp.id);
+  });
+
+  group.on('dblclick', e => {
+    e.cancelBubble = true;
+    renameComponent(comp.id);
+  });
+
+  group.on('contextmenu', e => {
+    e.cancelBubble = true;
+    e.evt.preventDefault();
+    selectComponent(comp.id);
+    showContextMenu(e.evt.clientX, e.evt.clientY, comp.id);
+  });
+
+  group.on('dragstart', () => {
+    isDragging = true;
+    selectComponent(comp.id);
+  });
+
+  group.on('dragmove', () => {
+    const padding = 60;
+    let gx = group.x() - padding;
+    let gy = group.y() - padding;
+    // Snap
+    gx = Math.round(gx / SCALE / SNAP_M) * SNAP_M * SCALE;
+    gy = Math.round(gy / SCALE / SNAP_M) * SNAP_M * SCALE;
+    // 先按 meters 做碰撞修正（其他组件）
+    const inM = resolveCollision(comp, gx / SCALE, gy / SCALE);
+    gx = Math.max(0, Math.min(inM.x * SCALE, (state.canvasW - comp.w) * SCALE));
+    gy = Math.max(0, Math.min(inM.y * SCALE, (state.canvasH - comp.h) * SCALE));
+    // 边界 clamp（最后兜底）
+    gx = Math.max(0, Math.min(gx, (state.canvasW - comp.w) * SCALE));
+    gy = Math.max(0, Math.min(gy, (state.canvasH - comp.h) * SCALE));
+    group.x(gx + padding);
+    group.y(gy + padding);
+    // Update comp data for snap guide logic
+    comp.x = gx / SCALE;
+    comp.y = gy / SCALE;
+    // 视觉反馈：碰撞时红框
+    const rect = group.findOne('Rect');
+    if (rect) {
+      rect.stroke(inM.collided ? '#e07a5f' : (comp.locked ? '#5C3D2E' : '#F4B860'));
+      rect.strokeWidth(inM.collided ? 3 : (comp.locked ? 2 : 1.5));
+    }
+    // 节流：只每帧最多刷新一次 snap guide
+    scheduleSnapGuides(comp.id);
+  });
+
+  group.on('dragend', () => {
+    isDragging = false;
+    clearSnapGuides();
+    const padding = 60;
+    comp.x = (group.x() - padding) / SCALE;
+    comp.y = (group.y() - padding) / SCALE;
+    comp.x = Math.round(comp.x / SNAP_M) * SNAP_M;
+    comp.y = Math.round(comp.y / SNAP_M) * SNAP_M;
+    group.x(comp.x * SCALE + padding);
+    group.y(comp.y * SCALE + padding);
+    // 拖完恢复边框颜色
+    const rect = group.findOne('Rect');
+    if (rect) {
+      rect.stroke(comp.locked ? '#5C3D2E' : '#F4B860');
+      rect.strokeWidth(comp.locked ? 2 : 1.5);
+    }
+    updateProps();
+    pushHistory();
+    highlightSaveBtn();
+    updateStatusBar();
+    setOpLog(`已移动 <span class="key">${comp.name}</span> → (${comp.x.toFixed(1)}, ${comp.y.toFixed(1)})`);
+  });
+
+  compLayer.add(group);
+  compNodes[comp.id] = group;
+
+  if (animate) {
+    group.opacity(0);
+    group.to({ opacity: 1, duration: 0.2 });
+  }
+}
+
+function removeComponentNode(id) {
+  const node = compNodes[id];
+  if (node) {
+    node.destroy();
+    delete compNodes[id];
+  }
+  if (selectedId === id) {
+    deselectAll();
+  }
+}
+
+function updateCompLabel(group) {
+  const comp = group._compData;
+  const text = group.find('Text')[0];
+  if (text && comp) {
+    const label = comp.icon + ' ' + (comp.name || '');
+    text.text(label);
+    text.fontSize(Math.min(comp.w * SCALE / label.length * 2.2, 12));
+    text.width(comp.w * SCALE);
+    text.height(comp.h * SCALE);
+
+    const rect = group.find('Rect')[0];
+    if (rect) {
+      rect.width(comp.w * SCALE);
+      rect.height(comp.h * SCALE);
+      rect.fill(comp.color);
+    }
+  }
+}
+
+function deleteComponent(id) {
+  const idx = state.components.findIndex(c => c.id === id);
+  if (idx === -1) return;
+  const comp = state.components[idx];
+  if (comp.locked || comp.fixed) { toast('🔒 固定/锁定组件不能删除'); return; }
+  state.components.splice(idx, 1);
+  removeComponentNode(id);
+  deselectAll();
+  updateCompCount();
+  updateStatusBar();
+  pushHistory();
+  highlightSaveBtn();
+  toast('🗑 已删除 ' + comp.name);
+  setOpLog(`已删除 <span class="key">${comp.name}</span>`);
+}
+
+function clearAllComponents() {
+  const removable = state.components.filter(c => !c.locked && !c.fixed);
+  removable.forEach(c => {
+    removeComponentNode(c.id);
+    const idx = state.components.indexOf(c);
+    if (idx > -1) state.components.splice(idx, 1);
+  });
+  deselectAll();
+  updateCompCount();
+  updateStatusBar();
+  pushHistory();
+}
+
+// ===================================================================
+// SELECTION
+// ===================================================================
+function selectComponent(id) {
+  if (selectedId === id) return;
+  selectedId = id;
+  const node = compNodes[id];
+  if (node) {
+    transformer.nodes([node]);
+    overlayLayer.batchDraw();
+  }
+  // Show alignment toolbar
+  const tb = $('alignToolbar');
+  if (tb) tb.classList.add('show');
+  updateProps();
+  updateStatusBar();
+  if (id) {
+    const c = state.components.find(x => x.id === id);
+    if (c) setOpLog(`已选中 <span class="key">${c.icon} ${c.name}</span> · (${c.x.toFixed(1)}, ${c.y.toFixed(1)})`);
+  }
+}
+
+function deselectAll() {
+  selectedId = null;
+  transformer.nodes([]);
+  overlayLayer.batchDraw();
+  // Hide alignment toolbar
+  const tb = $('alignToolbar');
+  if (tb) tb.classList.remove('show');
+  updateProps();
+  updateStatusBar();
+}
+
+// ===================================================================
+// PROPERTY PANEL
+// ===================================================================
+function updateProps() {
+  if (selectedId && compNodes[selectedId]) {
+    const comp = state.components.find(c => c.id === selectedId);
+    if (!comp) { showNoSelection(); return; }
+    noSelection.style.display = 'none';
+    propPanel.style.display = 'block';
+    propName.textContent = comp.icon + ' ' + comp.name;
+    propX.value = comp.x.toFixed(1);
+    propY.value = comp.y.toFixed(1);
+    propW.value = comp.w.toFixed(1);
+    propH.value = comp.h.toFixed(1);
+    propColor.value = comp.color;
+    // Make inputs editable except for locked
+    const locked = comp.locked || comp.fixed;
+    propX.disabled = locked;
+    propY.disabled = locked;
+    propW.disabled = locked;
+    propH.disabled = locked;
+    propColor.disabled = locked;
+  } else {
+    showNoSelection();
+  }
+  canvasW.value = state.canvasW.toFixed(1);
+  canvasH.value = state.canvasH.toFixed(1);
+}
+
+function showNoSelection() {
+  noSelection.style.display = 'block';
+  propPanel.style.display = 'none';
+}
+
+function updateCompCount() {
+  const total = state.components.length;
+  const locked = state.components.filter(c => c.locked || c.fixed).length;
+  compCount.textContent = `组件: ${total} (${locked} 固定)`;
+  const sbC = $('sbCompCount');
+  if (sbC) sbC.textContent = `${total} (${locked} 固定)`;
+}
+
+function updateCanvasInfo() {
+  canvasInfo.textContent = `📐 ${state.canvasW.toFixed(1)}m × ${state.canvasH.toFixed(1)}m`;
+  const sbCv = $('sbCanvas');
+  if (sbCv) sbCv.textContent = `${state.canvasW.toFixed(1)}m × ${state.canvasH.toFixed(1)}m (${(state.canvasW*state.canvasH).toFixed(1)}㎡)`;
+}
+
+// ===================================================================
+// HISTORY (Undo/Redo)
+// ===================================================================
+function pushHistory(silent) {
+  const snapshot = JSON.stringify(state.components);
+  // Remove future states
+  history = history.slice(0, historyIndex + 1);
+  history.push(snapshot);
+  if (history.length > MAX_HISTORY) history.shift();
+  historyIndex = history.length - 1;
+  if (!silent) updateUndoButtons();
+}
+
+function undo() {
+  if (historyIndex <= 0) return;
+  historyIndex--;
+  restoreHistory();
+  updateUndoButtons();
+}
+
+function redo() {
+  if (historyIndex >= history.length - 1) return;
+  historyIndex++;
+  restoreHistory();
+  updateUndoButtons();
+}
+
+function restoreHistory() {
+  const snapshot = history[historyIndex];
+  const comps = JSON.parse(snapshot);
+  state.components = comps;
+  // Rebuild all nodes
+  rebuildAllNodes();
+  updateCompCount();
+  updateCanvasInfo();
+  updateStatusBar();
+}
+
+function rebuildAllNodes() {
+  // Remove all current nodes
+  Object.keys(compNodes).forEach(id => {
+    const node = compNodes[id];
+    if (node) node.destroy();
+  });
+  compNodes = {};
+  compLayer.destroyChildren();
+
+  // Re-add
+  state.components.forEach(c => addComponentNode(c, false));
+  compLayer.batchDraw();
+  // Restore selection
+  if (selectedId && compNodes[selectedId]) {
+    transformer.nodes([compNodes[selectedId]]);
+  } else {
+    selectedId = null;
+    transformer.nodes([]);
+  }
+  overlayLayer.batchDraw();
+  updateProps();
+}
+
+function updateUndoButtons() {
+  $('btnUndo').disabled = historyIndex <= 0;
+  $('btnRedo').disabled = historyIndex >= history.length - 1;
+}
+
+let saveHighlightTimer = null;
+function highlightSaveBtn() {
+  const btn = $('btnSave');
+  btn.style.background = '#E89A3C';
+  btn.style.color = '#FFF9F0';
+  clearTimeout(saveHighlightTimer);
+  saveHighlightTimer = setTimeout(() => {
+    btn.style.background = '';
+    btn.style.color = '';
+  }, 1500);
+}
+
+// ===================================================================
+// TOAST / STATUS BAR
+// ===================================================================
+let toastTimer = null;
+function toast(msg, duration = 2000) {
+  const el = $('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), duration);
+  // Also push to status bar op log
+  setOpLog(msg);
+}
+
+function setOpLog(msg) {
+  const el = $('sbOpLog');
+  if (!el) return;
+  el.innerHTML = msg;
+  // Highlight first 'key' like name
+}
+
+function updateStatusBar() {
+  const sbC = $('sbCompCount'); if (sbC) sbC.textContent = state.components.length;
+  const sbS = $('sbSel');
+  if (sbS) {
+    if (selectedId) {
+      const c = state.components.find(x => x.id === selectedId);
+      sbS.textContent = c ? (c.icon + ' ' + c.name) : '-';
+    } else {
+      sbS.textContent = '无';
+    }
+  }
+  const sbCv = $('sbCanvas');
+  if (sbCv) sbCv.textContent = `${state.canvasW.toFixed(1)}m × ${state.canvasH.toFixed(1)}m (${(state.canvasW*state.canvasH).toFixed(1)}㎡)`;
+  const sbSc = $('sbScale'); if (sbSc) sbSc.textContent = SCALE + 'px/m';
+  const sbCc = $('compCount');
+  if (sbCc) {
+    const total = state.components.length;
+    const locked = state.components.filter(c => c.locked || c.fixed).length;
+    sbCc.textContent = `组件: ${total} (${locked} 固定)`;
+  }
+}
+
+// ===================================================================
+// ALIGNMENT / NUDGE / RENAME / CONTEXT MENU
+// ===================================================================
+function alignComponent(mode) {
+  if (!selectedId) return;
+  const comp = state.components.find(c => c.id === selectedId);
+  if (!comp || comp.locked || comp.fixed) {
+    toast('🔒 固定/锁定组件不能对齐');
+    return;
+  }
+  switch (mode) {
+    case 'left':   comp.x = 0; break;
+    case 'right':  comp.x = Math.round((state.canvasW - comp.w) * 10) / 10; break;
+    case 'top':    comp.y = 0; break;
+    case 'bottom': comp.y = Math.round((state.canvasH - comp.h) * 10) / 10; break;
+    case 'hcenter':comp.x = Math.round((state.canvasW - comp.w) / 2 * 10) / 10; break;
+    case 'vcenter':comp.y = Math.round((state.canvasH - comp.h) / 2 * 10) / 10; break;
+    case 'dup':    duplicateComponent(selectedId); return;
+    case 'front':  bringToFront(selectedId); return;
+    case 'back':   sendToBack(selectedId); return;
+    case 'delete': deleteComponent(selectedId); return;
+  }
+  comp.x = Math.round(comp.x / SNAP_M) * SNAP_M;
+  comp.y = Math.round(comp.y / SNAP_M) * SNAP_M;
+  const node = compNodes[selectedId];
+  if (node) {
+    node.x(comp.x * SCALE + 60);
+    node.y(comp.y * SCALE + 60);
+  }
+  pushHistory();
+  highlightSaveBtn();
+  updateProps();
+  updateStatusBar();
+  setOpLog(`已对齐 <span class="key">${comp.name}</span> → ${mode}`);
+}
+
+function duplicateComponent(id) {
+  const idx = state.components.findIndex(c => c.id === id);
+  if (idx === -1) return;
+  const orig = state.components[idx];
+  if (orig.locked || orig.fixed) { toast('🔒 固定/锁定组件不能复制'); return; }
+  const copy = JSON.parse(JSON.stringify(orig));
+  copy.id = makeId(orig.id);
+  copy.x = Math.min(state.canvasW - orig.w, orig.x + 0.3);
+  copy.y = Math.min(state.canvasH - orig.h, orig.y + 0.3);
+  copy.x = Math.round(copy.x / SNAP_M) * SNAP_M;
+  copy.y = Math.round(copy.y / SNAP_M) * SNAP_M;
+  state.components.push(copy);
+  addComponentNode(copy, true);
+  selectComponent(copy.id);
+  pushHistory();
+  updateCompCount();
+  updateStatusBar();
+  highlightSaveBtn();
+  toast('📋 已复制 ' + orig.name);
+  setOpLog(`已复制 <span class="key">${orig.name}</span> → 新位置 (${copy.x.toFixed(1)}, ${copy.y.toFixed(1)})`);
+}
+
+function bringToFront(id) {
+  const idx = state.components.findIndex(c => c.id === id);
+  if (idx === -1) return;
+  const [c] = state.components.splice(idx, 1);
+  state.components.push(c);
+  rebuildAllNodes();
+  pushHistory();
+  setOpLog(`已置顶 <span class="key">${c.name}</span>`);
+  toast('▲ 已置顶 ' + c.name);
+}
+
+function sendToBack(id) {
+  const idx = state.components.findIndex(c => c.id === id);
+  if (idx === -1) return;
+  const [c] = state.components.splice(idx, 1);
+  // Insert after all fixed/locked items at the front
+  let insertAt = 0;
+  while (insertAt < state.components.length && (state.components[insertAt].locked || state.components[insertAt].fixed)) {
+    insertAt++;
+  }
+  state.components.splice(insertAt, 0, c);
+  rebuildAllNodes();
+  pushHistory();
+  setOpLog(`已置底 <span class="key">${c.name}</span>`);
+  toast('▼ 已置底 ' + c.name);
+}
+
+function renameComponent(id) {
+  const comp = state.components.find(c => c.id === id);
+  if (!comp) return;
+  const newName = prompt('重命名组件：', comp.name);
+  if (newName == null || !newName.trim()) return;
+  comp.name = newName.trim();
+  const node = compNodes[id];
+  if (node) updateCompLabel(node);
+  updateProps();
+  updateStatusBar();
+  pushHistory();
+  highlightSaveBtn();
+  toast('✏️ 已重命名为 ' + comp.name);
+  setOpLog(`已重命名为 <span class="key">${comp.name}</span>`);
+}
+
+function nudgeSelected(dx, dy, big) {
+  if (!selectedId) return;
+  const comp = state.components.find(c => c.id === selectedId);
+  if (!comp || comp.locked || comp.fixed) return;
+  const step = big ? 0.1 : 0.01; // 10px or 1px at 100px/m
+  comp.x = Math.round(Math.max(0, Math.min(comp.x + dx, state.canvasW - comp.w)) / SNAP_M) * SNAP_M;
+  comp.y = Math.round(Math.max(0, Math.min(comp.y + dy, state.canvasH - comp.h)) / SNAP_M) * SNAP_M;
+  const node = compNodes[selectedId];
+  if (node) {
+    node.x(comp.x * SCALE + 60);
+    node.y(comp.y * SCALE + 60);
+  }
+  updateProps();
+  updateStatusBar();
+}
+
+function showContextMenu(x, y, id) {
+  if (!id) return;
+  const comp = state.components.find(c => c.id === id);
+  if (!comp) return;
+  const locked = comp.locked || comp.fixed;
+  const menu = $('ctxMenu');
+  menu.innerHTML = `
+    <div class="ctx-item" data-act="rename">✏️ 重命名</div>
+    <div class="ctx-item" data-act="dup">📋 复制</div>
+    <div class="ctx-sep"></div>
+    <div class="ctx-item" data-act="front">▲ 置顶</div>
+    <div class="ctx-item" data-act="back">▼ 置底</div>
+    <div class="ctx-sep"></div>
+    <div class="ctx-item danger" data-act="delete" ${locked?'style="opacity:.4;pointer-events:none"':''}>🗑 删除</div>
+  `;
+  menu.style.left = Math.min(x, window.innerWidth - 160) + 'px';
+  menu.style.top  = Math.min(y, window.innerHeight - 180) + 'px';
+  menu.classList.add('show');
+  menu.onclick = e => {
+    const item = e.target.closest('.ctx-item');
+    if (!item) return;
+    hideContextMenu();
+    const act = item.dataset.act;
+    if (act === 'rename') renameComponent(id);
+    else if (act === 'dup') duplicateComponent(id);
+    else if (act === 'front') bringToFront(id);
+    else if (act === 'back') sendToBack(id);
+    else if (act === 'delete') deleteComponent(id);
+  };
+}
+
+function hideContextMenu() {
+  const menu = $('ctxMenu');
+  if (menu) menu.classList.remove('show');
+}
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('.ctx-menu')) hideContextMenu();
+});
+
+// ===================================================================
+// SNAP GUIDES (smart alignment on drag)
+// ===================================================================
+let snapGuideLines = [];
+let snapRafId = null;
+
+// ====================================================================
+// 碰撞检测：两个矩形是否重叠（含容差，door 这类紧贴允许重叠）
+// ====================================================================
+function rectsOverlap(a, b, tolerance) {
+  // 默认 tolerance=0；允许 0.05m 容差让门框/墙紧贴
+  const t = tolerance || 0;
+  return !(a.x + a.w <= b.x + t ||
+           b.x + b.w <= a.x + t ||
+           a.y + a.h <= b.y + t ||
+           b.y + b.h <= a.y + t);
+}
+
+// 检测某个组件的候选位置是否碰撞其他组件（含墙壁）
+// 返回：{x, y, collided}
+// 规则：墙 (isWall) 也算障碍物；其他组件 locked/fixed 不参与碰撞（可叠加）
+function resolveCollision(movingComp, candidateX, candidateY) {
+  const my = { x: candidateX, y: candidateY, w: movingComp.w, h: movingComp.h };
+  // 参与碰撞的：除自己外的「非 locked/fixed」组件 + 全部墙壁
+  const others = state.components.filter(c => {
+    if (c.id === movingComp.id) return false;
+    if (c.isWall) return true;          // 墙总是碰撞对象
+    return !c.locked && !c.fixed;       // 其他组件排除 locked/fixed
+  });
+  let finalX = candidateX, finalY = candidateY;
+  let collided = false;
+  // 最多迭代 6 次以处理链式碰撞
+  for (let iter = 0; iter < 6; iter++) {
+    let hit = null;
+    for (const o of others) {
+      const r = { x: finalX, y: finalY, w: movingComp.w, h: movingComp.h };
+      // 墙允许紧贴（不重叠即可），其他组件允许 -0.02m 极小容差
+      if (rectsOverlap(r, o, o.isWall ? 0.02 : -0.02)) { hit = o; break; }
+    }
+    if (!hit) break;
+    collided = true;
+    const overlapL = (finalX + movingComp.w) - hit.x;
+    const overlapR = (hit.x + hit.w) - finalX;
+    const overlapT = (finalY + movingComp.h) - hit.y;
+    const overlapB = (hit.y + hit.h) - finalY;
+    const minOverlap = Math.min(overlapL, overlapR, overlapT, overlapB);
+    if (minOverlap === overlapL)      finalX = hit.x - movingComp.w;
+    else if (minOverlap === overlapR) finalX = hit.x + hit.w;
+    else if (minOverlap === overlapT) finalY = hit.y - movingComp.h;
+    else                              finalY = hit.y + hit.h;
+  }
+  return { x: finalX, y: finalY, collided };
+}
+
+// 异步节流（rAF）：合并高频 dragmove 触发的快照刷新
+function scheduleSnapGuides(movingId) {
+  if (snapRafId) return;  // 已有待处理帧
+  snapRafId = requestAnimationFrame(() => {
+    snapRafId = null;
+    showSnapGuides(movingId);
+  });
+}
+
+function clearSnapGuides() {
+  snapGuideLines.forEach(l => l.destroy());
+  snapGuideLines = [];
+  if (overlayLayer) overlayLayer.batchDraw();
+}
+
+function showSnapGuides(movingId) {
+  if (!SHOW_SNAP) { clearSnapGuides(); return; }
+  const moving = state.components.find(c => c.id === movingId);
+  if (!moving) return;
+  clearSnapGuides();
+  const padding = 60;
+  // Snap to canvas edges + center
+  const canvasX = [0, state.canvasW / 2 - moving.w / 2, state.canvasW - moving.w];
+  const canvasY = [0, state.canvasH / 2 - moving.h / 2, state.canvasH - moving.h];
+  // Also other components' edges/centers
+  const others = state.components.filter(c => c.id !== movingId);
+  const targetsX = [...canvasX];
+  const targetsY = [...canvasY];
+  others.forEach(o => {
+    targetsX.push(o.x, o.x + o.w / 2 - moving.w / 2, o.x + o.w - moving.w);
+    targetsY.push(o.y, o.y + o.h / 2 - moving.h / 2, o.y + o.h - moving.h);
+  });
+  const mx = moving.x, my = moving.y;
+  const threshold = 0.15; // 15cm snap threshold
+  // Find nearest within threshold
+  let bestX = null, bestDx = threshold + 1;
+  let bestY = null, bestDy = threshold + 1;
+  targetsX.forEach(tx => {
+    const d = Math.abs(tx - mx);
+    if (d < bestDx) { bestDx = d; bestX = tx; }
+  });
+  targetsY.forEach(ty => {
+    const d = Math.abs(ty - my);
+    if (d < bestDy) { bestDy = d; bestY = ty; }
+  });
+  if (bestX != null && bestDx <= threshold) {
+    snapGuideLines.push(new Konva.Line({
+      points: [padding + bestX * SCALE, padding, padding + bestX * SCALE, padding + state.canvasH * SCALE],
+      stroke: '#22c55e', strokeWidth: 1, dash: [4, 3], name: 'snap-guide',
+    }));
+    overlayLayer.add(snapGuideLines[snapGuideLines.length - 1]);
+  }
+  if (bestY != null && bestDy <= threshold) {
+    snapGuideLines.push(new Konva.Line({
+      points: [padding, padding + bestY * SCALE, padding + state.canvasW * SCALE, padding + bestY * SCALE],
+      stroke: '#22c55e', strokeWidth: 1, dash: [4, 3], name: 'snap-guide',
+    }));
+    overlayLayer.add(snapGuideLines[snapGuideLines.length - 1]);
+  }
+  if (overlayLayer) overlayLayer.batchDraw();
+}
+
+// ===================================================================
+// AI HIGHLIGHT (flash changed components in green)
+// ===================================================================
+let aiFlashTimers = [];
+function flashAIChanges(prevSnapshot) {
+  const prevIds = new Set((prevSnapshot || []).map(c => c.id));
+  const nowIds  = new Set(state.components.map(c => c.id));
+  const changed = state.components.filter(c => {
+    if (!prevIds.has(c.id)) return true;
+    const p = prevSnapshot.find(x => x.id === c.id);
+    if (!p) return true;
+    return p.x !== c.x || p.y !== c.y || p.w !== c.w || p.h !== c.h;
+  });
+  changed.forEach(c => {
+    const node = compNodes[c.id];
+    if (!node) return;
+    const rect = node.findOne('Rect');
+    if (!rect) return;
+    // Use Konva tween for stroke flash
+    const origStroke = rect.stroke();
+    const origWidth  = rect.strokeWidth();
+    rect.stroke('#22c55e');
+    rect.strokeWidth(3);
+    const t = setTimeout(() => {
+      rect.stroke(origStroke);
+      rect.strokeWidth(origWidth);
+      compLayer.batchDraw();
+    }, 1100);
+    aiFlashTimers.push(t);
+  });
+  compLayer.batchDraw();
+}
+
+// ===================================================================
+// CANVAS PROPERTIES DIALOG
+// ===================================================================
+function openCanvasProps() {
+  $('cpWidth').value = state.canvasW.toFixed(1);
+  $('cpHeight').value = state.canvasH.toFixed(1);
+  $('cpScale').value = SCALE;
+  $('cpGrid').value = GRID_M;
+  $('cpShowGrid').checked = SHOW_GRID;
+  $('cpShowLabels').checked = SHOW_LABELS;
+  $('cpShowSnap').checked = SHOW_SNAP;
+  $('canvasPropsDialog').classList.add('show');
+}
+
+function applyCanvasProps() {
+  const w = parseFloat($('cpWidth').value);
+  const h = parseFloat($('cpHeight').value);
+  if (isNaN(w) || isNaN(h) || w < 1 || h < 1 || w > 30 || h > 30) {
+    toast('⚠️ 画布尺寸必须在 1-30m 之间');
+    return;
+  }
+  const newScale = parseInt($('cpScale').value, 10);
+  const newGrid  = parseFloat($('cpGrid').value);
+  state.canvasW = w;
+  state.canvasH = h;
+  SCALE = newScale;
+  GRID_M = newGrid;
+  SHOW_GRID = $('cpShowGrid').checked;
+  SHOW_LABELS = $('cpShowLabels').checked;
+  SHOW_SNAP = $('cpShowSnap').checked;
+  // Re-init konva stage at new scale
+  rebuildStage();
+  // Clamp components
+  state.components.forEach(c => {
+    c.x = Math.min(c.x, Math.max(0, state.canvasW - c.w));
+    c.y = Math.min(c.y, Math.max(0, state.canvasH - c.h));
+    c.x = Math.round(c.x / SNAP_M) * SNAP_M;
+    c.y = Math.round(c.y / SNAP_M) * SNAP_M;
+  });
+  rebuildGrid();
+  rebuildAllNodes();
+  updateCanvasInfo();
+  updateStatusBar();
+  pushHistory();
+  highlightSaveBtn();
+  $('canvasPropsDialog').classList.remove('show');
+  toast(`✅ 画布已更新：${w}×${h}m, 比例 ${SCALE}px/m, 网格 ${GRID_M}m`);
+  setOpLog(`画布属性已更新: <span class="key">${w}×${h}m, ${SCALE}px/m, 网格 ${GRID_M}m</span>`);
+}
+
+function rebuildStage() {
+  if (!stage) return;
+  const w = state.canvasW * SCALE;
+  const h = state.canvasH * SCALE;
+  const padding = 60;
+  stage.width(w + padding * 2);
+  stage.height(h + padding * 2);
+  stage.batchDraw();
+  applyFitScale();
+}
+
+function resetCanvas() {
+  if (!confirm('确定要重置画布吗？\n将清空所有自定义组件，恢复到默认初始布局（保留 2 个门和中间柜台）。')) return;
+  state.canvasW = DEFAULT_CANVAS_W;
+  state.canvasH = DEFAULT_CANVAS_H;
+  state.components = JSON.parse(JSON.stringify(INITIAL_COMPONENTS));
+  rebuildStage();
+  rebuildGrid();
+  rebuildAllNodes();
+  updateCompCount();
+  updateCanvasInfo();
+  updateStatusBar();
+  pushHistory();
+  highlightSaveBtn();
+  $('canvasPropsDialog').classList.remove('show');
+  toast('🔄 画布已重置为默认布局');
+  setOpLog('画布已重置为默认布局');
+}
+
+function reloadDefaultLayout() {
+  if (!confirm('确定要重新载入默认布局吗？\n当前画布上的所有组件将被替换为默认初始布局。')) return;
+  state.canvasW = DEFAULT_CANVAS_W;
+  state.canvasH = DEFAULT_CANVAS_H;
+  state.components = JSON.parse(JSON.stringify(INITIAL_COMPONENTS));
+  rebuildStage();
+  rebuildGrid();
+  rebuildAllNodes();
+  updateCompCount();
+  updateCanvasInfo();
+  updateStatusBar();
+  pushHistory();
+  highlightSaveBtn();
+  toast('🔄 已重新载入默认布局');
+  setOpLog('已重新载入默认布局');
+}
+
+function clearAllWithConfirm() {
+  if (!confirm('确定要清空所有可移动组件吗？\n固定/锁定的门、柜台将保留。')) return;
+  clearAllComponents();
+  updateStatusBar();
+  toast('🧹 已清空所有可移动组件');
+  setOpLog('已清空所有可移动组件');
+}
+
+function autoFitCanvas() {
+  applyFitScale();
+  toast('↔️ 已自动适应窗口');
+  setOpLog('画布已自动适应窗口');
+}
+
+// ===================================================================
+// SAVE / LOAD / EXPORT
+// ===================================================================
+function saveToLocal() {
+  const data = {
+    version: '1.0',
+    project: '宅咪·临港LIN舍宠物店',
+    canvasW: state.canvasW,
+    canvasH: state.canvasH,
+    scale: SCALE,
+    grid: GRID_M,
+    showGrid: SHOW_GRID,
+    showLabels: SHOW_LABELS,
+    showSnap: SHOW_SNAP,
+    components: state.components,
+    exportedAt: new Date().toISOString(),
+  };
+  localStorage.setItem('lingshe_layout', JSON.stringify(data));
+  const btn = $('btnSave');
+  const orig = btn.innerHTML;
+  btn.innerHTML = '✅ 已保存';
+  setTimeout(() => { btn.innerHTML = orig; }, 1500);
+  toast('💾 已保存到浏览器本地存储');
+  setOpLog('已保存布局到本地存储');
+}
+
+function loadFromLocal() {
+  const raw = localStorage.getItem('lingshe_layout');
+  if (!raw) return false;
+  try {
+    const data = JSON.parse(raw);
+    if (data.canvasW) state.canvasW = data.canvasW;
+    if (data.canvasH) state.canvasH = data.canvasH;
+    if (data.scale) SCALE = data.scale;
+    if (data.grid)  GRID_M = data.grid;
+    if (data.showGrid  != null) SHOW_GRID  = data.showGrid;
+    if (data.showLabels!= null) SHOW_LABELS= data.showLabels;
+    if (data.showSnap  != null) SHOW_SNAP  = data.showSnap;
+    if (data.components) {
+      state.components = data.components;
+      rebuildStage();
+      rebuildGrid();
+      rebuildAllNodes();
+      updateCompCount();
+      updateCanvasInfo();
+      updateStatusBar();
+      pushHistory();
+      return true;
+    }
+  } catch(e) { console.warn('Failed to load from localStorage', e); }
+  return false;
+}
+
+function exportJSON() {
+  const data = {
+    version: '1.0',
+    project: '宅咪·临港LIN舍宠物店',
+    canvasW: state.canvasW,
+    canvasH: state.canvasH,
+    components: state.components,
+    exportedAt: new Date().toISOString(),
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  downloadBlob(blob, 'lingshe-layout.json');
+}
+
+function importJSON(file) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!data.components || !Array.isArray(data.components)) {
+        alert('无效的布局文件：缺少 components 数组');
+        return;
+      }
+      state.components = data.components;
+      if (data.canvasW) state.canvasW = data.canvasW;
+      if (data.canvasH) state.canvasH = data.canvasH;
+      // Rebuild grid
+      rebuildGrid();
+      rebuildAllNodes();
+      updateCompCount();
+      updateCanvasInfo();
+      updateStatusBar();
+      pushHistory();
+      $('btnImport').innerHTML = '✅ 已导入';
+      setTimeout(() => { $('btnImport').innerHTML = '📂 导入'; }, 1500);
+      toast('📂 已导入布局');
+    } catch(err) {
+      alert('导入失败: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+}
+
+function rebuildGrid() {
+  gridLayer.destroyChildren();
+  drawGrid();
+  gridLayer.batchDraw();
+}
+
+function exportSVG() {
+  const w = state.canvasW * SCALE;
+  const h = state.canvasH * SCALE;
+  const pad = 60;
+  // outer canvas with brand frame
+  const outerW = w + pad * 2;
+  const outerH = h + pad * 2 + 40; // extra 40 for corner mark
+
+  let svg = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+  svg += `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${outerW} ${outerH}" font-family="-apple-system,'PingFang SC','Microsoft YaHei','Segoe UI',sans-serif">\n`;
+  svg += `<defs>\n`;
+  svg += `<linearGradient id="brandFrame" x1="0" y1="0" x2="0" y2="1">\n`;
+  svg += `<stop offset="0" stop-color="#5C3D2E"/><stop offset="1" stop-color="#7A5540"/>\n`;
+  svg += `</linearGradient>\n`;
+  svg += `<pattern id="grid" patternUnits="userSpaceOnUse" width="${GRID_M*SCALE}" height="${GRID_M*SCALE}">\n`;
+  svg += `<path d="M ${GRID_M*SCALE} 0 L 0 0 0 ${GRID_M*SCALE}" fill="none" stroke="#E5D5B5" stroke-width="0.5"/>\n`;
+  svg += `</pattern>\n`;
+  svg += `<pattern id="gridFine" patternUnits="userSpaceOnUse" width="${GRID_M*SCALE/2}" height="${GRID_M*SCALE/2}">\n`;
+  svg += `<path d="M ${GRID_M*SCALE/2} 0 L 0 0 0 ${GRID_M*SCALE/2}" fill="none" stroke="#F0E4CC" stroke-width="0.3"/>\n`;
+  svg += `</pattern>\n`;
+  svg += `</defs>\n`;
+
+  // Brand frame border (top strip)
+  svg += `<rect x="0" y="0" width="${outerW}" height="6" fill="url(#brandFrame)"/>\n`;
+  svg += `<rect x="0" y="${outerH-6}" width="${outerW}" height="6" fill="url(#brandFrame)"/>\n`;
+
+  // Background
+  svg += `<rect x="${pad}" y="${pad}" width="${w}" height="${h}" fill="#FFFDF8" stroke="#5C3D2E" stroke-width="2"/>\n`;
+  // Fine grid (always on for exports, since grid is part of "宅咪 brand" plan)
+  svg += `<rect x="${pad}" y="${pad}" width="${w}" height="${h}" fill="url(#gridFine)" opacity="0.6"/>\n`;
+  svg += `<rect x="${pad}" y="${pad}" width="${w}" height="${h}" fill="url(#grid)" opacity="0.7"/>\n`;
+
+  // Title block (centered above canvas)
+  svg += `<text x="${pad + w/2}" y="${pad - 30}" text-anchor="middle" fill="#5C3D2E" font-size="17" font-weight="700">宅咪·临港 LIN 舍 · 门店布局图</text>\n`;
+  svg += `<text x="${pad + w/2}" y="${pad - 14}" text-anchor="middle" fill="#9a8a7a" font-size="10">单层临街底商 · 52㎡ 社区宠物综合店 · 比例 1:100 · 单位：米（m）</text>\n`;
+
+  // Grid dimension labels
+  for (let gx = pad; gx <= pad + w; gx += GRID_M * SCALE) {
+    const meter = ((gx - pad) / SCALE).toFixed(1);
+    svg += `<text x="${gx}" y="${pad - 4}" text-anchor="middle" fill="#9a8a7a" font-size="8">${meter}</text>\n`;
+  }
+  for (let gy = pad; gy <= pad + h; gy += GRID_M * SCALE) {
+    const meter = ((gy - pad) / SCALE).toFixed(1);
+    svg += `<text x="${pad - 6}" y="${gy + 3}" text-anchor="end" fill="#9a8a7a" font-size="8">${meter}</text>\n`;
+  }
+
+  // Components
+  state.components.forEach(comp => {
+    const x = comp.x * SCALE + pad;
+    const y = comp.y * SCALE + pad;
+    const cw = comp.w * SCALE;
+    const ch = comp.h * SCALE;
+    const locked = comp.locked || comp.fixed;
+    svg += `<g>\n`;
+    // Special render for doors: thicker entry symbol
+    if (comp.id === 'door_main' || comp.id === 'door_back') {
+      const isMain = comp.id === 'door_main';
+      svg += `<rect x="${x}" y="${y}" width="${cw}" height="${ch}" fill="${isMain ? '#F4B860' : '#E89A3C'}" stroke="#5C3D2E" stroke-width="1.5" rx="2"/>\n`;
+      // Arrow showing entry direction
+      svg += `<line x1="${x + cw/2}" y1="${y + ch/2}" x2="${isMain ? x + cw/2 : x + cw/2}" y2="${isMain ? y - 8 : y + ch + 8}" stroke="#5C3D2E" stroke-width="1.5" marker-end="url(#exportArrow)"/>\n`;
+    } else {
+      svg += `<rect x="${x}" y="${y}" width="${cw}" height="${ch}" fill="${comp.color}" stroke="${locked ? '#E89A3C' : '#5C3D2E'}" stroke-width="${locked ? 2 : 1.5}" rx="3" opacity="${locked ? 0.85 : 1}"/>\n`;
+      if (locked) {
+        svg += `<rect x="${x}" y="${y}" width="${cw}" height="${ch}" fill="none" stroke="#E89A3C" stroke-width="1" stroke-dasharray="4,3" rx="3"/>\n`;
+      }
+    }
+    const label = (comp.icon || '') + ' ' + (comp.name || '');
+    const fs = Math.min(cw / Math.max(label.length * 0.5, 5), 13);
+    svg += `<text x="${x + cw/2}" y="${y + ch/2}" text-anchor="middle" dominant-baseline="central" fill="#3D2B1F" font-size="${Math.max(fs, 8)}">${escapeXml(label)}</text>\n`;
+    // Add dimension annotation in meters for non-door components
+    if (comp.w * SCALE > 40 && comp.h * SCALE > 30) {
+      svg += `<text x="${x + cw/2}" y="${y + ch/2 + Math.max(fs, 8) + 8}" text-anchor="middle" fill="#5C3D2E" font-size="7" font-weight="600">${comp.w.toFixed(1)}×${comp.h.toFixed(1)}m</text>\n`;
+    }
+    svg += `</g>\n`;
+  });
+
+  // Add arrow marker def (since first use, place after defs)
+  svg = svg.replace('</defs>', `<marker id="exportArrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5C3D2E"/></marker>\n</defs>`);
+
+  // Compass / North arrow (top-right corner of canvas, inside)
+  const cx = pad + w - 50;
+  const cy = pad + 50;
+  svg += `<g>\n`;
+  svg += `<circle cx="${cx}" cy="${cy}" r="22" fill="#FFFAF0" stroke="#5C3D2E" stroke-width="1.2"/>\n`;
+  svg += `<polygon points="${cx},${cy-20} ${cx-6},${cy+8} ${cx},${cy+4} ${cx+6},${cy+8}" fill="#E89A3C" stroke="#5C3D2E" stroke-width="1"/>\n`;
+  svg += `<text x="${cx}" y="${cy-23}" text-anchor="middle" font-size="10" font-weight="700" fill="#5C3D2E">N</text>\n`;
+  svg += `<text x="${cx}" y="${cy+30}" text-anchor="middle" font-size="8" fill="#5C3D2E">北</text>\n`;
+  svg += `</g>\n`;
+
+  // Scale bar (bottom-left inside canvas)
+  const sbX = pad + 10;
+  const sbY = pad + h - 18;
+  const sbLen = 100; // 1m
+  svg += `<rect x="${sbX - 4}" y="${sbY - 10}" width="${sbLen + 8}" height="22" fill="#FFFAF0" stroke="#5C3D2E" stroke-width="0.8" rx="2"/>\n`;
+  svg += `<line x1="${sbX}" y1="${sbY}" x2="${sbX + sbLen}" y2="${sbY}" stroke="#5C3D2E" stroke-width="2"/>\n`;
+  // Alternating black/white bar segments (100px = 1m; 4 segments of 25px = 0.25m each)
+  for (let i = 0; i < 4; i++) {
+    if (i % 2 === 0) {
+      svg += `<rect x="${sbX + i*25}" y="${sbY - 4}" width="25" height="4" fill="#5C3D2E"/>\n`;
+    }
+  }
+  svg += `<line x1="${sbX}" y1="${sbY-4}" x2="${sbX}" y2="${sbY+4}" stroke="#5C3D2E" stroke-width="2"/>\n`;
+  svg += `<line x1="${sbX+sbLen}" y1="${sbY-4}" x2="${sbX+sbLen}" y2="${sbY+4}" stroke="#5C3D2E" stroke-width="2"/>\n`;
+  svg += `<line x1="${sbX+sbLen/2}" y1="${sbY-3}" x2="${sbX+sbLen/2}" y2="${sbY+3}" stroke="#5C3D2E" stroke-width="1"/>\n`;
+  svg += `<text x="${sbX + sbLen/2}" y="${sbY - 8}" text-anchor="middle" fill="#5C3D2E" font-size="9" font-weight="600">1m</text>\n`;
+  svg += `<text x="${sbX + sbLen/2}" y="${sbY + 16}" text-anchor="middle" fill="#9a8a7a" font-size="7">比例 1:100</text>\n`;
+
+  // Direction annotations
+  svg += `<text x="${pad + w/2}" y="${pad + h + 18}" text-anchor="middle" fill="#9a8a7a" font-size="10">🧭 北 ↑ 小区侧（后门）· 临港 LIN 舍小区</text>\n`;
+  svg += `<text x="${pad + w/2}" y="${pad - 46}" text-anchor="middle" fill="#9a8a7a" font-size="10">🧭 南 ↓ 临街侧（主门）· 五岭路 / 临港大道</text>\n`;
+
+  // Total size (right-bottom)
+  svg += `<text x="${pad + w - 8}" y="${pad + h + 18}" text-anchor="end" fill="#5C3D2E" font-size="10" font-weight="600">${state.canvasW.toFixed(1)}m × ${state.canvasH.toFixed(1)}m  (${(state.canvasW * state.canvasH).toFixed(1)}㎡)</text>\n`;
+
+  // Legend (top-right outside canvas)
+  const lx = pad + w - 170;
+  const ly = pad + 8;
+  svg += `<rect x="${lx}" y="${ly}" width="160" height="92" fill="#FFFAF0" stroke="#5C3D2E" stroke-width="1" rx="4"/>\n`;
+  svg += `<text x="${lx + 8}" y="${ly + 16}" fill="#5C3D2E" font-size="11" font-weight="700">图例 / Legend</text>\n`;
+  svg += `<rect x="${lx + 8}" y="${ly + 24}" width="14" height="10" fill="#E89A3C" stroke="#5C3D2E" stroke-width="1"/>\n`;
+  svg += `<text x="${lx + 28}" y="${ly + 33}" fill="#3D2B1F" font-size="9">固定结构（门/柜台）</text>\n`;
+  svg += `<rect x="${lx + 8}" y="${ly + 40}" width="14" height="10" fill="#F4B860" stroke="#5C3D2E" stroke-width="1"/>\n`;
+  svg += `<text x="${lx + 28}" y="${ly + 49}" fill="#3D2B1F" font-size="9">可移动组件</text>\n`;
+  svg += `<rect x="${lx + 8}" y="${ly + 56}" width="14" height="10" fill="#A8C99A" stroke="#5C3D2E" stroke-width="1"/>\n`;
+  svg += `<text x="${lx + 28}" y="${ly + 65}" fill="#3D2B1F" font-size="9">洗护区</text>\n`;
+  svg += `<rect x="${lx + 8}" y="${ly + 72}" width="14" height="10" fill="#5C3D2E" stroke="#5C3D2E" stroke-width="1"/>\n`;
+  svg += `<text x="${lx + 28}" y="${ly + 81}" fill="#3D2B1F" font-size="9">监控/储物/卫浴</text>\n`;
+
+  // Corner mark (宅咪 ZHAIMI) — bottom-right outside
+  svg += `<g transform="translate(${outerW - 130}, ${outerH - 30})">\n`;
+  svg += `<rect x="0" y="0" width="120" height="22" fill="url(#brandFrame)" rx="3"/>\n`;
+  svg += `<text x="60" y="15" text-anchor="middle" fill="#F4B860" font-size="11" font-weight="700" letter-spacing="1.5">宅咪 ZHAIMI</text>\n`;
+  svg += `</g>\n`;
+
+  // Bottom-right: project info
+  svg += `<text x="8" y="${outerH - 12}" fill="#5C3D2E" font-size="9">项目：宅咪·临港 LIN 舍 宠物综合店 · ${state.canvasW.toFixed(1)}m × ${state.canvasH.toFixed(1)}m · ${(state.canvasW*state.canvasH).toFixed(1)}㎡ · 比例 1:100</text>\n`;
+  svg += `<text x="8" y="${outerH - 2}" fill="#9a8a7a" font-size="8">导出时间：${new Date().toLocaleString('zh-CN')} · 临港 LIN 舍 社区宠物店 BP · A-101</text>\n`;
+
+  svg += `</svg>`;
+
+  downloadBlob(new Blob([svg], { type: 'image/svg+xml;charset=utf-8' }), '门店布局-宅咪临港LIN舍-v1.0.svg');
+  toast('📤 已导出 SVG（宅咪品牌增强版）');
+  setOpLog('已导出 SVG (宅咪品牌版)');
+}
+
+function escapeXml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function exportPNG() {
+  // Temporarily remove transformer
+  const sel = selectedId;
+  deselectAll();
+
+  // Wait one frame for re-render
+  setTimeout(() => {
+    // 2x pixel density as required
+    const dataURL = stage.toDataURL({ pixelRatio: 2, mimeType: 'image/png' });
+    // Restore selection
+    if (sel && compNodes[sel]) {
+      selectComponent(sel);
+    }
+    // Download
+    const link = document.createElement('a');
+    link.download = '门店布局-宅咪临港LIN舍-v1.0.png';
+    link.href = dataURL;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    toast('🖼️ 已导出 PNG（2x 高清）');
+    setOpLog('已导出 PNG (2x 高清)');
+  }, 100);
+}
+
+function downloadBlob(blob, filename) {
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(link.href);
+}
+
+// ===================================================================
+// AI ASSISTANT
+// ===================================================================
+async function callAI() {
+  const input = $('aiInput').value.trim();
+  const autoMode = arguments[0] === 'auto' || !input;
+  if (!input && !autoMode) { alert('请输入布局描述'); return; }
+  const userPrompt = input || '请基于当前布局自动优化：让动线更合理、分区更清晰、洗护区与寄养区相对独立、收银区靠近主门。';
+
+  const apiKey = localStorage.getItem('deepseek_key');
+  if (!apiKey) {
+    alert('请先点击 ⚙️ AI 设置 输入你的 DeepSeek API Key');
+    return;
+  }
+
+  // Build current layout summary
+  const comps = state.components.map(c => ({
+    id: c.id, name: c.name, x: c.x, y: c.y, w: c.w, h: c.h,
+    icon: c.icon, locked: c.locked, fixed: c.fixed, color: c.color,
+  }));
+
+  // 强约束 prompt：2 个门（南主门/北后门）+ 3:1 分割的中央柜台
+  const prompt = `你是宠物店布局设计专家，专长于"宅咪·临港 LIN 舍"社区宠物综合店。
+
+【店铺硬约束 · 必须遵守】
+1) 画布尺寸：${state.canvasW}m（宽）× ${state.canvasH}m（深）。坐标系：x 向右为正（南→西到东），y 向下为正（北→南到临街）。注意：y=0 是南侧临街，y=${state.canvasH} 是北侧小区。
+2) 固定结构（绝不能移动，必须保持原 id）：
+   - door_main：主门（临街侧 y≈0 边）
+   - door_back：后门（北侧 y≈${state.canvasH} 边）
+   - counter：横向中央柜台（约宽 1.5m × 深 0.6m，位置按 3:1 分割南北区域，即 y ≈ ${(state.canvasH * 0.6).toFixed(2)} 附近）
+3) 朝向：南侧临街（主门），北侧小区（后门）。
+4) 分区建议：前台接待/收银/等候在主门与柜台之间（南侧）；洗护/美容/寄养/储物在柜台后（北侧）。
+
+【当前已有组件（JSON 格式）】
+${JSON.stringify(comps, null, 2)}
+
+【用户需求】
+${userPrompt}
+
+【输出要求 · 严格 JSON，无任何多余文字】
+{
+  "components": [
+    { "id": "组件id", "name": "组件名", "x": 数字(米), "y": 数字(米), "w": 数字(米), "h": 数字(米), "color": "颜色值", "icon": "emoji", "locked": false, "fixed": false }
+  ],
+  "explanation": "中文简要说明（≤120字）"
+}
+
+【输出规则】
+- 保留 door_main、door_back、counter 的 id 与 locked/fixed 标志，颜色保持原值。
+- 不要删除现有组件，除非用户明确要求；可以新增。
+- 所有坐标必须满足：0 ≤ x 且 x+w ≤ ${state.canvasW}；0 ≤ y 且 y+h ≤ ${state.canvasH}。
+- 不要输出 markdown 代码块标记，不要解释过程。`;
+
+  const aiLoading = $('aiLoading');
+  const aiResult = $('aiResult');
+  aiLoading.classList.add('show');
+  aiResult.classList.remove('show');
+  $('btnAI').disabled = true;
+  $('btnAIAuto').disabled = true;
+
+  // Snapshot for green flash
+  const prevSnapshot = JSON.parse(JSON.stringify(state.components));
+
+  try {
+    const response = await fetch('https://api.deepseek.com/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + apiKey,
+      },
+      body: JSON.stringify({
+        model: 'deepseek-chat',
+        messages: [
+          { role: 'system', content: '你是宠物店布局设计专家，输出严格 JSON，不含任何解释。' },
+          { role: 'user', content: prompt },
+        ],
+        temperature: 0.3,
+        max_tokens: 4000,
+      }),
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      throw new Error(`API 请求失败 (${response.status}): ${errText}`);
+    }
+
+    const data = await response.json();
+    const content = data.choices[0].message.content;
+
+    // Parse JSON from response - strip any markdown code fences
+    let jsonStr = content.replace(/```json\s*/g, '').replace(/```\s*/g, '').trim();
+    // Find first { and last }
+    const start = jsonStr.indexOf('{');
+    const end = jsonStr.lastIndexOf('}');
+    if (start === -1 || end === -1) throw new Error('AI 返回格式错误，未找到 JSON');
+    jsonStr = jsonStr.substring(start, end + 1);
+
+    const result = JSON.parse(jsonStr);
+
+    if (result.components && Array.isArray(result.components)) {
+      // Apply the layout
+      // Preserve locked/fixed components' flags
+      result.components.forEach(nc => {
+        const existing = state.components.find(oc => oc.id === nc.id);
+        if (existing) {
+          if (existing.locked) nc.locked = true;
+          if (existing.fixed) nc.fixed = true;
+          if (existing.locked || existing.fixed) {
+            // Keep their color
+            nc.color = existing.color;
+          }
+        }
+        // Ensure all fields
+        if (!nc.icon) nc.icon = '📦';
+        if (!nc.color) nc.color = '#F5E6CB';
+        // Clamp values
+        if (nc.x < 0) nc.x = 0;
+        if (nc.y < 0) nc.y = 0;
+        if (nc.x + nc.w > state.canvasW) nc.w = Math.max(0.2, state.canvasW - nc.x);
+        if (nc.y + nc.h > state.canvasH) nc.h = Math.max(0.2, state.canvasH - nc.y);
+      });
+
+      // Preserve locks
+      state.components.forEach(oc => {
+        if (oc.locked || oc.fixed) {
+          const match = result.components.find(nc => nc.id === oc.id);
+          if (match) {
+            match.locked = oc.locked;
+            match.fixed = oc.fixed;
+          }
+        }
+      });
+
+      state.components = result.components;
+      rebuildAllNodes();
+      rebuildGrid();
+      updateCompCount();
+      updateCanvasInfo();
+      updateStatusBar();
+      pushHistory();
+
+      // Green flash on changed components
+      flashAIChanges(prevSnapshot);
+
+      // Show explanation
+      if (result.explanation) {
+        aiResult.innerHTML = '💡 ' + result.explanation;
+        aiResult.classList.add('show');
+      } else {
+        aiResult.innerHTML = '✅ 布局已更新';
+        aiResult.classList.add('show');
+      }
+      toast('🤖 AI 已优化布局（绿色高亮 1.1s）');
+      setOpLog('🤖 AI 已完成布局优化');
+    } else {
+      throw new Error('AI 返回缺少 components 数组');
+    }
+  } catch(err) {
+    aiResult.innerHTML = '❌ ' + err.message;
+    aiResult.classList.add('show');
+    toast('❌ AI 失败: ' + err.message);
+  } finally {
+    aiLoading.classList.remove('show');
+    $('btnAI').disabled = false;
+    $('btnAIAuto').disabled = false;
+  }
+}
+
+// ===================================================================
+// SIDEBAR COMPONENT LIBRARY
+// ===================================================================
+function buildSidebar() {
+  // Group by category
+  const groups = [
+    { label: '🏗️ 固定结构', items: COMPONENT_DEFS.filter(c => c.locked || c.fixed) },
+    { label: '🪑 家具设备', items: COMPONENT_DEFS.filter(c => !c.locked && !c.fixed && c.id !== 'custom') },
+    { label: '➕ 自定义', items: COMPONENT_DEFS.filter(c => c.id === 'custom') },
+  ];
+
+  groups.forEach(group => {
+    if (group.items.length === 0) return;
+    const div = document.createElement('div');
+    div.style.cssText = 'font-size:11px;color:#9a8a7a;padding:6px 8px 2px;font-weight:600;border-top:1px solid var(--border);margin-top:2px';
+    div.textContent = group.label;
+    compList.appendChild(div);
+
+    group.items.forEach(def => {
+      const item = document.createElement('div');
+      item.className = 'comp-item' + (def.locked ? ' locked' : '');
+      item.draggable = !def.locked;
+      item.innerHTML = `<span class="comp-icon">${def.icon}</span><span class="comp-name">${def.name}</span>`;
+      if (def.locked) {
+        const badge = document.createElement('span');
+        badge.className = 'comp-badge';
+        badge.textContent = '固定';
+        item.appendChild(badge);
+      }
+      item.addEventListener('dragstart', e => {
+        if (def.locked) { e.preventDefault(); return; }
+        e.dataTransfer.setData('text/plain', JSON.stringify(def));
+        e.dataTransfer.effectAllowed = 'copy';
+      });
+      item.addEventListener('click', () => {
+        if (def.locked) return;
+        // Add to canvas at center
+        const canvasW = state.canvasW;
+        const canvasH = state.canvasH;
+        let x = Math.round((canvasW - def.w) / 2 / SNAP_M) * SNAP_M;
+        let y = Math.round((canvasH - def.h) / 2 / SNAP_M) * SNAP_M;
+        // Find a free spot
+        y = Math.max(0, y - 1);
+        const comp = {
+          id: makeId(def.id),
+          name: def.name,
+          x, y,
+          w: def.w, h: def.h,
+          color: def.color,
+          icon: def.icon,
+          fixed: false, locked: false,
+        };
+        state.components.push(comp);
+        addComponentNode(comp, true);
+        selectComponent(comp.id);
+        updateCompCount();
+        pushHistory();
+        highlightSaveBtn();
+      });
+      compList.appendChild(item);
+    });
+  });
+}
+
+// ===================================================================
+// FILE IMPORT HANDLER
+// ===================================================================
+$('fileInput').addEventListener('change', e => {
+  if (e.target.files.length > 0) {
+    importJSON(e.target.files[0]);
+  }
+  e.target.value = '';
+});
+
+// ===================================================================
+// DOM EVENT BINDINGS
+// ===================================================================
+// Toolbar
+$('btnSave').addEventListener('click', saveToLocal);
+$('btnImport').addEventListener('click', () => $('fileInput').click());
+$('btnExportSVG').addEventListener('click', exportSVG);
+$('btnExportPNG').addEventListener('click', exportPNG);
+$('btnUndo').addEventListener('click', undo);
+$('btnRedo').addEventListener('click', redo);
+
+// Properties
+function applyPropChange() {
+  if (!selectedId) return;
+  const comp = state.components.find(c => c.id === selectedId);
+  if (!comp || comp.locked || comp.fixed) return;
+  const nx = parseFloat(propX.value);
+  const ny = parseFloat(propY.value);
+  const nw = parseFloat(propW.value);
+  const nh = parseFloat(propH.value);
+  const nc = propColor.value;
+  if (isNaN(nx) || isNaN(ny) || isNaN(nw) || isNaN(nh)) return;
+  comp.x = Math.round(Math.max(0, Math.min(nx, state.canvasW - nw)) / SNAP_M) * SNAP_M;
+  comp.y = Math.round(Math.max(0, Math.min(ny, state.canvasH - nh)) / SNAP_M) * SNAP_M;
+  comp.w = Math.max(0.2, nw);
+  comp.h = Math.max(0.2, nh);
+  comp.color = nc;
+  // Update node
+  const node = compNodes[selectedId];
+  if (node) {
+    const padding = 60;
+    node.x(comp.x * SCALE + padding);
+    node.y(comp.y * SCALE + padding);
+    node._compData = comp;
+    updateCompLabel(node);
+  }
+  updateProps();
+  // Push history on blur
+}
+
+propX.addEventListener('change', applyPropChange);
+propY.addEventListener('change', applyPropChange);
+propW.addEventListener('change', applyPropChange);
+propH.addEventListener('change', applyPropChange);
+propColor.addEventListener('input', applyPropChange);
+propX.addEventListener('blur', () => { pushHistory(); highlightSaveBtn(); updateStatusBar(); });
+propY.addEventListener('blur', () => { pushHistory(); highlightSaveBtn(); updateStatusBar(); });
+propW.addEventListener('blur', () => { pushHistory(); highlightSaveBtn(); updateStatusBar(); });
+propH.addEventListener('blur', () => { pushHistory(); highlightSaveBtn(); updateStatusBar(); });
+
+// Canvas resize
+$('btnResizeCanvas').addEventListener('click', () => {
+  const nw = parseFloat(canvasW.value);
+  const nh = parseFloat(canvasH.value);
+  if (isNaN(nw) || isNaN(nh) || nw < 1 || nh < 1) return;
+  state.canvasW = nw;
+  state.canvasH = nh;
+  rebuildGrid();
+  // Clamp components
+  state.components.forEach(c => {
+    c.x = Math.min(c.x, state.canvasW - c.w);
+    c.y = Math.min(c.y, state.canvasH - c.h);
+  });
+  rebuildAllNodes();
+  updateCanvasInfo();
+  updateStatusBar();
+  pushHistory();
+  toast(`📐 画布已调整为 ${nw}m × ${nh}m`);
+  setOpLog(`画布已调整: <span class="key">${nw}×${nh}m</span>`);
+});
+
+// Panel tabs
+document.querySelectorAll('.panel-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.panel-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const panel = tab.dataset.tab;
+    $('panelProperties').style.display = panel === 'properties' ? 'block' : 'none';
+    $('panelAI').style.display = panel === 'ai' ? 'block' : 'none';
+  });
+});
+
+// AI
+$('btnAI').addEventListener('click', () => callAI());
+$('btnAIAuto').addEventListener('click', () => callAI('auto'));
+$('aiInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && e.ctrlKey) {
+    e.preventDefault();
+    callAI();
+  }
+});
+
+// Canvas properties dialog
+$('btnCanvasProps').addEventListener('click', openCanvasProps);
+$('cpClose').addEventListener('click', () => $('canvasPropsDialog').classList.remove('show'));
+$('cpApply').addEventListener('click', applyCanvasProps);
+$('cpReset').addEventListener('click', resetCanvas);
+$('canvasPropsDialog').addEventListener('click', e => {
+  if (e.target === $('canvasPropsDialog')) $('canvasPropsDialog').classList.remove('show');
+});
+// Presets
+$('cpPresetSmall').addEventListener('click', () => {
+  $('cpWidth').value = 7; $('cpHeight').value = 7;
+});
+$('cpPresetMed').addEventListener('click', () => {
+  $('cpWidth').value = 8; $('cpHeight').value = 7.5;
+});
+$('cpPresetLarge').addEventListener('click', () => {
+  $('cpWidth').value = 9; $('cpHeight').value = 8;
+});
+
+// Toolbar new buttons
+$('btnAutoFit').addEventListener('click', autoFitCanvas);
+$('btnReloadDefault').addEventListener('click', reloadDefaultLayout);
+$('btnClearAll').addEventListener('click', clearAllWithConfirm);
+
+// Alignment toolbar
+document.querySelectorAll('.align-btn').forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    const mode = btn.dataset.align;
+    alignComponent(mode);
+  });
+});
+
+// API Key Dialog
+$('apiKeyBtn').addEventListener('click', () => {
+  $('apiKeyInput').value = localStorage.getItem('deepseek_key') || '';
+  $('apiDialog').classList.add('show');
+});
+$('btnCloseDialog').addEventListener('click', () => $('apiDialog').classList.remove('show'));
+$('apiDialog').addEventListener('click', e => {
+  if (e.target === $('apiDialog')) $('apiDialog').classList.remove('show');
+});
+$('btnSaveKey').addEventListener('click', () => {
+  const key = $('apiKeyInput').value.trim();
+  if (key) {
+    localStorage.setItem('deepseek_key', key);
+    $('apiKeyBadge').classList.add('active');
+  } else {
+    localStorage.removeItem('deepseek_key');
+    $('apiKeyBadge').classList.remove('active');
+  }
+  $('apiDialog').classList.remove('show');
+});
+
+// Window resize handler
+window.addEventListener('resize', () => {
+  applyFitScale();
+});
+
+// ===================================================================
+// INIT
+// ===================================================================
+function openFullscreen() {
+  const el = document.documentElement;
+  if (el.requestFullscreen) {
+    el.requestFullscreen().then(() => {
+      document.body.classList.add('fs-active');
+      setTimeout(() => {
+        if (typeof state !== 'undefined' && state.stage) {
+          try { state.stage.container().style.width = '100vw'; state.stage.container().style.height = '100vh'; state.stage.batchDraw(); } catch(e){}
+        }
+        window.dispatchEvent(new Event('resize'));
+      }, 300);
+    }).catch(() => {});
+  } else if (el.webkitRequestFullscreen) {
+    el.webkitRequestFullscreen();
+    document.body.classList.add('fs-active');
+  } else if (el.msRequestFullscreen) {
+    el.msRequestFullscreen();
+    document.body.classList.add('fs-active');
+  }
+}
+
+function closeFullscreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.webkitExitFullscreen) {
+    document.webkitExitFullscreen();
+  } else if (document.msExitFullscreen) {
+    document.msExitFullscreen();
+  }
+  document.body.classList.remove('fs-active');
+}
+
+document.addEventListener('fullscreenchange', () => {
+  if (!document.fullscreenElement) {
+    document.body.classList.remove('fs-active');
+  } else {
+    document.body.classList.add('fs-active');
+  }
+  setTimeout(() => {
+    if (typeof state !== 'undefined' && state.stage) {
+      try { state.stage.batchDraw(); } catch(e){}
+    }
+    window.dispatchEvent(new Event('resize'));
+  }, 100);
+});
+
+document.getElementById('fs-trigger').addEventListener('click', openFullscreen);
+document.getElementById('fs-indicator').addEventListener('click', closeFullscreen);
+
+function init() {
+  buildSidebar();
+
+  // Check for saved layout
+  const saved = localStorage.getItem('lingshe_layout');
+  if (saved) {
+    try {
+      const data = JSON.parse(saved);
+      if (data.canvasW) state.canvasW = data.canvasW;
+      if (data.canvasH) state.canvasH = data.canvasH;
+      if (data.components && data.components.length > 0) {
+        state.components = data.components;
+      }
+    } catch(e) { /* use defaults */ }
+  }
+
+  // Check for API key
+  if (localStorage.getItem('deepseek_key')) {
+    $('apiKeyBadge').classList.add('active');
+  }
+
+  initKonva();
+  updateUndoButtons();
+  updateStatusBar();
+  setOpLog('✨ 宅咪·临港 LIN 舍 编辑器已就绪');
+}
+
+// Start when DOM ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+
+console.log('🐾 宅咪·临港 LIN 舍 · 门店布局编辑器 loaded');
+console.log('📐 画布:', state.canvasW, 'm ×', state.canvasH, 'm =', (state.canvasW*state.canvasH).toFixed(1), '㎡');
+console.log('📦 组件数:', state.components.length);
+console.log('💡 提示: 拖拽组件到画布 · 滚轮缩放 · 选中按 Delete 删除');
+</script>
+</body>
+</html>

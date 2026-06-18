@@ -1,0 +1,1891 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>宅咪·临港 LIN 舍 BP</title>
+<style>
+/* ============================================================
+   宅咪·临港 LIN 舍 商业计划书 v1.0
+   品牌色严格遵循宅咪品牌视觉规范
+   ============================================================ */
+:root{
+  /* 主色 - 必出现 */
+  --z-orange:#F4B860;
+  --z-orange-deep:#E89A3C;
+  --z-orange-darker:#C77F25;
+  --z-cream-yellow:#FFD89A;
+  /* 辅色 - 必出现 */
+  --z-cream-white:#FFF4E1;
+  --z-beige:#F5E6CB;
+  --z-beige-light:#F8E9CC;
+  /* 点缀色 - 节制使用 */
+  --z-green:#A8C99A;
+  --z-brown:#5C3D2E;
+  --z-brown-soft:#7A5238;
+  --z-pink:#F4B5A8;
+  /* 阴影 */
+  --shadow-soft:0 4px 14px rgba(232,154,60,0.18);
+  --shadow-3d:4px 4px 0 rgba(232,154,60,0.35);
+  --shadow-3d-deep:6px 6px 0 rgba(92,61,46,0.18);
+  --shadow-inset:inset 0 2px 0 rgba(255,255,255,0.5);
+  --radius:18px;
+  --radius-sm:12px;
+  --radius-lg:28px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:"PingFang SC","Microsoft YaHei","Hiragino Sans GB","Noto Sans SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--z-brown);
+  background:var(--z-cream-white);
+  background-image:
+    radial-gradient(circle at 8% 12%,rgba(244,184,96,0.16) 0,transparent 35%),
+    radial-gradient(circle at 92% 88%,rgba(255,216,154,0.45) 0,transparent 40%),
+    radial-gradient(circle at 50% 50%,rgba(245,230,203,0.6) 0,transparent 70%);
+  line-height:1.7;
+  font-size:15px;
+  overflow-x:hidden;
+}
+
+/* 顶部品牌栏 */
+.brand-bar{
+  background:linear-gradient(135deg,var(--z-cream-yellow) 0%,var(--z-orange) 100%);
+  padding:18px 36px;
+  display:flex;
+  align-items:center;
+  gap:18px;
+  box-shadow:var(--shadow-3d-deep);
+  position:sticky;top:0;z-index:50;
+  border-bottom:4px solid var(--z-orange-deep);
+}
+.brand-logo{
+  height:54px;
+  width:auto;
+  filter:drop-shadow(0 2px 0 rgba(92,61,46,0.18));
+  border-radius:50%;
+  background:var(--z-cream-white);
+  padding:4px;
+}
+.brand-meta{display:flex;flex-direction:column;gap:2px}
+.brand-name{
+  font-size:22px;
+  font-weight:800;
+  color:var(--z-brown);
+  letter-spacing:0.5px;
+  text-shadow:1px 1px 0 rgba(255,255,255,0.6), 2px 2px 0 rgba(232,154,60,0.4);
+}
+.brand-sub{
+  font-size:12px;
+  color:var(--z-brown-soft);
+  font-weight:600;
+  letter-spacing:2px;
+}
+.brand-badge{
+  margin-left:auto;
+  background:var(--z-brown);
+  color:var(--z-cream-yellow);
+  padding:8px 18px;
+  border-radius:50px;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:1px;
+  box-shadow:var(--shadow-3d);
+  border:2px solid var(--z-cream-yellow);
+}
+
+/* 标签栏 */
+.tab-bar{
+  display:flex;
+  gap:8px;
+  padding:14px 36px;
+  background:var(--z-cream-white);
+  border-bottom:2px dashed var(--z-orange);
+  overflow-x:auto;
+  position:sticky;top:90px;z-index:40;
+}
+.tab-btn{
+  background:var(--z-beige-light);
+  color:var(--z-brown);
+  border:2px solid transparent;
+  padding:12px 24px;
+  border-radius:var(--radius-sm);
+  font-size:15px;
+  font-weight:700;
+  cursor:pointer;
+  transition:all 0.2s ease;
+  white-space:nowrap;
+  font-family:inherit;
+  display:flex;align-items:center;gap:8px;
+}
+.tab-btn:hover{
+  background:var(--z-cream-yellow);
+  transform:translateY(-2px);
+  box-shadow:var(--shadow-3d);
+}
+.tab-btn.active{
+  background:var(--z-orange-deep);
+  color:var(--z-cream-white);
+  border-color:var(--z-brown);
+  box-shadow:var(--shadow-3d-deep);
+  text-shadow:1px 1px 0 rgba(92,61,46,0.3);
+}
+.tab-icon{font-size:18px}
+
+/* 主体区 */
+main{padding:28px 36px 80px;max-width:1440px;margin:0 auto}
+.tab-panel{display:none;animation:fadeIn 0.35s ease;position:relative}
+.tab-panel.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* 通用组件 */
+h1.z-title{
+  font-size:38px;
+  font-weight:900;
+  color:var(--z-orange-deep);
+  text-shadow:2px 2px 0 rgba(92,61,46,0.18), 4px 4px 0 rgba(244,184,96,0.4);
+  margin-bottom:6px;
+  letter-spacing:1px;
+}
+h2.z-h2{
+  font-size:26px;
+  color:var(--z-orange-deep);
+  margin:32px 0 14px;
+  padding-left:18px;
+  border-left:8px solid var(--z-orange);
+  background:linear-gradient(90deg,var(--z-cream-yellow),transparent);
+  padding-top:8px;padding-bottom:8px;
+  border-radius:0 var(--radius-sm) var(--radius-sm) 0;
+  font-weight:800;
+  text-shadow:1px 1px 0 rgba(255,255,255,0.6);
+}
+h3.z-h3{
+  font-size:18px;
+  color:var(--z-brown);
+  margin:20px 0 10px;
+  display:flex;align-items:center;gap:8px;
+  font-weight:800;
+}
+h3.z-h3::before{
+  content:"";
+  width:10px;height:10px;border-radius:50%;
+  background:var(--z-orange-deep);
+  box-shadow:0 0 0 3px var(--z-cream-yellow);
+}
+.z-lead{font-size:16px;color:var(--z-brown-soft);margin-bottom:24px}
+
+/* KPI callout */
+.kpi-row{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+  margin:24px 0 32px;
+}
+.kpi-card{
+  background:var(--z-cream-yellow);
+  border:3px solid var(--z-orange-deep);
+  border-radius:var(--radius);
+  padding:22px 18px;
+  box-shadow:var(--shadow-3d-deep);
+  position:relative;
+  overflow:hidden;
+  transition:transform 0.2s ease;
+}
+.kpi-card:hover{transform:translateY(-3px)}
+.kpi-card::after{
+  content:"";
+  position:absolute;
+  top:0;right:0;
+  width:60px;height:60px;
+  background:radial-gradient(circle at top right,rgba(255,255,255,0.7),transparent 70%);
+  border-radius:0 var(--radius) 0 100%;
+}
+.kpi-label{font-size:13px;color:var(--z-brown-soft);font-weight:700;margin-bottom:6px;letter-spacing:1px}
+.kpi-value{
+  font-size:38px;
+  font-weight:900;
+  color:var(--z-orange-deep);
+  text-shadow:2px 2px 0 rgba(92,61,46,0.18),3px 3px 0 rgba(244,184,96,0.5);
+  line-height:1.1;
+}
+.kpi-unit{font-size:14px;color:var(--z-brown);margin-left:4px;font-weight:700}
+.kpi-note{font-size:12px;color:var(--z-brown-soft);margin-top:6px}
+
+/* 章节卡片 */
+.section-card{
+  background:var(--z-cream-white);
+  border:2px solid var(--z-beige);
+  border-radius:var(--radius);
+  padding:24px 28px;
+  margin-bottom:22px;
+  box-shadow:0 3px 0 var(--z-beige);
+}
+.section-card.highlight{
+  background:linear-gradient(135deg,var(--z-cream-yellow) 0%,var(--z-cream-white) 60%);
+  border-color:var(--z-orange);
+}
+
+/* 卖点网格 */
+.feature-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:14px;
+  margin:18px 0;
+}
+.feature-card{
+  background:var(--z-beige-light);
+  border:2px solid var(--z-orange);
+  border-radius:var(--radius-sm);
+  padding:16px;
+  position:relative;
+  transition:all 0.2s ease;
+}
+.feature-card:hover{
+  background:var(--z-cream-yellow);
+  transform:translateY(-2px);
+  box-shadow:var(--shadow-3d);
+}
+.feature-num{
+  position:absolute;
+  top:-12px;left:-8px;
+  background:var(--z-orange-deep);
+  color:var(--z-cream-white);
+  width:32px;height:32px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:14px;
+  box-shadow:var(--shadow-3d);
+  border:2px solid var(--z-cream-white);
+}
+.feature-title{font-weight:800;color:var(--z-brown);font-size:15px;margin-bottom:4px}
+.feature-desc{font-size:13px;color:var(--z-brown-soft)}
+
+/* 表格 */
+.z-table{width:100%;border-collapse:separate;border-spacing:0;margin:14px 0;font-size:14px;border-radius:var(--radius-sm);overflow:hidden}
+.z-table th{
+  background:var(--z-orange-deep);
+  color:var(--z-cream-white);
+  padding:12px 14px;
+  text-align:left;font-weight:700;
+  border-bottom:3px solid var(--z-brown);
+}
+.z-table td{
+  background:var(--z-cream-white);
+  padding:11px 14px;
+  border-bottom:1px solid var(--z-beige);
+  color:var(--z-brown);
+}
+.z-table tr:nth-child(even) td{background:var(--z-beige-light)}
+.z-table tr:hover td{background:var(--z-cream-yellow)}
+
+/* 关键数字 */
+.z-number{
+  font-size:32px;
+  font-weight:900;
+  color:var(--z-orange-deep);
+  text-shadow:2px 2px 0 rgba(92,61,46,0.2);
+  display:inline-block;
+}
+.z-unit{font-size:14px;color:var(--z-brown);font-weight:700;margin-left:3px}
+
+/* 品牌标语（带"宅"字高亮） */
+.z-tagline{
+  color:var(--z-brown);
+  font-weight:800;
+  letter-spacing:1px;
+  text-shadow:1px 1px 0 rgba(255,255,255,0.6),2px 2px 0 rgba(232,154,60,0.4);
+  border-radius:12px;
+  display:inline-block;
+}
+.z-tagline .z-hl{
+  color:#E89A3C;
+  font-weight:900;
+  font-size:1.18em;
+  text-shadow:2px 2px 0 rgba(92,61,46,0.25),3px 3px 0 rgba(244,184,96,0.4);
+  border-bottom:3px solid #E89A3C;
+  padding:0 2px;
+  margin:0 1px;
+}
+/* 副品牌小字样式（"· 临港 LIN 舍"） */
+.z-subbrand{
+  font-size:0.62em;
+  color:var(--z-brown-soft);
+  font-weight:700;
+  letter-spacing:2px;
+  margin-left:6px;
+  border-left:2px solid var(--z-orange);
+  padding-left:8px;
+  vertical-align:middle;
+}
+/* 品牌标语大字号版（关于页 hero 用） */
+.z-tagline-hero{
+  font-size:24px;
+  color:var(--z-brown);
+  font-weight:900;
+  letter-spacing:1.5px;
+  line-height:1.4;
+  text-shadow:2px 2px 0 var(--z-cream-white),4px 4px 0 rgba(92,61,46,0.18);
+  background:var(--z-cream-white);
+  border:3px solid var(--z-brown);
+  border-radius:50px;
+  padding:10px 24px;
+  display:inline-block;
+  box-shadow:var(--shadow-3d-deep);
+  margin-top:12px;
+}
+.z-tagline-hero .z-hl{
+  color:#E89A3C;
+  font-size:1.2em;
+  border-bottom:4px solid #E89A3C;
+  padding:0 3px;
+}
+
+/* 列表 */
+.z-list{padding-left:0;list-style:none;margin:12px 0}
+.z-list li{
+  position:relative;
+  padding-left:28px;
+  margin-bottom:8px;
+  color:var(--z-brown);
+}
+.z-list li::before{
+  content:"🐾";
+  position:absolute;left:0;top:0;
+  font-size:14px;
+}
+.z-list.tick li::before{content:"✓";background:var(--z-orange);color:var(--z-cream-white);width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;top:4px}
+
+/* 风险矩阵 */
+.risk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:14px 0}
+.risk-card{
+  background:var(--z-cream-white);
+  border-left:6px solid var(--z-orange-deep);
+  border-radius:var(--radius-sm);
+  padding:14px 16px;
+  box-shadow:0 2px 0 var(--z-beige);
+}
+.risk-title{font-weight:800;color:var(--z-brown);font-size:14px;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.risk-title .pill{background:var(--z-orange-deep);color:var(--z-cream-white);padding:2px 8px;border-radius:50px;font-size:11px;font-weight:700}
+.risk-body{font-size:13px;color:var(--z-brown-soft)}
+.risk-body strong{color:var(--z-orange-deep)}
+
+/* 块引用 */
+.z-quote{
+  background:var(--z-cream-yellow);
+  border-left:6px solid var(--z-orange-deep);
+  border-radius:var(--radius-sm);
+  padding:14px 18px;
+  font-style:italic;
+  color:var(--z-brown);
+  margin:12px 0;
+  font-weight:600;
+}
+
+/* 进度/柱图 */
+.bar-row{display:flex;align-items:center;gap:10px;margin:8px 0}
+.bar-label{width:110px;font-size:13px;font-weight:700;color:var(--z-brown)}
+.bar-track{flex:1;background:var(--z-beige);height:20px;border-radius:50px;overflow:hidden;box-shadow:var(--shadow-inset)}
+.bar-fill{height:100%;background:linear-gradient(90deg,var(--z-orange),var(--z-orange-deep));border-radius:50px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;color:var(--z-cream-white);font-size:11px;font-weight:800}
+
+/* 演示幻灯片 */
+.slide-stage{
+  background:linear-gradient(135deg,var(--z-beige-light) 0%,var(--z-cream-yellow) 100%);
+  border-radius:var(--radius-lg);
+  padding:30px;
+  position:relative;
+  min-height:560px;
+  box-shadow:var(--shadow-3d-deep);
+  border:4px solid var(--z-orange-deep);
+}
+.slide-frame{
+  background:var(--z-cream-white);
+  border-radius:var(--radius-sm);
+  padding:24px 30px;
+  min-height:420px;
+  display:flex;
+  flex-direction:column;
+  border:2px solid var(--z-beige);
+  overflow:hidden;
+  position:relative;
+  flex:1;
+}
+.slide-frame::before{
+  content:"";
+  position:absolute;top:0;left:0;right:0;height:8px;
+  background:linear-gradient(90deg,var(--z-orange-deep),var(--z-orange),var(--z-cream-yellow));
+}
+.slide-inner {
+  flex:1;
+  display:flex;
+  flex-direction:column;
+}
+.slide-num{
+  position:absolute;
+  top:18px;right:24px;
+  background:var(--z-brown);
+  color:var(--z-cream-yellow);
+  padding:4px 12px;
+  border-radius:50px;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:1px;
+}
+.slide-title{
+  font-size:36px;
+  color:var(--z-orange-deep);
+  font-weight:900;
+  text-shadow:2px 2px 0 rgba(92,61,46,0.18),3px 3px 0 rgba(244,184,96,0.4);
+  margin-bottom:8px;
+  line-height:1.2;
+}
+.slide-subtitle{
+  font-size:14px;color:var(--z-brown-soft);letter-spacing:1px;font-weight:600;
+  margin-bottom:24px;
+}
+.slide-cover{
+  background:linear-gradient(135deg,var(--z-cream-yellow) 0%,var(--z-orange) 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;
+}
+.slide-cover .slide-title{font-size:54px;color:var(--z-brown);text-shadow:3px 3px 0 var(--z-cream-white),5px 5px 0 rgba(92,61,46,0.2)}
+.slide-cover-logo{width:120px;height:120px;border-radius:50%;background:var(--z-cream-white);padding:8px;box-shadow:var(--shadow-3d-deep);margin-bottom:18px}
+.slide-cover-tag{
+  display:inline-block;
+  background:var(--z-brown);
+  color:var(--z-cream-yellow);
+  padding:8px 20px;
+  border-radius:50px;
+  font-size:13px;
+  font-weight:700;
+  margin-top:18px;
+  letter-spacing:2px;
+}
+
+.slide-kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px}
+.slide-kpi{
+  background:var(--z-cream-yellow);
+  border:2px solid var(--z-orange-deep);
+  border-radius:var(--radius-sm);
+  padding:14px 10px;
+  text-align:center;
+  box-shadow:3px 3px 0 var(--z-orange);
+}
+.slide-kpi .v{font-size:30px;font-weight:900;color:var(--z-orange-deep);text-shadow:2px 2px 0 rgba(255,255,255,0.7);line-height:1.1}
+.slide-kpi .l{font-size:11px;color:var(--z-brown-soft);margin-top:4px;font-weight:700;letter-spacing:1px}
+
+.slide-list{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:14px}
+.slide-item{
+  background:var(--z-beige-light);
+  border-left:5px solid var(--z-orange-deep);
+  border-radius:var(--radius-sm);
+  padding:10px 14px;
+  font-size:13px;
+  color:var(--z-brown);
+}
+.slide-item strong{color:var(--z-orange-deep);font-weight:800;display:block;margin-bottom:2px;font-size:14px}
+
+.slide-2col{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:14px;flex:1}
+.slide-block{
+  background:var(--z-cream-yellow);
+  border-radius:var(--radius-sm);
+  padding:16px;
+  border:2px solid var(--z-orange);
+}
+.slide-block h4{color:var(--z-orange-deep);font-size:16px;margin-bottom:8px;font-weight:800}
+
+.chart-pie{
+  width:160px;height:160px;border-radius:50%;
+  background:conic-gradient(
+    var(--z-brown) 0 43.2%,
+    var(--z-orange-deep) 43.2% 62.3%,
+    var(--z-orange) 62.3% 81.4%,
+    var(--z-cream-yellow) 81.4% 95.0%,
+    var(--z-green) 95.0% 100%,
+    var(--z-beige) 100% 100%
+  );
+  box-shadow:var(--shadow-3d-deep);
+  position:relative;
+  margin:0 auto;
+}
+.chart-pie::after{
+  content:"";position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:60px;height:60px;
+  background:var(--z-cream-white);
+  border-radius:50%;
+  box-shadow:var(--shadow-inset);
+}
+
+.chart-bars{display:flex;align-items:flex-end;gap:10px;height:160px;margin-top:12px;padding:0 8px}
+.chart-bar{
+  flex:1;
+  background:linear-gradient(180deg,var(--z-orange) 0%,var(--z-orange-deep) 100%);
+  border-radius:8px 8px 0 0;
+  position:relative;
+  box-shadow:var(--shadow-3d);
+  min-height:8px;
+}
+.chart-bar-label{
+  position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);
+  font-size:10px;color:var(--z-brown-soft);font-weight:700;white-space:nowrap;
+}
+.chart-bar-val{
+  position:absolute;top:-18px;left:50%;transform:translateX(-50%);
+  font-size:11px;color:var(--z-orange-deep);font-weight:900;white-space:nowrap;
+}
+.chart-bar.alt{background:linear-gradient(180deg,var(--z-cream-yellow) 0%,var(--z-orange) 100%)}
+
+.slide-nav{
+  display:flex;align-items:center;justify-content:center;gap:16px;
+  margin-top:24px;
+}
+.slide-nav button{
+  background:var(--z-orange-deep);
+  color:var(--z-cream-white);
+  border:none;
+  width:46px;height:46px;
+  border-radius:50%;
+  font-size:20px;
+  cursor:pointer;
+  box-shadow:var(--shadow-3d);
+  font-weight:900;
+  font-family:inherit;
+  transition:all 0.15s ease;
+}
+.slide-nav button:hover{background:var(--z-brown);transform:translateY(-2px)}
+.slide-nav button:active{transform:translateY(2px);box-shadow:0 2px 0 var(--z-orange)}
+.slide-nav button:disabled{background:var(--z-beige);color:var(--z-brown-soft);cursor:not-allowed;box-shadow:none}
+.slide-nav .progress{
+  background:var(--z-cream-yellow);
+  border:2px solid var(--z-orange-deep);
+  padding:6px 16px;
+  border-radius:50px;
+  font-weight:800;
+  color:var(--z-brown);
+  font-size:13px;
+  min-width:90px;text-align:center;
+}
+.slide-thumbs{
+  display:flex;gap:6px;margin-top:18px;overflow-x:auto;padding:4px;
+}
+.slide-thumb{
+  flex:0 0 auto;
+  background:var(--z-beige-light);
+  border:2px solid var(--z-beige);
+  border-radius:8px;
+  padding:6px 10px;
+  font-size:11px;
+  cursor:pointer;
+  font-weight:700;
+  color:var(--z-brown-soft);
+  white-space:nowrap;
+  transition:all 0.15s ease;
+}
+.slide-thumb:hover{background:var(--z-cream-yellow)}
+.slide-thumb.active{background:var(--z-orange-deep);color:var(--z-cream-white);border-color:var(--z-brown)}
+
+/* 嵌入容器 */
+.embed-stage{
+  background:var(--z-cream-white);
+  border:3px solid var(--z-orange-deep);
+  border-radius:var(--radius-lg);
+  padding:18px;
+  box-shadow:var(--shadow-3d-deep);
+  min-height:560px;
+  display:flex;flex-direction:column;
+}
+.embed-meta{
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  background:var(--z-cream-yellow);
+  border-radius:var(--radius-sm);
+  padding:14px 18px;
+  margin-bottom:16px;
+  border-left:6px solid var(--z-orange-deep);
+}
+.embed-meta-item{font-size:13px;color:var(--z-brown)}
+.embed-meta-item strong{color:var(--z-orange-deep);font-size:16px;margin-right:4px;font-weight:900}
+.embed-frame-wrap{
+  flex:1;
+  background:var(--z-beige-light);
+  border-radius:var(--radius-sm);
+  overflow:hidden;
+  position:relative;
+  border:2px solid var(--z-beige);
+}
+.embed-frame-wrap iframe,
+.embed-frame-wrap object,
+.embed-frame-wrap img{
+  width:100%;height:100%;
+  border:none;
+  display:block;
+  min-height:600px;
+}
+.embed-fallback{
+  padding:40px;
+  text-align:center;
+  color:var(--z-brown-soft);
+  font-size:14px;
+}
+
+/* 关于页 */
+.about-hero{
+  background:linear-gradient(135deg,var(--z-cream-yellow),var(--z-orange));
+  border-radius:var(--radius-lg);
+  padding:30px;
+  text-align:center;
+  margin-bottom:24px;
+  box-shadow:var(--shadow-3d-deep);
+  border:4px solid var(--z-orange-deep);
+}
+.about-hero img{
+  width:120px;height:120px;border-radius:50%;
+  background:var(--z-cream-white);
+  padding:8px;
+  box-shadow:var(--shadow-3d-deep);
+  margin-bottom:12px;
+}
+.about-hero h2{font-size:32px;color:var(--z-brown);font-weight:900;text-shadow:2px 2px 0 var(--z-cream-white);margin-bottom:6px}
+.about-hero p{color:var(--z-brown-soft);font-size:14px;font-weight:600}
+
+.about-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.about-card{
+  background:var(--z-cream-white);
+  border:2px solid var(--z-beige);
+  border-radius:var(--radius);
+  padding:20px;
+  box-shadow:0 3px 0 var(--z-beige);
+}
+.about-card h4{
+  font-size:15px;color:var(--z-orange-deep);
+  margin-bottom:8px;font-weight:800;
+  display:flex;align-items:center;gap:6px;
+}
+.about-card ul{list-style:none;padding:0;font-size:13px;color:var(--z-brown-soft)}
+.about-card ul li{padding-left:18px;position:relative;margin-bottom:5px;line-height:1.6}
+.about-card ul li::before{content:"•";color:var(--z-orange-deep);position:absolute;left:4px;font-weight:900;font-size:18px;line-height:1}
+
+.zhaimi-watermark{
+  position:fixed;
+  bottom:18px;right:18px;
+  background:var(--z-cream-yellow);
+  color:var(--z-brown);
+  padding:6px 14px;
+  border-radius:50px;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:1.5px;
+  border:2px solid var(--z-orange-deep);
+  box-shadow:var(--shadow-3d);
+  z-index:30;
+  pointer-events:none;
+}
+
+/* 响应式 */
+@media (max-width:1024px){
+  .kpi-row{grid-template-columns:repeat(2,1fr)}
+  .slide-kpi-row{grid-template-columns:repeat(2,1fr)}
+  .slide-list{grid-template-columns:1fr}
+  .slide-2col{grid-template-columns:1fr}
+  main{padding:20px}
+  .brand-bar{padding:14px 20px}
+  .tab-bar{padding:10px 20px;top:82px}
+  h1.z-title{font-size:30px}
+  .slide-title{font-size:26px}
+  .slide-cover .slide-title{font-size:36px}
+}
+@media (max-width:640px){
+  .kpi-row{grid-template-columns:1fr 1fr;gap:10px}
+  .kpi-value{font-size:28px}
+  .brand-name{font-size:16px}
+  .brand-sub{font-size:10px}
+  .tab-btn{padding:10px 14px;font-size:13px}
+}
+
+/* 文档页章节锚点导航 */
+.doc-toc{
+  background:var(--z-beige-light);
+  border:2px dashed var(--z-orange);
+  border-radius:var(--radius);
+  padding:16px 20px;
+  margin-bottom:20px;
+}
+.doc-toc h4{color:var(--z-orange-deep);font-size:14px;margin-bottom:8px;font-weight:800}
+.doc-toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px}
+.doc-toc-grid a{
+  display:block;
+  padding:6px 10px;
+  background:var(--z-cream-white);
+  color:var(--z-brown);
+  border-radius:8px;
+  font-size:12px;
+  text-decoration:none;
+  border:1px solid var(--z-beige);
+  font-weight:600;
+  transition:all 0.15s ease;
+}
+.doc-toc-grid a:hover{background:var(--z-cream-yellow);border-color:var(--z-orange-deep);transform:translateX(2px)}
+
+/* 打印 */
+@media print{
+  .tab-bar,.brand-bar,.zhaimi-watermark,.slide-nav,.slide-thumbs{display:none}
+  .tab-panel{display:block !important;page-break-after:always}
+}
+
+/* 全屏查看 Modal */
+.fullscreen-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.fs-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(92, 61, 46, 0.7);
+  backdrop-filter: blur(8px);
+}
+.fs-container {
+  position: relative;
+  width: 95vw;
+  height: 92vh;
+  background: var(--z-cream-white);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 4px solid var(--z-orange);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+.fs-container.maximized {
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0;
+  border: none;
+}
+.fs-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, var(--z-orange), var(--z-orange-deep));
+  color: var(--z-cream-white);
+}
+.fs-title {
+  font-size: 18px;
+  font-weight: 800;
+}
+.fs-actions button {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: 8px;
+  font-size: 16px;
+}
+.fs-actions button:hover {
+  background: rgba(255,255,255,0.35);
+}
+.fs-native { width:auto !important; padding:0 14px !important; font-size:13px !important; display:inline-flex !important; align-items:center; gap:4px; }
+.fs-body {
+  width: 100%;
+  height: calc(100% - 56px);
+  overflow: auto;
+}
+.fs-body iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+.fs-body .slide-stage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.fs-body .slide-frame {
+  flex: 1;
+  min-height: 0;
+}
+
+/* 全屏打开按钮（每个标签页右上角） */
+.fs-trigger {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--z-orange-deep);
+  color: var(--z-cream-white);
+  border: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  transition: background 0.2s ease;
+  font-family: inherit;
+}
+.fs-trigger:hover {
+  background: var(--z-orange-darker);
+}
+</style>
+</head>
+<body>
+
+<!-- 顶部品牌栏 -->
+<header class="brand-bar">
+  <img src="assets/zhaimi-logo.png" alt="宅咪 LOGO" class="brand-logo" onerror="this.outerHTML='<div class=&quot;brand-logo&quot; style=&quot;display:flex;align-items:center;justify-content:center;font-size:24px;background:var(--z-cream-yellow)&quot;>🐱</div>'" />
+  <div class="brand-meta">
+    <div class="brand-name">宅咪<span class="z-subbrand">· 临港 LIN 舍</span> · 商业计划书</div>
+    <div class="brand-sub">ZHAIMI · LIN-SHE COMMUNITY PET STORE BP</div>
+    <div class="z-tagline" style="font-size:12px;background:var(--z-cream-yellow);padding:3px 10px;margin-top:4px;border:1.5px solid var(--z-orange-deep);box-shadow:2px 2px 0 var(--z-orange)">让<span class="z-hl">宅</span>主宅在家就能解决宠物相关的一切问题！</div>
+  </div>
+  <div class="brand-badge">v1.0 · 2026-06-16</div>
+</header>
+
+<!-- 标签栏 -->
+<nav class="tab-bar" role="tablist">
+  <button class="tab-btn active" data-tab="doc"><span class="tab-icon">📄</span>文档</button>
+  <button class="tab-btn" data-tab="slide"><span class="tab-icon">🎬</span>演示</button>
+  <button class="tab-btn" data-tab="layout"><span class="tab-icon">🏪</span>门店布局</button>
+  <button class="tab-btn" data-tab="map"><span class="tab-icon">📍</span>选址分析</button>
+  <button class="tab-btn" data-tab="about"><span class="tab-icon">ℹ️</span>关于</button>
+</nav>
+
+<main>
+
+<!-- ================== 标签1: 文档 ================== -->
+<section class="tab-panel active" id="tab-doc">
+  <h1 class="z-title">宅咪<span class="z-subbrand">· 临港 LIN 舍</span> · 商业计划书</h1>
+  <p class="z-lead">社区精细化洗护 + 寄养 + 优质零售 · 三位一体的综合宠物生活馆 · 浦东新区泥城镇五岭路 × 咏梅路交叉口西 120 米</p>
+
+  <!-- 4个KPI -->
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-label">启动资金</div>
+      <div class="kpi-value">16<span class="kpi-unit">万元</span></div>
+      <div class="kpi-note">含 1.5 万应急储备金</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">月综合营收</div>
+      <div class="kpi-value">1.8~2.5<span class="kpi-unit">万元</span></div>
+      <div class="kpi-note">保守口径</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">回本周期</div>
+      <div class="kpi-value">20~28<span class="kpi-unit">个月</span></div>
+      <div class="kpi-note">敏感性 ± 4 月</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">净利率</div>
+      <div class="kpi-value">15~20<span class="kpi-unit">%</span></div>
+      <div class="kpi-note">稳态口径</div>
+    </div>
+  </div>
+
+  <!-- 目录 -->
+  <div class="doc-toc">
+    <h4>📚 目录 · 11 章</h4>
+    <div class="doc-toc-grid">
+      <a href="#ch1">第一章 执行摘要</a>
+      <a href="#ch2">第二章 项目概述</a>
+      <a href="#ch3">第三章 行业与市场</a>
+      <a href="#ch4">第四章 目标客群</a>
+      <a href="#ch5">第五章 竞品分析</a>
+      <a href="#ch6">第六章 产品与服务</a>
+      <a href="#ch7">第七章 运营方案</a>
+      <a href="#ch8">第八章 营销获客</a>
+      <a href="#ch9">第九章 财务测算</a>
+      <a href="#ch10">第十章 风险与应对</a>
+      <a href="#ch11">第十一章 发展规划</a>
+      <a href="#ch-appendix">附录</a>
+    </div>
+  </div>
+
+  <!-- 第一章 -->
+  <div class="section-card highlight" id="ch1">
+    <h2 class="z-h2">第一章 · 执行摘要</h2>
+    <div class="z-tagline" style="font-size:18px;background:var(--z-cream-yellow);padding:10px 18px;margin:6px 0 16px;border:2px solid var(--z-orange-deep);box-shadow:3px 3px 0 var(--z-orange)">🐾 品牌定位引言：让<span class="z-hl">宅</span>主宅在家就能解决宠物相关的一切问题！</div>
+    <h3 class="z-h3">1.1 项目定位</h3>
+    <p>本项目是主品牌<strong>「宅咪」</strong>旗下的首店——<strong>宅咪·临港 LIN 舍</strong>，选址于<strong>上海市浦东新区泥城镇五岭路与咏梅路交叉口西 120 米</strong>、LIN 舍小区沿街底商（原"有烟有火小龙虾"商铺），经营面积 <span class="z-number">49<span class="z-unit">㎡</span></span>（<span class="z-number">7<span class="z-unit">m</span></span> × <span class="z-number">7<span class="z-unit">m</span></span>，<strong>实地复测</strong>），单层临街底商业态。门店定位为"<strong>社区精细化洗护+寄养+优质零售</strong>"三位一体的综合宠物生活馆，聚焦服务临港泥城片区 8 个连片成熟小区及临港万达商圈的养宠家庭。</p>
+    <p style="margin-top:8px">业态严格遵守合规底线：<strong>不销售活体宠物、不开展宠物诊疗与疫苗注射业务</strong>。经营内容仅限洗护美容、短期寄养、宠物食品与用品零售、宠物辅食与零食、免费线上养宠咨询等非诊疗类服务。</p>
+
+    <h3 class="z-h3">1.2 核心差异化卖点（6 大）</h3>
+    <div class="feature-grid">
+      <div class="feature-card"><span class="feature-num">1</span><div class="feature-title">独立封闭式洗护单间</div><div class="feature-desc">每只宠物单独洗护空间，避免交叉应激</div></div>
+      <div class="feature-card"><span class="feature-num">2</span><div class="feature-title">一宠一换毛巾</div><div class="feature-desc">全套工具单次消毒，卫生标准显著优于同行</div></div>
+      <div class="feature-card"><span class="feature-num">3</span><div class="feature-title">社区亲民定价</div><div class="feature-desc">明码标价、无强制推销、不办预付卡</div></div>
+      <div class="feature-card"><span class="feature-num">4</span><div class="feature-title">免费线上咨询</div><div class="feature-desc">微信、小红书私信为宠主提供长期轻咨询</div></div>
+      <div class="feature-card"><span class="feature-num">5</span><div class="feature-title">全程可监控</div><div class="feature-desc">洗护区视频监控，宠主等候区实时查看</div></div>
+      <div class="feature-card"><span class="feature-num">6</span><div class="feature-title">干湿分区</div><div class="feature-desc">洗护、寄养、零售三区物理分隔，无异味外溢</div></div>
+    </div>
+
+    <h3 class="z-h3">1.3 关键财务数据（保守口径）</h3>
+    <ul class="z-list tick">
+      <li><strong>启动资金合计 <span class="z-number">22.0</span> 万元</strong>（<strong>原店主承接</strong>）：<strong>转让费 9-10 万</strong>（含 <span class="z-number">2</span> 万押金，议价区间） + <strong>首期 6 个月房租预付 <span class="z-number">4</span> 万</strong>（半年后签新合同 8 万/年）+ 装修 <span class="z-number">2.0</span> 万 + 设备笼具 <span class="z-number">4.2</span> 万 + 首批囤货 <span class="z-number">1.5</span> 万 + 证照灯箱招牌 <span class="z-number">1.0</span> 万 + POS/会员系统 <span class="z-number">0.2</span> 万 + 消防/排水改造 <span class="z-number">0.3</span> 万 + 营销推广 <span class="z-number">0.5</span> 万 + 流动资金 <span class="z-number">3.0</span> 万（其中 <span class="z-number">1.5</span> 万独立列为应急储备金，覆盖淡季 3 个月亏损缓冲）。<strong>49㎡ 实测面积，装修标准匹配，6 个月内能回本即转盈亏平衡</strong>。</li>
+            <li><strong>月固定成本约 <span class="z-number">1.57</span> 万元</strong>（6 个月后新合同）：租金 6667 + 美容师薪资 6500 + 水电杂费 1200 + 消毒耗材 800 + 线上小额推广 500</li>
+            <li><strong>毛利率结构</strong>：洗护 65% / 零售 40-50% / 寄养 70%</li>
+      <li><strong>净利率</strong>：15-20%（保守口径）· <strong>回本周期</strong>：20-28 个月</li>
+    </ul>
+
+    <h3 class="z-h3">1.4 团队结构</h3>
+    <p>店主 1 名 + 全职持证宠物美容师 1 名 + 后期兼职洗护助理 1 名。店主负责管理、接待、运营、财务统筹；美容师负责洗护核心服务。</p>
+
+    <div class="z-quote">"立足临港泥城社区，打造「离家最近、卫生最严、价格最透明」的宠物生活馆"</div>
+  </div>
+
+  <!-- 第二章 -->
+  <div class="section-card" id="ch2">
+    <h2 class="z-h2">第二章 · 项目概述</h2>
+    <h3 class="z-h3">2.1 项目名称与品牌</h3>
+    <p><strong>完整店名</strong>：<span style="font-size:18px;font-weight:900">宅咪<span class="z-subbrand" style="margin-left:0">· 临港 LIN 舍</span></span>（主品牌 + 副品牌小牌子格式）</p>
+    <ul class="z-list tick">
+      <li><strong>主品牌「宅咪」</strong>——3D 软糖治愈系暖橙奶油风，是品牌方统一打造的可复用 IP，未来所有门店共享</li>
+      <li><strong>副品牌「· 临港 LIN 舍」</strong>——取自门店所在小区（LIN 舍），强化"楼下那家店"的邻里感；同时标识所在区域（临港），方便未来扩张时区分</li>
+      <li><strong>命名规则</strong>：<code style="background:var(--z-cream-yellow);padding:2px 6px;border-radius:4px">宅咪·[城市/区域] [店名/小区名]</code>——扩张时一律沿用，确保品牌一致性</li>
+      <li><strong>业态关键词</strong>：精细化洗护 + 综合服务（洗护/寄养/零售一站式）</li>
+    </ul>
+    <h3 class="z-h3">2.2 业态定稿</h3>
+    <table class="z-table">
+      <thead><tr><th>业务模块</th><th>占比目标</th><th>毛利率</th><th>角色</th></tr></thead>
+      <tbody>
+        <tr><td>洗护美容</td><td>55%</td><td>65%</td><td>引流与现金流核心</td></tr>
+        <tr><td>宠物寄养</td><td>20%</td><td>70%</td><td>季节性高利润补充</td></tr>
+        <tr><td>零售</td><td>25%</td><td>40-50%</td><td>提升客单价与会员粘性</td></tr>
+      </tbody>
+    </table>
+    <h3 class="z-h3">2.3 经营模式 · 核心服务承诺</h3>
+    <ul class="z-list tick">
+      <li>卫生承诺：一宠一换毛巾、全套工具单次消毒</li>
+      <li>价格承诺：明码标价、不强制搭售、不办预付卡</li>
+      <li>透明承诺：洗护全程视频监控实时呈现</li>
+      <li>售后承诺：24 小时内应激不适免费复查</li>
+    </ul>
+  </div>
+
+  <!-- 第三章 -->
+  <div class="section-card" id="ch3">
+    <h2 class="z-h2">第三章 · 行业与市场分析</h2>
+    <h3 class="z-h3">3.1 中国宠物行业宏观数据</h3>
+    <p>依据《2025 中国宠物行业白皮书》：</p>
+    <div class="kpi-row" style="grid-template-columns:repeat(3,1fr);margin:14px 0">
+      <div class="kpi-card"><div class="kpi-label">2024 市场规模</div><div class="kpi-value">3002<span class="kpi-unit">亿</span></div><div class="kpi-note">同比 +7.5%</div></div>
+      <div class="kpi-card"><div class="kpi-label">单犬年消费</div><div class="kpi-value">2961<span class="kpi-unit">元</span></div><div class="kpi-note">猫 2020 元</div></div>
+      <div class="kpi-card"><div class="kpi-label">90/00 后宠主</div><div class="kpi-value">66.8<span class="kpi-unit">%</span></div><div class="kpi-note">愿为体验付溢价</div></div>
+    </div>
+    <p><strong>消费结构</strong>：食品 52.3% / 医疗 28.5% / 用品 12.4% / <strong style="color:var(--z-orange-deep)">服务（洗护+寄养）6.8%</strong>。服务板块占比小但增速最快、毛利最高。</p>
+    <h3 class="z-h3">3.2 浦东临港本地市场特征</h3>
+    <ul class="z-list tick">
+      <li>8 个连片成熟小区（露华苑、泽辉苑、万达未来城等），常住人口 <strong>5 万+</strong></li>
+      <li>双职工年轻家庭为主，养宠率显著高于全市平均</li>
+      <li>宠物医院资源相对匮乏、洗护服务供给更少</li>
+      <li>现有门店多以"夫妻档+大通铺+共享毛巾"为主，<strong>缺少独立单间+全套消毒+透明价格的中端供给</strong></li>
+      <li>临港万达广场已运营，万达商圈带来稳定高频客流</li>
+    </ul>
+    <h3 class="z-h3">3.4 行业发展趋势</h3>
+    <ul class="z-list tick">
+      <li><strong>从"卖货"到"服务"</strong>——专业化服务占比将持续提升</li>
+      <li><strong>从"经验"到"标准化"</strong>——SOP 与可视化运营是新刚需</li>
+      <li><strong>从"中心化大店"到"社区小店"</strong>——社区精细化宠物店是未来 3-5 年最确定的赛道之一</li>
+      <li><strong>从"线下"到"内容+到店"</strong>——线上种草+到店体验主导新一轮增长</li>
+    </ul>
+  </div>
+
+  <!-- 第四章 -->
+  <div class="section-card" id="ch4">
+    <h2 class="z-h2">第四章 · 目标客群精准画像</h2>
+    <h3 class="z-h3">4.1 核心客群基本特征</h3>
+    <table class="z-table">
+      <tbody>
+        <tr><td><strong>年龄</strong></td><td>25-40 岁，以 28-35 岁为主力</td></tr>
+        <tr><td><strong>职业</strong></td><td>双职工上班族、教师、医务、互联网白领</td></tr>
+        <tr><td><strong>收入</strong></td><td>家庭月收入 1.5-3.5 万元，可支配中等偏上</td></tr>
+        <tr><td><strong>居住</strong></td><td>周边 8 个小区为主，步行 15 分钟可达</td></tr>
+        <tr><td><strong>养宠类型</strong></td><td>中小型犬 60% / 猫 30% / 中大型犬及其他 10%</td></tr>
+      </tbody>
+    </table>
+    <h3 class="z-h3">4.3 核心诉求（5 项）</h3>
+    <div class="feature-grid">
+      <div class="feature-card"><div class="feature-title">① 卫生第一</div><div class="feature-desc">愿为独立单间+一宠一换支付溢价</div></div>
+      <div class="feature-card"><div class="feature-title">② 专业可信</div><div class="feature-desc">持证、流程规范、有应对能力</div></div>
+      <div class="feature-card"><div class="feature-title">③ 就近便利</div><div class="feature-desc">步行/电瓶车 10 分钟内可达</div></div>
+      <div class="feature-card"><div class="feature-title">④ 价格透明</div><div class="feature-desc">明码标价、无隐形、可单次</div></div>
+      <div class="feature-card"><div class="feature-title">⑤ 情感连接</div><div class="feature-desc">像"社区邻居"一样相处</div></div>
+    </div>
+  </div>
+
+  <!-- 第五章 -->
+  <div class="section-card" id="ch5">
+    <h2 class="z-h2">第五章 · 竞品分析</h2>
+    <h3 class="z-h3">5.1 主要竞品类型</h3>
+    <table class="z-table">
+      <thead><tr><th>类型</th><th>优势</th><th>劣势</th></tr></thead>
+      <tbody>
+        <tr><td>周边夫妻档（直接）</td><td>距离近、价格低</td><td>卫生差、共享毛巾、推销严重</td></tr>
+        <tr><td>宠物医院附洗（间接）</td><td>卫生专业、信任度高</td><td>价格 150-300 元、不专注体验</td></tr>
+        <tr><td>线上电商（替代）</td><td>SKU 丰富、即时配送</td><td>不解决"洗""寄"问题</td></tr>
+        <tr><td>上门洗护（新兴）</td><td>上门方便、宠物不紧张</td><td>卫生无保证、无售后</td></tr>
+      </tbody>
+    </table>
+    <h3 class="z-h3">5.2 本项目 5 重竞争壁垒</h3>
+    <ol class="z-list tick">
+      <li><strong>卫生壁垒</strong>：独立单间 + 一宠一换毛巾 + 全套消毒 + 视频可视化</li>
+      <li><strong>价格壁垒</strong>：基础洗澡 88-128 元区间，明码实价</li>
+      <li><strong>信任壁垒</strong>：无强制推销、无预付卡、明码标价</li>
+      <li><strong>流量壁垒</strong>：小红书/抖音/微信群全渠道运营</li>
+      <li><strong>位置壁垒</strong>：1.5 公里内 8 个小区 + 万达商圈</li>
+    </ol>
+  </div>
+
+  <!-- 第六章 -->
+  <div class="section-card" id="ch6">
+    <h2 class="z-h2">第六章 · 产品与服务体系</h2>
+    <h3 class="z-h3">6.1 洗护美容（核心引流）</h3>
+    <table class="z-table">
+      <thead><tr><th>服务项</th><th>内容</th><th>建议零售价</th></tr></thead>
+      <tbody>
+        <tr><td>小型犬基础洗澡</td><td>洗毛+护毛+吹干+耳道+指甲+肛门腺</td><td>88-128 元</td></tr>
+        <tr><td>中型犬基础洗澡</td><td>同上，中型犬体型</td><td>128-168 元</td></tr>
+        <tr><td>大型犬基础洗澡</td><td>同上，大型犬体型</td><td>188-248 元</td></tr>
+        <tr><td>猫咪基础洗澡</td><td>猫咪专用洗护（不含凶猛猫）</td><td>128-168 元</td></tr>
+        <tr><td>精细洗护</td><td>基础 + 皮肤检测 + 蓬松拉毛 + 造型</td><td>168-288 元</td></tr>
+        <tr><td>造型修剪</td><td>比熊、泰迪、雪纳瑞等</td><td>188-388 元</td></tr>
+        <tr><td>SPA 药浴</td><td>皮肤护理、舒缓抗敏、驱虫辅助</td><td>158-228 元</td></tr>
+      </tbody>
+    </table>
+    <h3 class="z-h3">6.2 寄养服务</h3>
+    <ul class="z-list">
+      <li>小型犬/猫独立笼位（约 0.6×0.8m）：<span class="z-number">98<span class="z-unit">元/天</span></span></li>
+      <li>中型犬独立笼位（约 0.8×1.0m）：<span class="z-number">128<span class="z-unit">元/天</span></span></li>
+      <li>大型犬独立笼位（约 1.0×1.2m）：<span class="z-number">168<span class="z-unit">元/天</span></span></li>
+      <li>每日遛狗（2 次/天×20 分钟）：+30 元/天</li>
+      <li>实时视频：免费提供</li>
+    </ul>
+    <p style="margin-top:6px"><strong>寄养 SOP</strong>：寄养前必须出示有效疫苗本（犬：狂犬+四联/八联；猫：三联），未免疫宠物一律拒接——本项目不做免疫补打。</p>
+    <h3 class="z-h3">6.5 合规边界说明</h3>
+    <div class="z-quote">本店不从事：宠物诊疗 / 疫苗注射 / 活体销售 / 宠物殡葬。本店从事：洗护美容 / 短期寄养 / 食品用品零售 / 免费养宠轻咨询。</div>
+  </div>
+
+  <!-- 第七章 -->
+  <div class="section-card" id="ch7">
+    <h2 class="z-h2">第七章 · 门店落地运营方案</h2>
+    <h3 class="z-h3">7.1 选址区位分析</h3>
+    <p><strong>门店地址</strong>：上海市浦东新区泥城镇五岭路×咏梅路交叉口西 120 米，LIN 舍小区沿街底商</p>
+    <ul class="z-list tick">
+      <li><strong>小区门口</strong>：紧邻 LIN 舍小区，下楼即到</li>
+      <li><strong>学校正对面</strong>：上海交通大学附属浦东临港实验中学</li>
+      <li><strong>商圈可达</strong>：步行 15 分钟至临港万达广场</li>
+      <li><strong>多小区环绕</strong>：1.5 公里内 8 个连片成熟小区</li>
+      <li><strong>沿街展示面</strong>：门头可见度高，自然引流强</li>
+      <li><strong>原商铺价值</strong>：原"有烟有火小龙虾"已腾退，排水/排烟设施齐全</li>
+    </ul>
+    <h3 class="z-h3">7.2 门店布局规划（<strong>49㎡</strong> · <strong>实地复测 7m × 7m</strong>）</h3>
+    <p>干湿分区经营：<strong>洗护区（湿区）</strong>独立设置；<strong>寄养区</strong>与零售/等候区物理隔断；动线合理（宠主进门→接待→等候→洗护视线通透）；监控无死角（视频信号同步至等候区屏幕）。</p>
+    <p style="margin-top:8px;color:var(--z-brown-soft);font-size:13px">→ 详见 <strong>「门店布局」</strong> 标签页的 SVG 平面图</p>
+    <h3 class="z-h3">7.6 洗护消杀 SOP</h3>
+    <ul class="z-list tick">
+      <li>每只宠物洗护后必做：洗护池消毒 / 美容台擦拭 / 推剪刀头浸泡 5 分钟 / 工具酒精擦拭 / 毛巾一宠一换</li>
+      <li>每日营业结束：紫外线消毒 30 分钟 / 笼具擦拭 / 排风口清洁 / 垃圾日产日清</li>
+      <li>每周大消：笼具暴晒 / 洗护池深度清洁 / 监控回放自检 / 库存盘点</li>
+    </ul>
+  </div>
+
+  <!-- 第八章 -->
+  <div class="section-card" id="ch8">
+    <h2 class="z-h2">第八章 · 全渠道营销获客方案</h2>
+    <div class="z-quote">一句话主张：「<span style="color:var(--z-orange-deep);font-weight:900">宅咪·临港 LIN 舍</span>· 楼下那家干净的宠物店」</div>
+    <h3 class="z-h3">8.2 线下社区运营</h3>
+    <ul class="z-list tick">
+      <li>入驻周边 8 个小区业主群（先建立信任、再发优惠）</li>
+      <li>开业前 2 周地推体验卡（5 元抵 50 元洗护）</li>
+      <li>万达广场联名卡与异业合作</li>
+      <li>学校家委会专属福利 + 社区活动赞助</li>
+    </ul>
+    <h3 class="z-h3">8.3 线上内容运营</h3>
+    <table class="z-table">
+      <thead><tr><th>平台</th><th>定位</th><th>更新频率</th></tr></thead>
+      <tbody>
+        <tr><td>小红书</td><td>"上海临港最干净的社区宠物店"</td><td>每周 3-5 篇</td></tr>
+        <tr><td>抖音/视频号</td><td>洗护流程、到店 Vlog、节日造型</td><td>每周 2-3 条</td></tr>
+        <tr><td>微信生态</td><td>主群+2-3 分群 / 朋友圈 / 会员小程序</td><td>每日 1-2 条</td></tr>
+      </tbody>
+    </table>
+    <h3 class="z-h3">8.4 会员等级体系</h3>
+    <table class="z-table">
+      <thead><tr><th>等级</th><th>累计消费</th><th>权益</th></tr></thead>
+      <tbody>
+        <tr><td>银卡</td><td>0-999 元</td><td>基础积分、节日问候</td></tr>
+        <tr><td>金卡</td><td>1000-2999 元</td><td>9 折、优先预约、生日礼包</td></tr>
+        <tr><td>黑卡</td><td>3000+ 元</td><td>8.5 折、专属客服、免费造型 2 次/年</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 第九章 -->
+  <div class="section-card" id="ch9">
+    <h2 class="z-h2">第九章 · 财务预算与盈利测算</h2>
+    <h3 class="z-h3">9.1 启动资金明细（合计 <strong>22.0 万元</strong> · 含原店主承接）</h3>
+        <table class="z-table">
+          <thead><tr><th>#</th><th>项目</th><th>金额(万)</th><th>占比</th><th>备注</th></tr></thead>
+          <tbody>
+            <tr style="background:rgba(244,184,96,.18)"><td>1</td><td><strong>转让费（承接原店主）</strong></td><td><strong>9.5</strong></td><td><strong>43.2%</strong></td><td><strong>议价区间 9-10 万 · 含 2 万押金 · 6 个月剩余房租已含</strong></td></tr>
+            <tr style="background:rgba(244,184,96,.18)"><td>2</td><td><strong>首期 6 个月房租预付</strong></td><td><strong>4.0</strong></td><td><strong>18.2%</strong></td><td><strong>8 万/年 ÷ 2 = 4 万 · 6 个月后续签 8 万/年</strong></td></tr>
+            <tr><td>3</td><td>装修（49㎡ 简装）</td><td>2.0</td><td>9.1%</td><td>水电+墙顶地+软装+灯光（49㎡ 比例下调）</td></tr>
+            <tr><td>4</td><td>设备笼具</td><td>4.2</td><td>19.1%</td><td>洗护池×2、吹水机、烘干机、推剪、笼具×6、监控</td></tr>
+            <tr><td>5</td><td>首批囤货</td><td>1.5</td><td>6.8%</td><td>食品×5 品牌、用品 SKU×100、浴液消毒毛巾</td></tr>
+            <tr><td>6</td><td>证照灯箱招牌</td><td>1.0</td><td>4.5%</td><td>营业执照、防疫证、门头、POP</td></tr>
+            <tr><td>7</td><td>POS/会员系统</td><td>0.2</td><td>0.9%</td><td>小程序会员系统</td></tr>
+            <tr><td>8</td><td>消防/排水改造</td><td>0.3</td><td>1.4%</td><td>排水管+消防器材+烟感</td></tr>
+            <tr><td>9</td><td>营销推广</td><td>0.5</td><td>2.3%</td><td>体验卡印制+小红书开户+地推物料</td></tr>
+            <tr><td>10</td><td>流动资金</td><td>3.0</td><td>13.6%</td><td>含 1.5 万应急储备金</td></tr>
+            <tr style="background:var(--z-cream-yellow);font-weight:800"><td colspan="2">合计</td><td>22.0</td><td>100%</td><td>原 16 万 → <strong>现 22 万（新增 6 万：转让费 + 半年房租）</strong></td></tr>
+          </tbody>
+        </table>
+        <h3 class="z-h3">9.2 月固定成本（约 <strong>1.57 万元/月</strong> · 6 个月后续签 8 万/年房租）</h3>
+        <div class="bar-row"><span class="bar-label">租金</span><div class="bar-track"><div class="bar-fill" style="width:43%">6667</div></div></div>
+        <div class="bar-row"><span class="bar-label">美容师薪资</span><div class="bar-track"><div class="bar-fill" style="width:42%">6500</div></div></div>
+        <div class="bar-row"><span class="bar-label">水电杂费</span><div class="bar-track"><div class="bar-fill" style="width:8%">1200</div></div></div>
+    <div class="bar-row"><span class="bar-label">消毒耗材</span><div class="bar-track"><div class="bar-fill" style="width:5%">800</div></div></div>
+    <div class="bar-row"><span class="bar-label">线上推广</span><div class="bar-track"><div class="bar-fill" style="width:3%">500</div></div></div>
+    <h3 class="z-h3">9.5 利润测算（4 阶段）</h3>
+    <table class="z-table">
+      <thead><tr><th>阶段</th><th>月营收</th><th>综合毛利</th><th>月固定</th><th>月净利</th></tr></thead>
+      <tbody>
+        <tr><td>稳态初期</td><td>23400</td><td>55%</td><td>15000</td><td style="color:var(--z-orange-deep);font-weight:900">-2130</td></tr>
+        <tr><td>6 个月</td><td>25000</td><td>58%</td><td>15000</td><td style="color:var(--z-orange-deep);font-weight:900">-500</td></tr>
+        <tr><td>12 个月</td><td>28000</td><td>60%</td><td>15000</td><td style="color:var(--z-green);font-weight:900">+1800</td></tr>
+        <tr><td>24 个月</td><td>35000</td><td>62%</td><td>17000</td><td style="color:var(--z-green);font-weight:900">+4700</td></tr>
+      </tbody>
+    </table>
+    <h3 class="z-h3">9.7 回本周期</h3>
+    <ul class="z-list tick">
+      <li><strong>累计回本周期</strong>：约 <span class="z-number">20~28</span> 个月（保守口径）</li>
+      <li>若洗护日均提升至 5 单，回本周期可缩短至 <strong>16-20 个月</strong></li>
+      <li>若租金/薪资上浮 10%，回本周期延长 2-4 个月，<strong>仍在可接受区间</strong></li>
+    </ul>
+  </div>
+
+  <!-- 第十章 -->
+  <div class="section-card" id="ch10">
+    <h2 class="z-h2">第十章 · 经营风险评估与应对措施</h2>
+    <div class="risk-grid">
+      <div class="risk-card"><div class="risk-title"><span class="pill">R1</span>客源不足</div><div class="risk-body">启动期品牌认知低，3-6 月难达稳态。<strong>应对</strong>：90 天地推、抢占"最干净"心智、老带新双倍券、万达联名卡。</div></div>
+      <div class="risk-card"><div class="risk-title"><span class="pill">R2</span>客户纠纷</div><div class="risk-body">洗护受伤、寄养生病、价格纠纷。<strong>应对</strong>：签服务协议、投保公众责任险（1000-2000 元/年）、24 小时投诉响应。</div></div>
+      <div class="risk-card"><div class="risk-title"><span class="pill">R3</span>合规风险</div><div class="risk-body">客户要求代购活体/代打疫苗。<strong>应对</strong>：店内/线上/小票明示"不售活体、不诊疗"，营业执照明确不含。</div></div>
+      <div class="risk-card"><div class="risk-title"><span class="pill">R4</span>房租/物业</div><div class="risk-body">房东提涨租金或收回商铺。<strong>应对</strong>：签 3-5 年长期合同、年涨幅 ≤5%、优先续租权、Plan B 选址。</div></div>
+      <div class="risk-card"><div class="risk-title"><span class="pill">R5</span>同行价格战</div><div class="risk-body">夫妻档降价抢客。<strong>应对</strong>：不参与价格战、强化"看得见的卫生"、维护老客户（流失率比获取率更重要）。</div></div>
+      <div class="risk-card"><div class="risk-title"><span class="pill">R6</span>疫病卫生</div><div class="risk-body">客户隐瞒患病史、交叉感染。<strong>应对</strong>：到店前健康确认、目视检查、严格执行洗护消杀 SOP、每月外请专业消杀。</div></div>
+    </div>
+  </div>
+
+  <!-- 第十一章 -->
+  <div class="section-card" id="ch11">
+    <h2 class="z-h2">第十一章 · 短期与中长期发展规划</h2>
+    <h3 class="z-h3">第一年（2026.07-2027.06）：立足社区、跑通模型</h3>
+    <ul class="z-list tick">
+      <li>第 1 个月正式开业，3 月服务 400+ 单，到店 800+ 人次</li>
+      <li>6 月月营收稳定 2 万+，12 月突破 2.5 万接近盈亏平衡</li>
+      <li>建立稳定会员体系（黑卡 10+、金卡 50+、银卡 200+）</li>
+      <li>小红书粉 2000+，抖音粉 1000+，微信群 300+</li>
+    </ul>
+    <h3 class="z-h3">第二年（2027.07-2028.06）：深耕社区、利润稳定</h3>
+    <ul class="z-list tick">
+      <li>月营收稳定 3.0-3.5 万，月净利 3000-5000 元</li>
+      <li>客户复购率 40%+，启动第 1 家分店选址评估</li>
+    </ul>
+    <h3 class="z-h3">第三年（2028.07-2029.06）：模型输出、规模扩张</h3>
+    <ul class="z-list tick">
+      <li>第 1 家分店正式开业（直营+小规模加盟试点）</li>
+      <li>建立"LIN 舍社区精细化洗护"标准模型（SOP/VI/培训/供应链）</li>
+    </ul>
+    <h3 class="z-h3">关键成功要素（6 项）</h3>
+    <div class="feature-grid">
+      <div class="feature-card"><div class="feature-title">① 卫生</div><div class="feature-desc">视频监控可视化是核心武器</div></div>
+      <div class="feature-card"><div class="feature-title">② 信任</div><div class="feature-desc">不强制推销、明码标价、不办预付卡</div></div>
+      <div class="feature-card"><div class="feature-title">③ 位置</div><div class="feature-desc">1.5km 覆盖 8 小区+万达</div></div>
+      <div class="feature-card"><div class="feature-title">④ 团队</div><div class="feature-desc">关键岗位不依赖单一人员</div></div>
+      <div class="feature-card"><div class="feature-title">⑤ 内容</div><div class="feature-desc">线上种草+到店体验</div></div>
+      <div class="feature-card"><div class="feature-title">⑥ 合规</div><div class="feature-desc">不卖活体、不做诊疗的底线</div></div>
+    </div>
+  </div>
+
+  <!-- 附录 -->
+  <div class="section-card" id="ch-appendix">
+    <h2 class="z-h2">附录 · 合规与证照清单</h2>
+    <ol class="z-list tick">
+      <li>营业执照 · 上海市市场监督管理局</li>
+      <li>动物防疫条件合格证 · 浦东新区农业农村委 · <strong>必备</strong></li>
+      <li>食品经营许可证（如经营宠物食品零售）</li>
+      <li>门头招牌备案 · 属地城管</li>
+      <li>消防安全检查 · 属地消防</li>
+      <li>排水许可（如涉及排水改造）</li>
+      <li>税务登记 · 上海市电子税务局</li>
+      <li>公众责任险 · 商业保险公司 · <strong>强烈建议</strong></li>
+    </ol>
+    <div class="z-quote" style="margin-top:14px">免责声明：本商业计划书所涉及的财务数据、市场预测、营收预估均基于编制人现有的认知与判断，实际经营结果可能因市场环境、政策变化、团队执行、突发事件等因素与本计划存在差异。本计划不构成投资建议，仅用于内部经营参考与对外沟通使用。</div>
+  </div>
+</section>
+
+<!-- ================== 标签2: 演示（HTML 幻灯片） ================== -->
+<section class="tab-panel" id="tab-slide">
+  <h1 class="z-title">演示 · 16 页幻灯片</h1>
+  <p class="z-lead">键盘 ← → 切换 · 顶部/底部导航 · 配色遵循宅咪品牌色（暖橙+奶黄+深棕）</p>
+
+  <div class="slide-stage">
+    <div class="slide-frame" id="slide-frame">
+      <!-- JS 动态注入 -->
+    </div>
+
+    <div class="slide-nav">
+      <button id="btn-prev" aria-label="上一页">◀</button>
+      <div class="progress" id="slide-progress">1 / 16</div>
+      <button id="btn-next" aria-label="下一页">▶</button>
+    </div>
+
+    <div class="slide-thumbs" id="slide-thumbs"></div>
+  </div>
+</section>
+
+<!-- ================== 标签3: 门店布局（含可编辑编辑器，合并自原"编辑布局"标签） ================== -->
+<section class="tab-panel" id="tab-layout">
+  <h1 class="z-title">门店布局 · 49㎡ 平面图 · 可编辑</h1>
+  <p class="z-lead">干湿分区 / 9 个功能区域 / 4 个摄像头 / 视线通透 · 内置交互式编辑器：拖拽组件 / 调整尺寸 / AI 自动布置 / 一键导出 SVG · PNG</p>
+
+  <div class="embed-stage">
+    <div class="embed-meta">
+      <div class="embed-meta-item"><strong>49</strong>㎡ 临街底商</div>
+      <div class="embed-meta-item"><strong>7.0m × 7.0m</strong> 总尺寸</div>
+      <div class="embed-meta-item"><strong>2</strong> 个独立洗护单间</div>
+      <div class="embed-meta-item"><strong>6</strong> 个独立寄养笼位</div>
+      <div class="embed-meta-item"><strong>4</strong> 个监控点位</div>
+      <div class="embed-meta-item">干湿分区经营</div>
+    </div>
+    <div class="embed-frame-wrap" style="height:calc(100vh - 280px);min-height:600px">
+      <iframe src="layout-editor.html" style="width:100%;height:100%;border:none;border-radius:var(--radius-sm)" title="门店布局编辑器" loading="lazy"></iframe>
+    </div>
+    <div style="margin-top:16px;padding:12px 16px;background:var(--z-cream-yellow);border-left:4px solid var(--z-orange-deep);border-radius:var(--radius-sm);font-size:14px;color:var(--z-brown-soft);line-height:1.7">
+      💡 提示：编辑器可拖拽组件、调整尺寸、DeepSeek AI 辅助自动布置、导出 SVG/PNG。<br>
+      📥 <strong>导入 SVG</strong>：点击编辑器顶部「导入 SVG」按钮选择本地文件 · 📤 <strong>导出 SVG</strong>：点击编辑器顶部「导出 SVG」按钮保存到本地。
+    </div>
+  </div>
+</section>
+
+<!-- ================== 标签5: 选址分析 ================== -->
+<section class="tab-panel" id="tab-map">
+  <h1 class="z-title">选址分析 · 浦东新区泥城镇</h1>
+  <p class="z-lead">1km 覆盖 8 个小区 / 步行到万达 16 分钟 / 3km 辐射 6.8 万人</p>
+
+  <div class="embed-stage">
+    <div class="embed-meta">
+      <div class="embed-meta-item"><strong>泥城镇</strong> 板块</div>
+      <div class="embed-meta-item"><strong>1km</strong> 8 个小区</div>
+      <div class="embed-meta-item"><strong>16min</strong> 步行到万达</div>
+      <div class="embed-meta-item"><strong>3km</strong> 辐射 6.8 万人</div>
+      <div class="embed-meta-item">临港新片区核心生活区</div>
+    </div>
+    <div class="embed-frame-wrap">
+      <iframe src="site-map.html" style="width:100%;height:720px;border:none" title="选址分析地图" onerror="this.parentElement.innerHTML='<div class=&quot;embed-fallback&quot;>⚠️ 选址分析地图加载失败</div>'"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ================== 标签5: 关于 ================== -->
+<section class="tab-panel" id="tab-about">
+  <div class="about-hero">
+    <img src="assets/zhaimi-logo.png" alt="宅咪 LOGO" onerror="this.outerHTML='<div style=&quot;width:120px;height:120px;border-radius:50%;background:var(--z-cream-yellow);margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:60px&quot;>🐱</div>'" />
+    <h2 style="font-size:36px">宅咪<span style="font-size:0.6em;color:var(--z-brown-soft);border-left:3px solid var(--z-orange-deep);padding-left:14px;margin-left:10px;vertical-align:middle;letter-spacing:2px">· 临港 LIN 舍</span></h2>
+    <p>宅咪品牌的线下延伸门店 · 社区精细化洗护综合宠物店</p>
+    <div class="z-tagline-hero">让<span class="z-hl">宅</span>主宅在家就能解决宠物相关的一切问题！</div>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-card">
+      <h4>📌 品牌信息</h4>
+      <ul>
+        <li><strong>主品牌</strong>：宅咪 ZHAIMI（暖橙奶油 3D 软糖治愈系）</li>
+        <li><strong>门店全名</strong>：<span style="color:var(--z-orange-deep);font-weight:800">宅咪·临港 LIN 舍</span></li>
+        <li><strong>主品牌定位</strong>：3D 软糖治愈系 · 暖橙奶油</li>
+        <li><strong>业态</strong>：洗护 + 寄养 + 零售</li>
+        <li><strong>选址</strong>：浦东新区泥城镇五岭路 × 咏梅路</li>
+      </ul>
+    </div>
+
+    <div class="about-card" style="background:linear-gradient(135deg,var(--z-cream-yellow) 0%,var(--z-cream-white) 100%);border:2px solid var(--z-orange-deep)">
+      <h4>🏷️ 店名命名规范（扩张用）</h4>
+      <ul>
+        <li><strong>命名规则</strong>：<code style="background:var(--z-cream-white);padding:2px 6px;border-radius:4px;border:1px solid var(--z-orange)">宅咪·[城市/区域] [店名]</code></li>
+        <li><strong>本店（首店）</strong>：<span style="color:var(--z-orange-deep);font-weight:800">宅咪·临港 LIN 舍</span></li>
+        <li><strong>未来扩张示例①</strong>：<span style="color:var(--z-brown)">宅咪·<span style="color:var(--z-orange-deep)">浦东</span> 金桥店</span></li>
+        <li><strong>未来扩张示例②</strong>：<span style="color:var(--z-brown)">宅咪·<span style="color:var(--z-orange-deep)">徐汇</span> 衡复店</span></li>
+        <li><strong>未来扩张示例③</strong>：<span style="color:var(--z-brown)">宅咪·<span style="color:var(--z-orange-deep)">闵行</span> 古美店</span></li>
+        <li style="font-size:12px;color:var(--z-brown-soft)">📌 主品牌「宅咪」+ 副品牌「·[区域] [店名]」——所有门店共享主品牌 VI，差异化由副品牌承接</li>
+      </ul>
+    </div>
+
+    <div class="about-card">
+      <h4>📊 数据来源</h4>
+      <ul>
+        <li>《2025 中国宠物行业白皮书》</li>
+        <li>OpenStreetMap 周边小区与人口数据</li>
+        <li>实地走访调研（2026 Q2）</li>
+        <li>品牌方授权数据（宅咪小红书）</li>
+        <li>上海市/浦东新区农业农村委公开政策</li>
+      </ul>
+    </div>
+
+    <div class="about-card">
+      <h4>⚖️ 合规声明</h4>
+      <ul>
+        <li>✓ 不销售活体宠物</li>
+        <li>✓ 不开展宠物诊疗</li>
+        <li>✓ 不进行疫苗注射</li>
+        <li>✓ 持动物防疫条件合格证</li>
+        <li>✓ 不办预付储值卡</li>
+      </ul>
+    </div>
+
+    <div class="about-card">
+      <h4>🏷️ 版本信息</h4>
+      <ul>
+        <li><strong>版本号</strong>：v1.0</li>
+        <li><strong>编制日期</strong>：2026-06-16</li>
+        <li><strong>编制人</strong>：LIN 舍项目组</li>
+        <li><strong>使用对象</strong>：投资人 / 内部使用</li>
+        <li><strong>下次更新</strong>：试营业后 v1.1</li>
+      </ul>
+    </div>
+
+    <div class="about-card">
+      <h4>🎨 品牌视觉</h4>
+      <ul>
+        <li>主色：暖橙 #F4B860 · 深橙 #E89A3C</li>
+        <li>辅色：奶黄 #FFD89A · 奶油白 #FFF4E1</li>
+        <li>点缀：暖绿 #A8C99A · 深棕 #5C3D2E</li>
+        <li>风格：3D 软糖治愈系 · 圆润厚实</li>
+        <li>光线：左上方 45° 柔光</li>
+      </ul>
+    </div>
+
+    <div class="about-card">
+      <h4>📞 联系方式</h4>
+      <ul>
+        <li><strong>属地市场监管</strong>：临港新片区市场监管所</li>
+        <li><strong>属地动物卫生</strong>：浦东新区动物卫生监督所</li>
+        <li><strong>消防</strong>：浦东消防救援支队临港大队</li>
+        <li><strong>属地城管</strong>：浦东城管执法局临港中队</li>
+        <li><strong>物业沟通</strong>：LIN 舍小区物业服务中心</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="margin-top:24px;text-align:center">
+    <img src="assets/zhaimi-hero.png" alt="宅咪主页背景图" style="max-width:100%;border-radius:var(--radius-lg);box-shadow:var(--shadow-3d-deep);border:4px solid var(--z-orange-deep)" onerror="this.style.display='none'" />
+  </div>
+</section>
+
+</main>
+
+<!-- 全屏查看 Modal -->
+<div id="fullscreenModal" class="fullscreen-modal" style="display:none;">
+  <div class="fs-overlay" id="fsOverlay"></div>
+  <div class="fs-container" id="fsContainer">
+    <div class="fs-header">
+      <span class="fs-title" id="fsTitle">演示 · 全屏模式</span>
+      <div class="fs-actions">
+        <button class="fs-native" id="fsNativeBtn" title="浏览器原生全屏 (F11)">⛶ 进入系统全屏</button>
+        <button class="fs-maximize" id="fsMaxBtn" title="最大化/还原 (双击背景)">⛶</button>
+        <button class="fs-close" id="fsCloseBtn" title="关闭 (ESC)">✕</button>
+      </div>
+    </div>
+    <div class="fs-body" id="fsBody"></div>
+  </div>
+</div>
+
+<!-- 宅咪角标 -->
+<div class="zhaimi-watermark">宅咪 ZHAIMI</div>
+
+<script>
+/* ============================================================
+   标签切换
+   ============================================================ */
+let currentSlide = 0;
+(function(){
+  const tabs = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.tab-panel');
+  function switchTab(name){
+    tabs.forEach(t=>t.classList.toggle('active', t.dataset.tab===name));
+    panels.forEach(p=>p.classList.toggle('active', p.id==='tab-'+name));
+    try{ localStorage.setItem('zhaimi-tab', name); }catch(e){}
+    if(name==='slide'){ try{ if(typeof slides !== 'undefined') buildSlide(); }catch(e){} }
+  }
+  tabs.forEach(t=>t.addEventListener('click', ()=>switchTab(t.dataset.tab)));
+  let saved = 'doc';
+  try{ saved = localStorage.getItem('zhaimi-tab') || 'doc'; }catch(e){}
+  switchTab(saved);
+  window.addEventListener('hashchange', ()=>{
+    const h = location.hash.replace('#','');
+    if(['doc','slide','layout','map','about'].includes(h)) switchTab(h);
+  });
+  if(location.hash){
+    const h = location.hash.replace('#','');
+    if(['doc','slide','layout','map','about'].includes(h)) switchTab(h);
+  }
+})();
+
+/* ============================================================
+   16 页 HTML 幻灯片
+   ============================================================ */
+const slides = [
+  // 1. 封面
+  {kind:'cover'},
+  // 2. 执行摘要
+  {kind:'kpi', title:'执行摘要 · 一页看懂', subtitle:'EXECUTIVE SUMMARY', kpis:[
+    {v:'16',u:'万',l:'启动资金'},
+    {v:'1.8~2.5',u:'万/月',l:'稳态营收'},
+    {v:'20~28',u:'月',l:'回本周期'},
+    {v:'15~20',u:'%',l:'净利率'}
+  ], note:'保守口径测算 · 含 1.5 万应急储备金 · 综合毛利率 55-62%'},
+  // 3. 项目定位
+  {kind:'text', title:'项目定位', subtitle:'PROJECT POSITIONING',
+    items:[
+      {t:'区位',d:'浦东新区泥城镇五岭路 × 咏梅路交叉口西 120 米，LIN 舍小区沿街底商'},
+      {t:'物业',d:'原"有烟有火小龙虾"商铺，<strong>49㎡ 实地复测 7m×7m</strong>，单层临街底商，排水/排烟设施齐全'},
+      {t:'业态',d:'洗护美容 55% + 寄养 20% + 零售 25%（含食品/用品/辅食）'},
+      {t:'合规底线',d:'不售活体 · 不做诊疗 · 不打疫苗 · 不办预付卡'}
+    ]
+  },
+  // 4. 选址优势
+  {kind:'text', title:'选址优势 · 1.5 公里黄金覆盖', subtitle:'LOCATION ADVANTAGE',
+    items:[
+      {t:'小区门口',d:'紧邻 LIN 舍小区，下楼即到，天然拥有"小区宠主"基础'},
+      {t:'学校正对面',d:'上海交通大学附属浦东临港实验中学（泥城五岭路 1301 号）'},
+      {t:'商圈可达',d:'步行 15 分钟至临港万达广场（鸿音路 2555 号）'},
+      {t:'多小区环绕',d:'1.5 公里内 8 个连片成熟小区，常住养宠家庭基数大'},
+      {t:'沿街展示面',d:'门头可见度高，自然引流能力强'},
+      {t:'原商铺优势',d:'无需承担原租户违约金，改造排水成本可控'}
+    ]
+  },
+  // 5. 市场机会
+  {kind:'kpi', title:'市场机会 · 临港宠物市场', subtitle:'MARKET OPPORTUNITY', kpis:[
+    {v:'3002',u:'亿',l:'2024 市场规模'},
+    {v:'66.8',u:'%',l:'90/00 后宠主'},
+    {v:'8',u:'个',l:'1.5km 小区'},
+    {v:'6.8',u:'万',l:'3km 辐射人口'}
+  ], note:'上海是全国宠物经济高地市场 · 临港为"五大新城"战略发展最快板块'},
+  // 6. 核心客群
+  {kind:'text', title:'核心客群 · 谁会来', subtitle:'TARGET CUSTOMER',
+    items:[
+      {t:'年龄',d:'25-40 岁，以 28-35 岁双职工年轻家庭为主'},
+      {t:'收入',d:'家庭月收入 1.5-3.5 万元，可支配收入中等偏上'},
+      {t:'居住',d:'周边 8 个小区为主，步行 15 分钟可达'},
+      {t:'养宠类型',d:'中小型犬 60% / 猫 30% / 中大型犬及其他 10%'},
+      {t:'核心诉求',d:'卫生第一 · 专业可信 · 就近便利 · 价格透明 · 情感连接'},
+      {t:'决策路径',d:'小红书/抖音种草 → 微信咨询 → 到店体验 → 复购或拉黑'}
+    ]
+  },
+  // 7. 差异化 6 大卖点
+  {kind:'feature', title:'差异化 · 6 大卖点', subtitle:'DIFFERENTIATION'},
+  // 8. 产品矩阵
+  {kind:'text', title:'产品矩阵 · 三大业务', subtitle:'PRODUCT MATRIX',
+    items:[
+      {t:'洗护美容（核心引流）',d:'小型犬 88-128 / 中型犬 128-168 / 猫 128-168 / SPA 药浴 158-228 / 造型 188-388 元'},
+      {t:'宠物寄养（高利润）',d:'小型 98 / 中型 128 / 大型 168 元/天，含遛狗+实时视频+洗护接驳'},
+      {t:'零售（粘性）',d:'主粮精选 3-5 品牌（皇家/麦富迪/爱肯拿/渴望/网易严选），100-150 个活跃 SKU'},
+      {t:'增值服务',d:'上门接送 30 元 · 10 次卡 9 折 · 节日造型 +30~50% · 免费线上咨询'}
+    ]
+  },
+  // 9. 门店布局
+  {kind:'layout', title:'门店布局 · 49㎡ 平面图', subtitle:'7.0m × 7.0m · 干湿分区 · 9 功能区域 · 4 摄像头'},
+  // 10. 财务 - 启动金饼图
+  {kind:'chart-pie', title:'启动资金 22 万 · 构成', subtitle:'STARTUP CAPITAL ALLOCATION',
+      note:'转让费 43.2% · 半年房租 18.2% · 设备笼具 19.1% · 流动资金 13.6% · 装修 9.1% · 首批囤货 6.8% · 证照招牌 4.5% · 营销 2.3% · 改造 1.4% · POS 0.9%'},
+  // 11. 财务 - 月度柱图
+  {kind:'chart-bar', title:'月度营收 · 4 阶段', subtitle:'MONTHLY REVENUE FORECAST'},
+  // 12. 回本周期
+  {kind:'text', title:'回本周期 · 3 情景', subtitle:'PAYBACK PERIOD',
+    items:[
+      {t:'基准情景',d:'启动资金 16 万，1-6 月月亏 2000-5000，7-12 月盈亏平衡略亏，13-24 月月均净利 1500-4000，回本 20-28 个月'},
+      {t:'乐观情景',d:'洗护日均提升至 5 单，营收增长 25%，回本周期缩短至 16-20 个月'},
+      {t:'悲观情景',d:'租金/薪资上浮 10%，淡季亏损超过 3 个月，应急储备金 1.5 万可覆盖，回本延长 2-4 个月'},
+      {t:'盈亏平衡点',d:'月营收 2.6-2.8 万 / 日洗护 4-5 单 + 寄养 1-2 只 / 预计 8-12 个月达到'}
+    ]
+  },
+  // 13. 6 大风险
+  {kind:'risk'},
+  // 14. 营销方案
+  {kind:'text', title:'全渠道营销 · 90 天冷启动', subtitle:'MARKETING PLAN',
+    items:[
+      {t:'线下社区',d:'入驻 8 个小区业主群 · 开业前 2 周地推体验卡（5 元抵 50）· 万达联名卡'},
+      {t:'小红书',d:'定位"上海临港最干净的社区宠物店"，每周 3-5 篇（洗护对比 / SOP 实拍 / 客户评价）'},
+      {t:'抖音/视频号',d:'30 秒洗护流程 · 客户到店 Vlog · 节日造型展示 · 每周 2-3 条'},
+      {t:'会员体系',d:'银/金/黑卡三级 · 老带新双 30 元券 · 启动后 90 天目标复购率 20%+'},
+      {t:'90 天节奏',d:'1-30 天冷启动 · 31-60 天口碑积累 · 61-90 天稳定期（日均 3-5 单）'}
+    ]
+  },
+  // 15. 发展规划
+  {kind:'text', title:'发展规划 · 3 年路径', subtitle:'DEVELOPMENT ROADMAP',
+    items:[
+      {t:'第 1 年（2026.07-2027.06）',d:'立足社区、跑通模型。月营收 2.5 万+，接近盈亏平衡。会员黑 10+/金 50+/银 200+。小红书粉 2000+'},
+      {t:'第 2 年（2027.07-2028.06）',d:'深耕社区、利润稳定。月营收 3.0-3.5 万，月净利 3000-5000。启动第 1 家分店选址评估'},
+      {t:'第 3 年（2028.07-2029.06）',d:'模型输出、规模扩张。第 1 家分店开业（直营+小规模加盟试点），建立 SOP/VI/培训/供应链标准模型'},
+      {t:'5 年愿景',d:'临港开出 3-5 家标准化社区宠物店，形成"直营+合伙"双轨发展模式'}
+    ]
+  },
+  // 16. 致谢/封底
+  {kind:'thanks'}
+];
+
+try{
+  const s = parseInt(localStorage.getItem('zhaimi-slide')||'0',10);
+  if(!isNaN(s) && s>=0 && s<slides.length) currentSlide = s;
+}catch(e){}
+
+function buildSlide(){
+  renderSlide(currentSlide);
+  buildThumbs();
+}
+
+function renderSlide(idx){
+  const s = slides[idx];
+  const frame = document.getElementById('slide-frame');
+  if(!frame) return;
+  document.getElementById('slide-progress').textContent = (idx+1)+' / '+slides.length;
+  document.getElementById('btn-prev').disabled = idx===0;
+  document.getElementById('btn-next').disabled = idx===slides.length-1;
+
+  let html = '<div class="slide-num">第 '+(idx+1)+' / '+slides.length+' 页</div><div class="slide-inner">';
+
+  if(s.kind==='cover'){
+    html += '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;background:linear-gradient(135deg,var(--z-cream-yellow) 0%,var(--z-orange) 100%);border-radius:var(--radius-sm)">';
+    html += '<img src="assets/zhaimi-logo.png" class="slide-cover-logo" alt="宅咪 LOGO" onerror="this.outerHTML=\'<div class=&quot;slide-cover-logo&quot; style=&quot;background:var(--z-cream-yellow);display:flex;align-items:center;justify-content:center;font-size:60px&quot;>🐱</div>\'" />';
+    html += '<div style="font-size:14px;color:var(--z-brown-soft);letter-spacing:4px;margin-bottom:8px;font-weight:700">ZHAIMI · LIN-SHE</div>';
+    html += '<div class="slide-title" style="font-size:54px;color:var(--z-brown);text-shadow:3px 3px 0 var(--z-cream-white),5px 5px 0 rgba(92,61,46,0.2)">宅咪<span style="font-size:0.55em;color:var(--z-brown-soft);border-left:3px solid var(--z-orange-deep);padding-left:14px;margin-left:14px;vertical-align:middle;letter-spacing:2px">· 临港 LIN 舍</span></div>';
+    html += '<div style="font-size:22px;color:var(--z-brown);font-weight:800;margin-top:8px">社区精细化洗护综合宠物店</div>';
+    html += '<div class="z-tagline" style="font-size:20px;background:var(--z-cream-white);padding:8px 22px;margin-top:14px;border:3px solid var(--z-brown);box-shadow:3px 3px 0 var(--z-orange-deep);border-radius:50px">让<span class="z-hl" style="font-size:1.2em;border-bottom-width:4px">宅</span>主宅在家就能解决宠物相关的一切问题！</div>';
+    html += '<div style="font-size:15px;color:var(--z-brown-soft);margin-top:16px;font-weight:600">商业计划书 · 投资人版</div>';
+    html += '<div class="slide-cover-tag">v1.0 · 内部使用 · 2026-06-16</div>';
+    html += '</div>';
+  }
+  else if(s.kind==='kpi'){
+    html += '<div class="z-tagline" style="font-size:15px;background:var(--z-cream-yellow);padding:6px 14px;margin-bottom:12px;border:2px solid var(--z-orange-deep);box-shadow:2px 2px 0 var(--z-orange);border-radius:50px;display:inline-block">让<span class="z-hl">宅</span>主宅在家就能解决宠物相关的一切问题！</div>';
+    html += '<div class="slide-title">'+s.title+'</div>';
+    html += '<div class="slide-subtitle">'+s.subtitle+'</div>';
+    html += '<div class="slide-kpi-row">';
+    s.kpis.forEach(k=>{
+      html += '<div class="slide-kpi"><div class="v">'+k.v+'<span style="font-size:14px;color:var(--z-brown);margin-left:2px">'+k.u+'</span></div><div class="l">'+k.l+'</div></div>';
+    });
+    html += '</div>';
+    if(s.note) html += '<div class="z-quote" style="margin-top:18px">'+s.note+'</div>';
+    html += '<div style="flex:1;display:flex;align-items:center;justify-content:center;color:var(--z-brown-soft);font-size:13px;font-style:italic">→ 详见「文档」标签页对应章节</div>';
+  }
+  else if(s.kind==='text'){
+    html += '<div class="slide-title">'+s.title+'</div>';
+    html += '<div class="slide-subtitle">'+s.subtitle+'</div>';
+    html += '<div class="slide-list">';
+    s.items.forEach(it=>{
+      html += '<div class="slide-item"><strong>'+it.t+'</strong>'+it.d+'</div>';
+    });
+    html += '</div>';
+  }
+  else if(s.kind==='feature'){
+    html += '<div class="slide-title">'+s.title+'</div>';
+    html += '<div class="slide-subtitle">'+s.subtitle+'</div>';
+    const feats = [
+      {n:'1',t:'独立封闭式洗护单间',d:'每只宠物单独洗护空间，避免交叉应激'},
+      {n:'2',t:'一宠一换毛巾',d:'全套工具单次消毒，卫生标准显著优于同行'},
+      {n:'3',t:'社区亲民定价',d:'明码标价、无强制推销、不办预付卡'},
+      {n:'4',t:'免费线上咨询',d:'微信、小红书私信为宠主提供长期轻咨询'},
+      {n:'5',t:'全程可监控',d:'洗护区视频监控，宠主等候区实时查看'},
+      {n:'6',t:'干湿分区',d:'洗护、寄养、零售三区物理分隔，无异味外溢'}
+    ];
+    html += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:10px">';
+    feats.forEach(f=>{
+      html += '<div style="background:var(--z-beige-light);border:2px solid var(--z-orange);border-radius:var(--radius-sm);padding:12px;position:relative"><span style="position:absolute;top:-10px;left:-6px;background:var(--z-orange-deep);color:var(--z-cream-white);width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px;border:2px solid var(--z-cream-white)">'+f.n+'</span><div style="font-weight:800;color:var(--z-brown);font-size:14px;margin-bottom:3px;margin-left:14px">'+f.t+'</div><div style="font-size:12px;color:var(--z-brown-soft);margin-left:14px">'+f.d+'</div></div>';
+    });
+    html += '</div>';
+  }
+  else if(s.kind==='layout'){
+    html += '<div class="slide-title">'+s.title+'</div>';
+    html += '<div class="slide-subtitle">'+s.subtitle+'</div>';
+    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;flex:1">';
+    html += '<div style="background:var(--z-beige-light);border-radius:var(--radius-sm);padding:18px;display:flex;align-items:center;justify-content:center;border:2px solid var(--z-orange)">';
+    html += '<img src="layout.svg" alt="门店布局" style="max-width:100%;max-height:340px" onerror="this.outerHTML=\'<div style=&quot;color:var(--z-brown-soft);font-size:13px&quot;>SVG 加载失败 → 详见「门店布局」标签页</div>\'" />';
+    html += '</div>';
+    html += '<div>';
+    html += '<div style="background:var(--z-cream-yellow);border-left:5px solid var(--z-orange-deep);padding:10px 14px;border-radius:8px;margin-bottom:8px;font-size:13px"><strong>7.0m × 7.0m</strong> · 总 49 ㎡</div>';
+    html += '<div style="background:var(--z-cream-yellow);border-left:5px solid var(--z-orange-deep);padding:10px 14px;border-radius:8px;margin-bottom:8px;font-size:13px"><strong>2</strong> 个独立洗护单间 + <strong>6</strong> 个独立寄养笼位</div>';
+    html += '<div style="background:var(--z-cream-yellow);border-left:5px solid var(--z-orange-deep);padding:10px 14px;border-radius:8px;margin-bottom:8px;font-size:13px"><strong>4</strong> 个监控点位（视频同步至等候区）</div>';
+    html += '<div style="background:var(--z-cream-yellow);border-left:5px solid var(--z-orange-deep);padding:10px 14px;border-radius:8px;margin-bottom:8px;font-size:13px">干湿分区经营 · 无异味外溢</div>';
+    html += '<div style="background:var(--z-cream-yellow);border-left:5px solid var(--z-orange-deep);padding:10px 14px;border-radius:8px;font-size:13px">动线合理（宠主进门→接待→等候→洗护视线通透）</div>';
+    html += '</div></div>';
+  }
+  else if(s.kind==='chart-pie'){
+    html += '<div class="slide-title">'+s.title+'</div>';
+    html += '<div class="slide-subtitle">'+s.subtitle+'</div>';
+    html += '<div style="display:grid;grid-template-columns:auto 1fr;gap:30px;align-items:center;margin-top:8px">';
+    html += '<div class="chart-pie"></div>';
+    html += '<div style="font-size:13px">';
+    const legend = [
+          {c:'#E89A3C',l:'设备笼具 19.1% · 4.2 万'},
+          {c:'#F4B860',l:'装修 9.1% · 2.0 万'},
+          {c:'#FFD89A',l:'流动资金 13.6% · 3.0 万（含应急 1.5 万）'},
+          {c:'#A8C99A',l:'首批囤货 6.8% · 1.5 万'},
+          {c:'#5C3D2E',l:'转让费 43.2% · 9.5 万（议价 9-10）'},
+          {c:'#B85C38',l:'半年房租 18.2% · 4.0 万'}
+        ];
+    legend.forEach(g=>{
+      html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="width:14px;height:14px;background:'+g.c+';border-radius:3px;display:inline-block"></span><span style="font-weight:600;color:var(--z-brown)">'+g.l+'</span></div>';
+    });
+    html += '</div></div>';
+    if(s.note) html += '<div class="z-quote" style="margin-top:14px;font-size:13px">'+s.note+'</div>';
+  }
+  else if(s.kind==='chart-bar'){
+    html += '<div class="slide-title">'+s.title+'</div>';
+    html += '<div class="slide-subtitle">'+s.subtitle+'</div>';
+    html += '<div style="margin-top:8px">';
+    const data = [
+      {l:'稳态初期',v:23400,alt:false},
+      {l:'+6 月',v:25000,alt:false},
+      {l:'+12 月',v:28000,alt:false},
+      {l:'+24 月',v:35000,alt:true},
+      {l:'淡季低点',v:12000,alt:false},
+      {l:'春节高位',v:22100,alt:true}
+    ];
+    const max = 35000;
+    html += '<div class="chart-bars" style="margin-top:18px">';
+    data.forEach(d=>{
+      const h = Math.max(8, (d.v/max)*160);
+      html += '<div class="chart-bar '+(d.alt?'alt':'')+'" style="height:'+h+'px"><span class="chart-bar-val">'+d.v+'</span><span class="chart-bar-label">'+d.l+'</span></div>';
+    });
+    html += '</div>';
+    html += '<div style="margin-top:42px;font-size:13px;color:var(--z-brown-soft);font-weight:600">稳态营收 2.3-3.5 万元/月 · 淡季低点 1.0-1.2 万 · 春节高位 2.2 万（寄养爆发）</div>';
+    html += '</div>';
+  }
+  else if(s.kind==='risk'){
+    html += '<div class="slide-title">经营风险 · 6 大应对</div>';
+    html += '<div class="slide-subtitle">RISK & MITIGATION</div>';
+    html += '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:8px">';
+    const risks = [
+      {p:'R1',t:'客源不足',d:'90 天地推 · 抢占"最干净"心智 · 老带新双倍券'},
+      {p:'R2',t:'客户纠纷',d:'签服务协议 · 投保公众责任险 · 24 小时响应'},
+      {p:'R3',t:'合规风险',d:'明示"不售活体/不诊疗" · 营业执照不含'},
+      {p:'R4',t:'房租/物业',d:'签 3-5 年合同 · 年涨幅 ≤5% · Plan B 选址'},
+      {p:'R5',t:'同行价格战',d:'不参与价格战 · 强化"看得见的卫生"'},
+      {p:'R6',t:'疫病卫生',d:'到店前健康确认 · 严格 SOP · 每月专业消杀'}
+    ];
+    risks.forEach(r=>{
+      html += '<div style="background:var(--z-cream-yellow);border-left:5px solid var(--z-orange-deep);padding:10px 12px;border-radius:8px"><span style="background:var(--z-brown);color:var(--z-cream-yellow);padding:2px 8px;border-radius:50px;font-size:11px;font-weight:800;margin-right:6px">'+r.p+'</span><strong style="color:var(--z-brown);font-size:14px">'+r.t+'</strong><div style="font-size:12px;color:var(--z-brown-soft);margin-top:4px"><strong style="color:var(--z-orange-deep)">应对：</strong>'+r.d+'</div></div>';
+    });
+    html += '</div>';
+  }
+  else if(s.kind==='thanks'){
+    html += '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;background:linear-gradient(135deg,var(--z-cream-yellow) 0%,var(--z-orange) 100%);border-radius:var(--radius-sm)">';
+    html += '<div style="font-size:60px;margin-bottom:14px">🐾</div>';
+    html += '<div class="slide-title" style="font-size:48px;color:var(--z-brown);text-shadow:3px 3px 0 var(--z-cream-white)">感谢您的关注</div>';
+    html += '<div style="font-size:24px;color:var(--z-brown);font-weight:900;margin-top:10px">宅咪<span style="font-size:0.6em;color:var(--z-brown-soft);border-left:3px solid var(--z-orange-deep);padding-left:10px;margin-left:8px;vertical-align:middle;letter-spacing:2px">· 临港 LIN 舍</span></div>';
+    html += '<div style="font-size:14px;color:var(--z-brown-soft);margin-top:18px;font-weight:600">宅咪品牌的线下延伸 · 社区精细化洗护综合宠物店</div>';
+    html += '<div class="z-quote" style="margin-top:18px;max-width:520px">"立足临港泥城社区，打造「离家最近、卫生最严、价格最透明」的宠物生活馆"</div>';
+    html += '<div style="margin-top:18px;font-size:13px;color:var(--z-brown);font-weight:700">v1.0 · 2026-06-16 · 内部使用</div>';
+    html += '</div>';
+  }
+
+  html += '</div>';
+  frame.innerHTML = html;
+}
+
+function buildThumbs(){
+  const wrap = document.getElementById('slide-thumbs');
+  if(!wrap) return;
+  wrap.innerHTML = '';
+  const titles = ['封面','执行摘要','项目定位','选址优势','市场机会','核心客群','6大卖点','产品矩阵','门店布局','启动金饼图','月度营收柱图','回本周期','6大风险','营销方案','发展规划','封底'];
+  titles.forEach((t,i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'slide-thumb'+(i===currentSlide?' active':'');
+    btn.textContent = (i+1)+'. '+t;
+    btn.addEventListener('click',()=>goSlide(i));
+    wrap.appendChild(btn);
+  });
+}
+
+function goSlide(idx){
+  if(idx<0||idx>=slides.length) return;
+  currentSlide = idx;
+  try{ localStorage.setItem('zhaimi-slide', String(idx)); }catch(e){}
+  renderSlide(idx);
+  // 更新 thumb 状态
+  document.querySelectorAll('.slide-thumb').forEach((b,i)=>{
+    b.classList.toggle('active', i===idx);
+  });
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  // ===== 动态计算 tab-bar 的 top = brand-bar 实际高度（确保 sticky 不重叠）=====
+  const brandBar = document.querySelector('.brand-bar');
+  const tabBar = document.querySelector('.tab-bar');
+  if(brandBar && tabBar){
+    const setStickyTop = () => {
+      const h = brandBar.getBoundingClientRect().height;
+      tabBar.style.top = h + 'px';
+    };
+    setStickyTop();
+    window.addEventListener('resize', setStickyTop);
+    // 字体/图片加载可能改变高度，再补一次
+    setTimeout(setStickyTop, 100);
+    setTimeout(setStickyTop, 500);
+  }
+  const prev = document.getElementById('btn-prev');
+  const next = document.getElementById('btn-next');
+  if(prev) prev.addEventListener('click',()=>goSlide(currentSlide-1));
+  if(next) next.addEventListener('click',()=>goSlide(currentSlide+1));
+  // 键盘 ← →
+  document.addEventListener('keydown',(e)=>{
+    const slidePanel = document.getElementById('tab-slide');
+    if(!slidePanel || !slidePanel.classList.contains('active')) return;
+    if(e.key==='ArrowLeft'){ goSlide(currentSlide-1); e.preventDefault(); }
+    else if(e.key==='ArrowRight'){ goSlide(currentSlide+1); e.preventDefault(); }
+  });
+});
+
+/* ============================================================
+   全屏查看功能
+   ============================================================ */
+(function(){
+  const modal = document.getElementById('fullscreenModal');
+  const overlay = document.getElementById('fsOverlay');
+  const container = document.getElementById('fsContainer');
+  const bodyEl = document.getElementById('fsBody');
+  const titleEl = document.getElementById('fsTitle');
+  const closeBtn = document.getElementById('fsCloseBtn');
+  const maxBtn = document.getElementById('fsMaxBtn');
+
+  const tabNames = {doc:'文档',slide:'演示',layout:'门店布局',map:'选址分析',about:'关于'};
+
+  function addTriggers(){
+    const skipPanels = new Set(['tab-layout', 'tab-map']);
+    document.querySelectorAll('.tab-panel').forEach(panel => {
+      if(skipPanels.has(panel.id)) return;
+      if(panel.querySelector('.fs-trigger')) return;
+      const btn = document.createElement('button');
+      btn.className = 'fs-trigger';
+      btn.innerHTML = '⛶ 全屏打开';
+      btn.addEventListener('click', function(e){
+        e.stopPropagation();
+        openFullscreen(panel);
+      });
+      panel.appendChild(btn);
+    });
+  }
+
+  function openFullscreen(panel){
+    const id = panel.id;
+    const name = id.replace('tab-','');
+    const displayName = tabNames[name] || name;
+    titleEl.textContent = displayName + ' · 全屏模式';
+
+    bodyEl.innerHTML = '';
+    container.classList.remove('maximized');
+
+    if(name === 'layout'){
+      const iframe = document.createElement('iframe');
+      iframe.src = 'layout-editor.html';
+      iframe.title = '门店布局编辑器';
+      iframe.setAttribute('allowfullscreen', 'true');
+      iframe.setAttribute('allow', 'fullscreen');
+      bodyEl.appendChild(iframe);
+      iframe.onload = function(){ try{ iframe.contentWindow.scrollTo(0,0); }catch(e){} };
+    }
+    else if(name === 'map'){
+      const iframe = document.createElement('iframe');
+      iframe.src = 'site-map.html';
+      iframe.title = '选址分析地图';
+      iframe.setAttribute('allowfullscreen', 'true');
+      iframe.setAttribute('allow', 'fullscreen');
+      bodyEl.appendChild(iframe);
+      iframe.onload = function(){ try{ iframe.contentWindow.scrollTo(0,0); }catch(e){} };
+    }
+    else if(name === 'slide'){
+      const slideStage = document.querySelector('.slide-stage');
+      if(slideStage){
+        const clone = slideStage.cloneNode(true);
+        bodyEl.appendChild(clone);
+        // 将全屏 Modal 内的 slide 按键与主 slide 同步
+        const fsPrev = clone.querySelector('#btn-prev');
+        const fsNext = clone.querySelector('#btn-next');
+        if(fsPrev) fsPrev.addEventListener('click', function(){ goSlide(currentSlide - 1); });
+        if(fsNext) fsNext.addEventListener('click', function(){ goSlide(currentSlide + 1); });
+      }
+    }
+    else {
+      const contentDiv = document.createElement('div');
+      contentDiv.style.padding = '20px';
+      Array.from(panel.children).forEach(child => {
+        if(child.classList && child.classList.contains('fs-trigger')) return;
+        contentDiv.appendChild(child.cloneNode(true));
+      });
+      bodyEl.appendChild(contentDiv);
+    }
+
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    bodyEl.scrollTop = 0;
+  }
+
+  function closeFullscreen(){
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+    bodyEl.innerHTML = '';
+  }
+
+  function toggleMaximize(){
+    container.classList.toggle('maximized');
+  }
+
+  closeBtn.addEventListener('click', closeFullscreen);
+  overlay.addEventListener('click', closeFullscreen);
+  maxBtn.addEventListener('click', toggleMaximize);
+  overlay.addEventListener('dblclick', toggleMaximize);
+
+  // 进入浏览器原生全屏
+  const nativeBtn = document.getElementById('fsNativeBtn');
+  if(nativeBtn){
+    nativeBtn.addEventListener('click', function(){
+      const el = document.documentElement;
+      if (el.requestFullscreen) {
+        el.requestFullscreen().then(() => {
+          setTimeout(function(){
+            // 全屏后 AMap/Konva 可能需要重新 resize
+            const name = document.getElementById('fsTitle').textContent.replace(' · 全屏模式','').trim();
+            if(name === '选址分析' || name === '门店布局'){
+              const frames = document.querySelectorAll('#fsBody iframe');
+              frames.forEach(function(f){ try{ f.contentWindow.document.dispatchEvent(new Event('resize')); }catch(e){} });
+            }
+          }, 300);
+        }).catch(function(){});
+      }
+    });
+  }
+
+  document.addEventListener('keydown', function(e){
+    if(modal.style.display !== 'flex') return;
+    if(e.key === 'Escape'){ closeFullscreen(); e.preventDefault(); }
+  });
+
+  // 暴露全局函数，让 iframe 嵌入的子页能触发顶层全屏
+  window.openFullscreenTab = function(name){
+    const panel = document.getElementById('tab-' + name);
+    if(panel) openFullscreen(panel);
+  };
+
+  addTriggers();
+})();
+</script>
+</body>
+</html>
