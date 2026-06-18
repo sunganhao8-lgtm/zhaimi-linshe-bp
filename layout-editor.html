@@ -615,6 +615,14 @@ const COMPONENT_DEFS = [
   { id:'sofa',          name:'客户沙发',     w:1.5, h:0.7, color:'#F4B5A8', icon:'🛋️' },
   { id:'camera',        name:'监控摄像头',   w:0.2, h:0.2, color:'#5C3D2E', icon:'🎥' },
   { id:'toilet',        name:'卫生间',       w:1.0, h:1.0, color:'#5C3D2E', icon:'🚽' },
+
+  // ---- 电竞体验区（展示型，不收费用）----
+  { id:'esport_bar',    name:'电竞吧台',     w:3.0, h:0.6, color:'#6B4FA0', icon:'🎮', isEsport:true },
+  { id:'esport_ps5',    name:'PS5 机位',     w:1.5, h:0.8, color:'#0070D1', icon:'🕹️', isEsport:true },
+  { id:'esport_switch', name:'Switch 机位',  w:1.0, h:0.7, color:'#E60012', icon:'🔴', isEsport:true },
+  { id:'esport_chair',  name:'电竞椅',       w:0.7, h:0.7, color:'#2C2C2C', icon:'💺', isEsport:true },
+  { id:'esport_screen', name:'大屏显示器',   w:1.8, h:0.1, color:'#1A1A1A', icon:'📺', isEsport:true },
+
   { id:'custom',        name:'自定义',       w:1.0, h:1.0, color:'#F5E6CB', icon:'➕' },
 ];
 
@@ -1076,12 +1084,12 @@ function addComponentNode(comp, animate) {
     width: w,
     height: h,
     fill: comp.color,
-    stroke: comp.locked ? BRAND.darkOrange : (comp.isWall ? '#1a1410' : BRAND.brown),
-    strokeWidth: comp.locked ? 2.5 : (comp.isWall ? 0 : 1.5),
-    cornerRadius: comp.isWall ? 0 : 4,
-    opacity: comp.locked ? 0.85 : (comp.isWall ? 1 : 1),
-    shadowColor: 'rgba(92,61,46,0.15)',
-    shadowBlur: comp.isWall ? 0 : 4,
+    stroke: comp.locked ? BRAND.darkOrange : (comp.isWall ? '#1a1410' : (comp.isEsport ? '#6B4FA0' : BRAND.brown)),
+    strokeWidth: comp.locked ? 2.5 : (comp.isWall ? 0 : (comp.isEsport ? 2 : 1.5)),
+    cornerRadius: comp.isWall ? 0 : (comp.isEsport ? 6 : 4),
+    opacity: comp.locked ? 0.85 : (comp.isWall ? 1 : (comp.isEsport ? 0.9 : 1)),
+    shadowColor: comp.isEsport ? 'rgba(107,79,160,0.35)' : 'rgba(92,61,46,0.15)',
+    shadowBlur: comp.isWall ? 0 : (comp.isEsport ? 8 : 4),
     shadowOffset: comp.isWall ? {x:0,y:0} : { x: 1, y: 2 },
   });
 
