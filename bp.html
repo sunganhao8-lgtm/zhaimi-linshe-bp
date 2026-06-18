@@ -71,50 +71,140 @@ body{
   overflow-x:hidden;
 }
 
-/* 顶部品牌栏 */
+/* 顶部品牌栏 - 玻璃质感 + 双品牌碰撞 */
 .brand-bar{
-  background:linear-gradient(135deg,var(--z-cream-yellow) 0%,var(--z-orange) 100%);
-  padding:18px 36px;
+  position:sticky;top:0;z-index:50;
+  display:flex;
+  align-items:stretch;
+  padding:0 24px;
+  min-height:72px;
+  background:var(--brand-gradient);
+  backdrop-filter:blur(var(--glass-blur));
+  -webkit-backdrop-filter:blur(var(--glass-blur));
+  box-shadow:var(--glass-shadow);
+  border-bottom:1px solid var(--glass-border-strong);
+  /* 动效容器的溢出必须可见 */
+  overflow:visible;
+}
+/* 左右品牌区块 */
+.brand-left,.brand-right{
   display:flex;
   align-items:center;
-  gap:18px;
-  box-shadow:var(--shadow-3d-deep);
-  position:sticky;top:0;z-index:50;
-  border-bottom:4px solid var(--z-orange-deep);
+  gap:10px;
+  padding:14px 0;
+  min-width:120px;
 }
+.brand-right{
+  justify-content:flex-end;
+}
+/* 品牌 logo */
 .brand-logo{
-  height:54px;
-  width:auto;
-  filter:drop-shadow(0 2px 0 rgba(92,61,46,0.18));
+  height:44px;
+  width:44px;
   border-radius:50%;
-  background:var(--z-cream-white);
-  padding:4px;
+  object-fit:cover;
+  background:var(--glass-bg-strong);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border:1.5px solid var(--glass-border);
+  padding:3px;
+  transition:transform 0.3s ease;
 }
-.brand-meta{display:flex;flex-direction:column;gap:2px}
-.brand-name{
+.brand-logo:hover{
+  transform:scale(1.1);
+}
+.brand-logo.zhaidian-img{
+  order:2;
+}
+/* 品牌文字标签 */
+.brand-label{
+  font-size:15px;
+  font-weight:800;
+  letter-spacing:2px;
+  color:#fff;
+  text-shadow:0 1px 4px rgba(0,0,0,0.3);
+}
+.brand-label.zhaimi{ order:0; }
+.brand-label.zhaidian{ order:1; }
+
+/* 中间标题区 */
+.brand-center{
+  flex:1;
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:10px 0;
+  position:relative;
+  z-index:2;
+  min-width:0;
+}
+.brand-center-title{
   font-size:22px;
   font-weight:800;
-  color:var(--z-brown);
-  letter-spacing:0.5px;
-  text-shadow:1px 1px 0 rgba(255,255,255,0.6), 2px 2px 0 rgba(232,154,60,0.4);
-}
-.brand-sub{
-  font-size:12px;
-  color:var(--z-brown-soft);
-  font-weight:600;
+  color:#fff;
   letter-spacing:2px;
+  text-shadow:0 2px 8px rgba(0,0,0,0.3);
+  line-height:1.3;
 }
-.brand-badge{
-  margin-left:auto;
-  background:var(--z-brown);
-  color:var(--z-cream-yellow);
-  padding:8px 18px;
-  border-radius:50px;
+.brand-center-sub{
   font-size:12px;
-  font-weight:700;
-  letter-spacing:1px;
-  box-shadow:var(--shadow-3d);
-  border:2px solid var(--z-cream-yellow);
+  color:rgba(255,255,255,0.85);
+  letter-spacing:1.5px;
+  margin-top:2px;
+  font-weight:500;
+}
+
+/* 动效切换按钮 */
+.brand-style-toggle{
+  position:absolute;
+  bottom:0;
+  left:50%;
+  transform:translate(-50%,50%);
+  display:flex;
+  align-items:center;
+  gap:6px;
+  background:rgba(0,0,0,0.55);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.3);
+  border-radius:50px;
+  padding:4px 14px 4px 10px;
+  cursor:pointer;
+  z-index:55;
+  transition:all 0.25s ease;
+}
+.brand-style-toggle:hover{
+  background:rgba(0,0,0,0.7);
+  transform:translate(-50%,50%) scale(1.05);
+}
+.brand-style-toggle .dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  border:1.5px solid rgba(255,255,255,0.5);
+  transition:all 0.3s ease;
+}
+.brand-style-toggle .dot.active{
+  background:#fff;
+  border-color:#fff;
+  box-shadow:0 0 8px rgba(255,255,255,0.5);
+}
+.style-label{
+  font-size:11px;
+  color:rgba(255,255,255,0.8);
+  font-weight:600;
+  letter-spacing:0.5px;
+  margin-left:2px;
+}
+/* 品牌栏动效容器 */
+.brand-effects{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:1;
 }
 
 /* 标签栏 */
@@ -125,7 +215,7 @@ body{
   background:var(--z-cream-white);
   border-bottom:2px dashed var(--z-orange);
   overflow-x:auto;
-  position:sticky;top:90px;z-index:40;
+  position:sticky;top:72px;z-index:40;
 }
 .tab-btn{
   background:var(--z-beige-light);
@@ -861,15 +951,30 @@ h3.z-h3::before{
 </head>
 <body>
 
-<!-- 顶部品牌栏 -->
-<header class="brand-bar">
-  <img src="assets/zhaimi-logo.png" alt="宅咪 LOGO" class="brand-logo" onerror="this.outerHTML='<div class=&quot;brand-logo&quot; style=&quot;display:flex;align-items:center;justify-content:center;font-size:24px;background:var(--z-cream-yellow)&quot;>🐱</div>'" />
-  <div class="brand-meta">
-    <div class="brand-name">宅咪<span class="z-subbrand">· 临港 LIN 舍</span> · 商业计划书</div>
-    <div class="brand-sub">ZHAIMI · LIN-SHE COMMUNITY PET STORE BP</div>
-    <div class="z-tagline" style="font-size:12px;background:var(--z-cream-yellow);padding:3px 10px;margin-top:4px;border:1.5px solid var(--z-orange-deep);box-shadow:2px 2px 0 var(--z-orange)">让<span class="z-hl">宅</span>主宅在家就能解决宠物相关的一切问题！</div>
+<!-- 顶部品牌栏 - 玻璃质感 + 双品牌碰撞 -->
+<header class="brand-bar style-particle">
+  <!-- 动效容器 -->
+  <div class="brand-effects" id="brandEffects"></div>
+  <!-- 左：宅咪 -->
+  <div class="brand-left">
+    <div class="brand-label zhaimi">宅咪</div>
+    <img src="assets/zhaimi-logo.png" alt="宅咪 LOGO" class="brand-logo zhaimi" onerror="this.outerHTML='<div class=&quot;brand-logo zhaimi&quot; style=&quot;display:flex;align-items:center;justify-content:center;font-size:20px;background:rgba(255,255,255,0.2)&quot;>🐱</div>'" />
   </div>
-  <div class="brand-badge">v1.0 · 2026-06-16</div>
+  <!-- 中：标题 -->
+  <div class="brand-center">
+    <div class="brand-center-title">商业计划书</div>
+    <div class="brand-center-sub">宠物洗护 + 宅电电竞房搭建 · 人宠双享</div>
+  </div>
+  <!-- 右：宅电 -->
+  <div class="brand-right">
+    <img src="assets/zhaidian-logo.png" alt="宅电 LOGO" class="brand-logo zhaidian-img" onerror="this.outerHTML='<div class=&quot;brand-logo zhaidian&quot; style=&quot;display:flex;align-items:center;justify-content:center;font-size:20px;background:rgba(255,255,255,0.2)&quot;>🎮</div>'" />
+    <div class="brand-label zhaidian">宅电</div>
+  </div>
+  <!-- 动效切换 -->
+  <button class="brand-style-toggle" id="styleToggle" title="切换动效">
+    <span class="dot active"></span><span class="dot"></span><span class="dot"></span>
+    <span class="style-label" id="styleLabel">粒子</span>
+  </button>
 </header>
 
 <!-- 标签栏 -->
