@@ -99,6 +99,14 @@ python -m http.server 8090
 - 📝 **更新记录**：详见 [CHANGELOG.md](CHANGELOG.md)
 - 🐛 **反馈问题**：[Issues](../../issues) 页面提供 3 种模板（Bug / Feature / 内容更新）
 
+## 🙋 合伙人快速入口
+
+> 写给合伙人和新加入者，30 秒抓重点。
+
+- 🙋 **[PARTNER_FAQ.md](PARTNER_FAQ.md)** — 合伙人最关心的 4 个问题（每天挣多少 / 洗多少单 / 客源够不够 / 位置合不合适）
+- 📖 **[PROJECT_HISTORY.md](PROJECT_HISTORY.md)** — 3 天从 0 到 1 的项目演进故事
+- 📋 **[DECISIONS.md](DECISIONS.md)** — 9 条关键决策记录（选址 / 49㎡ / 22 万 / 回本周期 / 数据本地化 等）
+
 ---
 
 <div align="center">
