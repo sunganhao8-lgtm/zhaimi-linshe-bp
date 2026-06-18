@@ -1447,12 +1447,14 @@ const slides = [
   // 1. 封面
   {kind:'cover'},
   // 2. 执行摘要
-  {kind:'kpi', title:'执行摘要 · 一页看懂', subtitle:'EXECUTIVE SUMMARY', kpis:[
-    {v:'16',u:'万',l:'启动资金'},
-    {v:'1.8~2.5',u:'万/月',l:'稳态营收'},
-    {v:'20~28',u:'月',l:'回本周期'},
-    {v:'15~20',u:'%',l:'净利率'}
-  ], note:'保守口径测算 · 含 1.5 万应急储备金 · 综合毛利率 55-62%'},
+    {kind:'kpi', title:'执行摘要 · 一页看懂', subtitle:'EXECUTIVE SUMMARY · 临港泥城 49㎡ 宠物洗护店', kpis:[
+      {v:'22',u:'万',l:'启动资金'},
+      {v:'1.57',u:'万/月',l:'月固定成本'},
+      {v:'24~32',u:'月',l:'回本周期'},
+      {v:'15~20',u:'%',l:'净利率'}
+    ], note:'49㎡(7×7) 临街底商 · 万达东侧 500m · 1km 步行覆盖 6 个小区 · 3km 辐射 30 万人口'},
+  // 2.5 项目历程
+  {kind:'timeline', title:'项目历程 · 3 天从 0 到 1', subtitle:'PROJECT TIMELINE · 2026-06-16 ~ 2026-06-18'},
   // 3. 项目定位
   {kind:'text', title:'项目定位', subtitle:'PROJECT POSITIONING',
     items:[
@@ -1585,6 +1587,26 @@ function renderSlide(idx){
     html += '</div>';
     if(s.note) html += '<div class="z-quote" style="margin-top:18px">'+s.note+'</div>';
     html += '<div style="flex:1;display:flex;align-items:center;justify-content:center;color:var(--z-brown-soft);font-size:13px;font-style:italic">→ 详见「文档」标签页对应章节</div>';
+  }
+  else if(s.kind==='timeline'){
+    html += '<div class="z-tagline" style="font-size:15px;background:var(--z-cream-yellow);padding:6px 14px;margin-bottom:12px;border:2px solid var(--z-orange-deep);box-shadow:2px 2px 0 var(--z-orange);border-radius:50px;display:inline-block">从「想法」到「GitHub 公开」 · 仅用 72 小时</div>';
+    html += '<div class="slide-title">'+s.title+'</div>';
+    html += '<div class="slide-subtitle">'+s.subtitle+'</div>';
+    const tl = [
+      {d:'Day 1 · 06-16',t:'勘察 + 锁定',items:['实地勘察泥城片区','锁定 49㎡ 临街底商（万达东 500m）','11 个 POI 坐标实测','完成 16 页 BP 初稿']},
+      {d:'Day 2 · 06-17',t:'地图 + 布局',items:['site-map.html（真实 POI + 步行路径）','layout-editor.html（49㎡ Konva 拖拽）','本地化 data/poi.json','修复 5 大坑（白板/碰撞/卡顿等）']},
+      {d:'Day 3 · 06-18',t:'开源 + 协作',items:['GitHub 公开 zhaimi-linshe-bp','GitHub Pages 在线预览','CONTRIBUTING + CHANGELOG','3 种 Issue 模板 + CI lint']}
+    ];
+    html += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;flex:1;margin-top:10px">';
+    tl.forEach(p=>{
+      html += '<div style="background:var(--z-beige-light);border:2px solid var(--z-orange);border-radius:var(--radius-sm);padding:14px;position:relative">';
+      html += '<div style="background:var(--z-orange-deep);color:var(--z-cream-white);padding:4px 10px;border-radius:50px;display:inline-block;font-size:11px;font-weight:800;margin-bottom:8px">'+p.d+'</div>';
+      html += '<div style="font-weight:800;color:var(--z-brown);font-size:15px;margin-bottom:6px">'+p.t+'</div>';
+      html += '<ul style="margin:0;padding-left:18px;color:var(--z-brown-soft);font-size:12px;line-height:1.6">';
+      p.items.forEach(it=>{ html += '<li>'+it+'</li>'; });
+      html += '</ul></div>';
+    });
+    html += '</div>';
   }
   else if(s.kind==='text'){
     html += '<div class="slide-title">'+s.title+'</div>';
