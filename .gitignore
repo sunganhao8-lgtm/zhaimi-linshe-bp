@@ -15,3 +15,9 @@ desktop.ini
 # Windows 临时
 ~$*
 *.tmp
+
+# Node / puppeteer（subagent 临时装包用，几 GB）
+node_modules/
+*.mjs
+package.json
+package-lock.json
