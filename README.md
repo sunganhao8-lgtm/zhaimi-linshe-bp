@@ -5,7 +5,7 @@
 [![Repo Size](https://img.shields.io/github/repo-size/sunganhao8-lgtm/zhaimi-linshe-bp)](https://github.com/sunganhao8-lgtm/zhaimi-linshe-bp)
 [![Last Commit](https://img.shields.io/github/last-commit/sunganhao8-lgtm/zhaimi-linshe-bp)](https://github.com/sunganhao8-lgtm/zhaimi-linshe-bp/commits/main)
 
-> 临港泥城片区 49㎡ 宠物洗护店 · 商业计划书 + 选址地图 + 门店布局编辑器完整交付物
+> 临港泥城片区 49㎡ **宠主同乐·宠物洗护+电竞空间** 融合店 · 商业计划书 + 选址地图 + 门店布局编辑器完整交付物
 
 > **核心数据**：启动资金 **22 万**（电竞 0.66 万从流动资金出） · 月固定 **1.57 万** · 回本 **24-32 月** · 客流 1km/6 小区/900 户 · 6 家竞品
 
