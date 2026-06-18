@@ -92,9 +92,12 @@ python -m http.server 8090
 
 ---
 
-## 📝 License
+## 📝 License · 贡献 · 更新记录
 
-MIT — 公开源代码 · 鼓励 fork · 商业使用请保留致谢。详见 [LICENSE](LICENSE)。
+- 📄 **License**：MIT — 详见 [LICENSE](LICENSE)
+- 🤝 **如何贡献**：详见 [CONTRIBUTING.md](CONTRIBUTING.md)（含合伙人协作流程）
+- 📝 **更新记录**：详见 [CHANGELOG.md](CHANGELOG.md)
+- 🐛 **反馈问题**：[Issues](../../issues) 页面提供 3 种模板（Bug / Feature / 内容更新）
 
 ---
 

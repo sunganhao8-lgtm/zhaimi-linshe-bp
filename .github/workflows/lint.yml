@@ -1,0 +1,50 @@
+name: HTML & JSON Lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate HTML files
+        run: |
+          for f in $(find . -name "*.html" -not -path "./vendor/*"); do
+            echo "Checking $f..."
+            # 简单检查：未闭合的标签 / DOCTYPE / 基本结构
+            if ! grep -q "<!DOCTYPE\|<!doctype" "$f"; then
+              echo "::warning file=$f::Missing DOCTYPE"
+            fi
+            if ! grep -q "</html>" "$f"; then
+              echo "::error file=$f::Missing </html> close tag"
+              exit 1
+            fi
+          done
+          echo "✅ All HTML files have valid structure"
+
+      - name: Validate JSON files
+        run: |
+          for f in $(find . -name "*.json" -not -path "./vendor/*"); do
+            echo "Checking $f..."
+            python3 -c "import json; json.load(open('$f'))" || exit 1
+          done
+          echo "✅ All JSON files are valid"
+
+      - name: Check README links
+        run: |
+          # 简单检测 README.md 里的本地相对链接是否对应真实文件
+          if [ -f README.md ]; then
+            grep -oP '\]\((?!https?://)[^)]+\)' README.md | sed 's/[])(]//g' | while read link; do
+              # 跳过锚点
+              if [[ "$link" == "#"* ]]; then continue; fi
+              if [ ! -f "$link" ] && [ ! -d "$link" ]; then
+                echo "::warning::Broken link in README.md: $link"
+              fi
+            done
+          fi
+          echo "✅ README link check done"
