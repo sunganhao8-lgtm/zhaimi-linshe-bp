@@ -87,8 +87,8 @@ body{
       #1B3A6E 62%,
       #0D1B2A 78%,
       #0A1422 100%);
-  min-height:130px;
-  padding:18px 36px 24px;
+  min-height:96px;
+  padding:8px 24px 10px;
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -98,7 +98,7 @@ body{
 }
 
 /* 橙区奶油泡沫（左侧 1-40% 区域）— 硬边球体感（双层 radial 叠加：核心实心 + 软散外圈 + 高光点） */
-.brand-bar::before{
+.brand-bar::before{display:none}
   content:"";
   position:absolute;
   inset:0;
@@ -129,7 +129,7 @@ body{
 }
 
 /* 蓝区玻璃碎裂纹（右侧 55-100% 区域） */
-.brand-bar::after{
+.brand-bar::after{display:none}
   content:"";
     position:absolute;
     inset:0;
@@ -234,15 +234,15 @@ body{
   justify-content:center;
 }
 .brand-center-logo{
-  width:54px;height:54px;
+  width:120px;height:120px;
   border-radius:50%;
   object-fit:cover;
-  transition:transform .4s cubic-bezier(.2,1.6,.5,1), width .4s ease, height .4s ease, filter .4s ease, box-shadow .4s ease;
+  transition:transform .4s cubic-bezier(.2,1.6,.5,1), width .4s ease, height .4s ease, filter .4s ease;
   flex-shrink:0;
   filter:drop-shadow(0 2px 6px rgba(92,61,46,0.15));
 }
-.brand-center:hover .brand-center-logo{transform:scale(1.12) rotate(-6deg)}
-.brand-center-logo.is-hot{transform:scale(1.8) rotate(-6deg);filter:drop-shadow(0 8px 22px rgba(232,154,60,0.55))}
+.brand-center:hover .brand-center-logo{transform:scale(1.05)}
+.brand-center-logo.is-hot{transform:scale(1.2);filter:drop-shadow(0 8px 22px rgba(232,154,60,0.55))}
 .brand-center-text{display:flex;flex-direction:column;align-items:flex-start;gap:2px}
 
 .brand-side{
@@ -258,20 +258,19 @@ body{
 .brand-side-left{flex-direction:row}
 .brand-side-right{flex-direction:row-reverse}
 .brand-side-logo{
-  width:44px;height:44px;
+  width:80px;height:80px;
   border-radius:50%;
   object-fit:cover;
   transition:transform .4s cubic-bezier(.2,1.6,.5,1), width .4s ease, height .4s ease, filter .4s ease;
   filter:drop-shadow(0 2px 4px rgba(92,61,46,0.12));
   flex-shrink:0;
 }
-/* 左右板块 active 时放大 + 高亮 */
 .brand-side.is-hot{
   background:rgba(244,184,96,0.12);
   box-shadow:0 4px 14px rgba(244,184,96,0.25);
-  transform:scale(1.18);
+  transform:scale(1.1);
 }
-.brand-side.is-hot .brand-side-logo{transform:scale(1.5) rotate(6deg);filter:drop-shadow(0 6px 16px rgba(232,154,60,0.45))}
+.brand-side.is-hot .brand-side-logo{transform:scale(1.4);filter:drop-shadow(0 6px 16px rgba(232,154,60,0.45))}
 .brand-side.is-hot .brand-side-label{color:#C77F25;font-weight:900;letter-spacing:0.04em}
 .brand-side-label{
   font-size:12px;
@@ -296,7 +295,7 @@ body{
   border-bottom:1px solid #E8E0D5;
   overflow-x:auto;
   position:sticky;
-  top:130px;
+  top:96px;
   z-index:45;
 }
 .tab-btn{
@@ -1140,27 +1139,28 @@ strong{color:var(--z-brown)}
 
 /* 全屏打开按钮（每个标签页右上角） */
 .fs-trigger {
-  position: absolute;
-  top: 10px;
-  right: 10px;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
   background: var(--z-orange-deep);
   color: var(--z-cream-white);
   border: none;
-  padding: 6px 14px;
-  border-radius: 8px;
+  padding: 10px 18px;
+  border-radius: 24px;
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
-  z-index: 10;
+  z-index: 100;
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  transition: background 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: background 0.2s ease, transform 0.2s ease;
   font-family: inherit;
 }
 .fs-trigger:hover {
   background: var(--z-orange-darker);
+  transform: scale(1.05);
 }
 
 /* ===== v5.0 · 宅域品牌定位 banner ===== */
@@ -1188,6 +1188,32 @@ strong{color:var(--z-brown)}
 .valuation-summary{text-align:center;font-size:16px;color:#5C3D2E;margin-top:16px}
 .valuation-summary strong{font-size:20px;color:#C77F25}
 @media(max-width:768px){.roadmap-phases{grid-template-columns:1fr}.valuation-path{flex-direction:column}}
+
+/* ============================================================
+   v6.9.25 · 文字 logo 系统（替代图片 logo）
+   三个板块用纯文字 + 颜色区分，一眼能分清
+   ============================================================ */
+.z-logo{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:80px;height:80px;
+  border-radius:50%;
+  font-weight:900;
+  font-size:24px;
+  letter-spacing:1px;
+  color:#fff;
+  flex-shrink:0;
+  transition:transform .4s cubic-bezier(.2,1.6,.5,1), box-shadow .4s ease;
+  box-shadow:0 4px 12px rgba(0,0,0,0.15);
+}
+.z-logo-zhaiyu{width:120px;height:120px;font-size:28px;background:linear-gradient(135deg,#F4B860 0%,#1A6BFF 100%);}
+.z-logo-zhaimi{background:linear-gradient(135deg,#F4B860 0%,#E89A3C 100%);}
+.z-logo-zhaidian{background:linear-gradient(135deg,#1A6BFF 0%,#0F4DC8 100%);}
+.z-logo:hover{transform:scale(1.08)}
+.z-logo.is-hot{transform:scale(1.4);box-shadow:0 8px 28px rgba(244,184,96,0.55)}
+.brand-center-logo{display:none}
+.brand-side-logo{display:none}
 
 /* ============================================================
    v6.7 · 宅域·品牌叙事 tab 配套样式
@@ -1256,12 +1282,12 @@ strong{color:var(--z-brown)}
 <header class="brand-bar">
   <!-- 左：宅咪 (切到 doc tab 时放大) -->
   <div class="brand-side brand-side-left" data-side="zhaimi">
-    <img src="assets/zhaimi-logo-120.png" alt="宅咪 LOGO" class="brand-side-logo" onerror="this.outerHTML='<div class=&quot;brand-side-logo zhaimi-fallback&quot; style=&quot;display:flex;align-items:center;justify-content:center;font-size:28px;color:#E89A3C&quot;>🐱</div>'" />
+    <div class="z-logo z-logo-zhaimi">咪</div>
     <div class="brand-side-label">宅咪 ZHAIMI</div>
   </div>
   <!-- 中：宅域 (默认) -->
   <div class="brand-center">
-    <img src="assets/zhaiyu-logo-120.png" alt="宅域 LOGO" class="brand-center-logo" data-tab-active="zhaiyu" onerror="this.outerHTML='<div class=&quot;brand-center-logo&quot; style=&quot;display:flex;align-items:center;justify-content:center;font-size:32px;color:#E89A3C&quot;>🏠</div>'" />
+    <div class="z-logo z-logo-zhaiyu" data-tab-active="zhaiyu">域</div>
     <div class="brand-center-text">
       <div class="brand-center-title">宅域 · ZHAIYU</div>
       <div class="brand-center-sub">拉近最后一公里 · 选品即体验 · 全心全意为用户</div>
@@ -1269,7 +1295,7 @@ strong{color:var(--z-brown)}
   </div>
   <!-- 右：宅电 (切到 zhaidian tab 时放大) -->
   <div class="brand-side brand-side-right" data-side="zhaidian">
-    <img src="assets/zhaidian-logo-120.png" alt="宅电 LOGO" class="brand-side-logo" onerror="this.outerHTML='<div class=&quot;brand-side-logo zhaidian-fallback&quot; style=&quot;display:flex;align-items:center;justify-content:center;font-size:28px;color:#1A6BFF&quot;>🎮</div>'" />
+    <div class="z-logo z-logo-zhaidian">电</div>
     <div class="brand-side-label">宅电 ZHAIDIAN</div>
   </div>
 </header>
@@ -3039,11 +3065,11 @@ let currentSlide = 0;
     panels.forEach(p=>p.classList.toggle('active', p.id==='tab-'+name));
     try{ localStorage.setItem('zhaimi-tab', name); }catch(e){}
     if(name==='slide'){ try{ setTimeout(()=>buildSlide(),0); }catch(e){console.error('switchTab slide:',e);} }
-    // v6.9 brand-bar 动效：切到 doc/zhaidian tab 时对应 side 放大；切回 zhaiyu 时中心 logo 放大
+    // v6.9.25 brand-bar 动效：切到 doc/zhaidian tab 时对应 side 放大；切回 zhaiyu 时中心 logo 放大
     try{
       const leftSide = document.querySelector('.brand-side-left');
       const rightSide = document.querySelector('.brand-side-right');
-      const centerLogo = document.querySelector('.brand-center-logo');
+      const centerLogo = document.querySelector('.z-logo-zhaiyu');
       if(name === 'doc'){ leftSide && leftSide.classList.add('is-hot'); rightSide && rightSide.classList.remove('is-hot'); centerLogo && centerLogo.classList.remove('is-hot'); }
       else if(name === 'zhaidian'){ rightSide && rightSide.classList.add('is-hot'); leftSide && leftSide.classList.remove('is-hot'); centerLogo && centerLogo.classList.remove('is-hot'); }
       else { leftSide && leftSide.classList.remove('is-hot'); rightSide && rightSide.classList.remove('is-hot'); centerLogo && centerLogo.classList.add('is-hot'); }
