@@ -1261,7 +1261,7 @@ strong{color:var(--z-brown)}
   </div>
   <!-- 中：宅域 (默认) -->
   <div class="brand-center">
-    <img src="assets/zhaiyu-logo-120.png" alt="宅域 LOGO" class="brand-center-logo" data-tab-active="zhaiyu" onerror="this.outerHTML='<div class=&quot;brand-center-logo&quot; style=&quot;display:flex;align-items:center;justify-content:center;font-size:32px;color:#E89A3C&quot;>🏠</div>'" />
+    <img src="assets/zhaiyu-logo-120.png?v=2" alt="宅域 LOGO" class="brand-center-logo" data-tab-active="zhaiyu" onerror="this.outerHTML='<div class=&quot;brand-center-logo&quot; style=&quot;display:flex;align-items:center;justify-content:center;font-size:32px;color:#E89A3C&quot;>🏠</div>'" />
     <div class="brand-center-text">
       <div class="brand-center-title">宅域 · ZHAIYU</div>
       <div class="brand-center-sub">拉近最后一公里 · 选品即体验 · 全心全意为用户</div>
@@ -2614,19 +2614,19 @@ strong{color:var(--z-brown)}
   <!-- ========== 股份结构（20 万启动 + 人力股 / 资本股） ========== -->
   <div class="section-card" style="border:3px solid var(--z-orange-deep);background:linear-gradient(135deg,#FFFBF5 0%,#FFFFFF 100%)">
     <h2 class="z-h2">⚖️ 股份结构 · 20 万启动方案</h2>
-    <p>启动资金 <strong>20 万</strong>，采用<strong>30% 人力股 + 70% 资本股</strong>双轨制。人力股按贡献分配、分期解锁（3 年 vesting / 1 年 cliff）；资本股按实际出资比例分配。</p>
+    <p>启动资金 <strong>20 万</strong>，采用<strong>30% 人力股 + 70% 资本股</strong>双轨制。人力股按贡献分配、分期解锁（3 年 vesting / 1 年 cliff），<strong>不写在工商登记里</strong>，通过<strong>代持协议 + 一致行动人</strong>实现控制权集中。人力股仅限全职成员享有，离职自动收回重新分配。</p>
 
     <h3 class="z-h3">股份总盘子（100%）</h3>
     <div class="kpi-row" style="margin:12px 0">
       <div class="kpi-card" style="border:2px solid var(--z-orange)">
         <div class="kpi-label">人力股</div>
         <div class="kpi-value">30<span class="kpi-unit">%</span></div>
-        <div class="kpi-note">按贡献分配 · 3 年 vesting · 1 年 cliff</div>
+        <div class="kpi-note">全职成员 · 3 年 vesting · 1 年 cliff</div>
       </div>
       <div class="kpi-card" style="border:2px solid var(--z-orange)">
         <div class="kpi-label">资本股</div>
         <div class="kpi-value">70<span class="kpi-unit">%</span></div>
-        <div class="kpi-note">按出资比例分配 · 同股同权</div>
+        <div class="kpi-note">按出资比例 · 同股同权</div>
       </div>
       <div class="kpi-card" style="border:2px solid var(--z-orange)">
         <div class="kpi-label">总股份</div>
@@ -2635,6 +2635,7 @@ strong{color:var(--z-brown)}
       </div>
     </div>
 
+    <h3 class="z-h3">当前 3 位投资人 + 1 位全职人力</h3>
     <div class="z-table-wrap">
       <table class="z-table">
         <thead>
@@ -2642,8 +2643,8 @@ strong{color:var(--z-brown)}
             <th>股东</th>
             <th>角色</th>
             <th>出资额</th>
-            <th>人力股</th>
             <th>资本股</th>
+            <th>人力股</th>
             <th><strong>总占股</strong></th>
           </tr>
         </thead>
@@ -2651,48 +2652,100 @@ strong{color:var(--z-brown)}
           <tr style="background:#FFF4E1">
             <td><strong>创始人</strong></td>
             <td>主理人（项目发起 + 全盘操盘）</td>
-            <td>13 万</td>
+            <td>7.5 万</td>
+            <td>26.25%</td>
             <td><strong>25%</strong></td>
-            <td>45.5%</td>
-            <td><strong style="color:var(--z-orange-darker);font-size:18px">70.5%</strong></td>
+            <td><strong style="color:var(--z-orange-darker);font-size:18px">51.25%</strong></td>
           </tr>
           <tr>
-            <td>联合创始人</td>
-            <td>运营合伙人（洗护 / 选品 / 日常管理）</td>
-            <td>2 万</td>
-            <td>5%</td>
-            <td>7%</td>
-            <td><strong>12%</strong></td>
+            <td>合伙人 B</td>
+            <td>运营 / 选品 / 日常管理</td>
+            <td>6.5 万</td>
+            <td>22.75%</td>
+            <td>—</td>
+            <td><strong>22.75%</strong></td>
           </tr>
           <tr>
-            <td>天使投资人 A</td>
-            <td>资本合伙人（资金 + 资源引入）</td>
-            <td>5 万</td>
+            <td>合伙人 C</td>
+            <td>市场 / 内容 / 线上获客</td>
+            <td>6 万</td>
+            <td>21%</td>
             <td>—</td>
-            <td>17.5%</td>
-            <td><strong>17.5%</strong></td>
+            <td><strong>21%</strong></td>
           </tr>
-          <tr style="color:var(--z-brown-soft)">
-            <td><small>期权池预留</small></td>
-            <td><small>员工期权激励（核心员工 / 店长）</small></td>
+          <tr>
+            <td>全职女生</td>
+            <td>门店运营 / 洗护执行（全职人力股）</td>
             <td>—</td>
             <td>—</td>
-            <td>—</td>
-            <td><small><strong>预留待分配</strong></small></td>
+            <td><strong>5%</strong></td>
+            <td><strong>5%</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top:12px;font-size:13px;color:var(--z-brown-soft);line-height:1.8">
+      <p><strong>🔒 隐形控制权设计（不写在明面）：</strong></p>
+      <ul style="padding-left:18px">
+        <li><strong>创始人出资 7.5 万</strong>（比 B 多 1 万、比 C 多 1.5 万），加上人力股 25%，合计 <strong>51.25% 绝对控股</strong>——在工商登记里只显示资本股 26.25%，人力股部分通过<strong>一致行动人协议</strong>锁定投票权。</li>
+        <li><strong>代持 + 一致行动人</strong>：B 和 C 的股份由创始人代持，或签署一致行动人协议，创始人拥有全部 51.25% 投票权。</li>
+        <li><strong>人力股 30%</strong>：创始人 25% + 全职女生 5%。3 年 vesting 满 1 年解锁 1/3，离职自动收回。全职女生仅限人力股，不参与资本出资。</li>
+        <li><strong>期权池</strong>：建议预留 10%（暂放在创始人名下代持），用于未来核心员工 / 店长 / 新增合伙人激励。行权时出让对应比例股份。</li>
+      </ul>
+    </div>
+
+    <h3 class="z-h3">拓展方案 · 3~5 人投资比例明细</h3>
+    <p>当合伙人增加时，启动资金按比例拓展，核心公式不变：<strong>人力股 30% 固定 + 资本股 70% 按各方出资比例分</strong>。创始人始终保持人力股 25%，出资额略微领先即可保持控制。</p>
+
+    <div class="z-table-wrap" style="margin-top:12px">
+      <table class="z-table">
+        <thead>
+          <tr>
+            <th>方案</th>
+            <th>总资金</th>
+            <th colspan="5">各方出资及占股</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>3 人（当前）</strong></td>
+            <td>20 万</td>
+            <td><strong>你</strong> 7.5 万<br/>+人力 25% → <strong>51.25%</strong></td>
+            <td><strong>B</strong> 6.5 万<br/>→ 22.75%</td>
+            <td><strong>C</strong> 6 万<br/>→ 21%</td>
+            <td>全职女生<br/>人力 5%</td>
+            <td>期权池<br/>(你代持 10%)</td>
+          </tr>
+          <tr style="background:#FFF9F0">
+            <td><strong>4 人</strong></td>
+            <td>26 万</td>
+            <td><strong>你</strong> 9 万<br/>+人力 25% → <strong>49.2%</strong></td>
+            <td><strong>B</strong> 6.5 万<br/>→ 17.5%</td>
+            <td><strong>C</strong> 5.5 万<br/>→ 14.8%</td>
+            <td><strong>D（新）</strong> 5 万<br/>→ 13.5%</td>
+            <td>全职女生 5%<br/>期权池(代持)</td>
+          </tr>
+          <tr>
+            <td><strong>5 人</strong></td>
+            <td>32 万</td>
+            <td><strong>你</strong> 10 万<br/>+人力 25% → <strong>46.9%</strong></td>
+            <td><strong>B</strong> 6 万 → 13.1%</td>
+            <td><strong>C</strong> 5 万 → 10.9%</td>
+            <td><strong>D</strong> 5.5 万 → 12%</td>
+            <td><strong>E（新）</strong> 5.5 万 → 12%</td>
           </tr>
         </tbody>
       </table>
     </div>
 
     <div style="margin-top:14px;font-size:13px;color:var(--z-brown-soft);line-height:1.8">
-      <p><strong>说明：</strong></p>
+      <p><strong>拓展原则：</strong></p>
       <ul style="padding-left:18px">
-        <li><strong>人力股 30%</strong>：创始人 25% + 联合创始人 5%。3 年 vesting，满 1 年解锁 1/3，之后按月解锁。</li>
-        <li><strong>创始人出资 13 万</strong>：其中 10 万为自有资金投入，3 万为前期已投入（调研 / 设计 / 设备采购）。</li>
-        <li><strong>资本股 70%</strong> = 20 万总启动资金，按实际出资 ÷20 万 ×70% 计算。出资越多资本股越多。</li>
-        <li><strong>期权池</strong>：建议预留 5-10% 放在持股平台，用于未来核心员工 / 店长激励，不稀释本轮股东。</li>
-        <li><strong>创始人保留一票否决权</strong>：重大决策（增资 / 并购 / 出售 / 修改章程）需创始人同意。</li>
-        <li>以上结构仅供参考，可根据实际投资方案调整。天使轮若开放融资，按投前估值 200-300 万重新计算稀释。</li>
+        <li>人力股 30% <strong>不随人数增加而稀释</strong>——创始人 25% + 全职人力 5% 固定。</li>
+        <li>新加入合伙人通过<strong>增资扩股</strong>进入，资本股按新出资 ÷（原资本 20 万 + 新资金） × 70% 重新计算。</li>
+        <li>创始人新增出资维持在<strong>比第 2 位多 20-30%</strong> 的水平，配合人力股 25%，实际投票权始终 <strong>>45%</strong> + 一致行动人额外锁定，确保控制权。</li>
+        <li>以上比例可根据实际谈判调整，核心逻辑不变：<strong>少量资本优势 + 人力股锁定 = 隐形控制权</strong>。</li>
       </ul>
     </div>
   </div>
@@ -2937,7 +2990,7 @@ strong{color:var(--z-brown)}
 <!-- ================== 标签5: 关于 ================== -->
 <section class="tab-panel" id="tab-about">
   <div class="about-hero">
-    <img src="assets/zhaiyu-logo-120.png" alt="宅域 LOGO" onerror="this.outerHTML='<div style=&quot;width:120px;height:120px;border-radius:50%;background:var(--z-cream-yellow);margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:60px&quot;>🏠</div>'" />
+    <img src="assets/zhaiyu-logo-120.png?v=2" alt="宅域 LOGO" onerror="this.outerHTML='<div style=&quot;width:120px;height:120px;border-radius:50%;background:var(--z-cream-yellow);margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:60px&quot;>🏠</div>'" />
     <h2 style="font-size:36px">宅域 · ZHAIYU</h2>
     <p>母 IP · 板块矩阵 · 平台型估值 · 拉近最后一公里</p>
     <div class="z-tagline-hero">以「宅」为根基，构筑属于年轻人的完整生活疆域</div>
@@ -3252,7 +3305,7 @@ function renderSlide(idx){
   if(s.kind==='cover'){
     // ===== 宅域·ZHAIYU 封面 =====
     html += '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;background:linear-gradient(135deg,var(--z-cream-yellow) 0%,var(--z-orange) 100%);border-radius:var(--radius-sm)">';
-    html += '<img src="assets/zhaiyu-logo-240.png" style="width:140px;height:140px;filter:drop-shadow(0 6px 18px rgba(92,61,46,0.25));margin-bottom:14px" alt="宅域 LOGO" onerror="this.outerHTML=\'<div style=&quot;width:140px;height:140px;display:flex;align-items:center;justify-content:center;font-size:90px&quot;>🏠</div>\'" />';
+    html += '<img src="assets/zhaiyu-logo-240.png?v=2" style="width:140px;height:140px;filter:drop-shadow(0 6px 18px rgba(92,61,46,0.25));margin-bottom:14px" alt="宅域 LOGO" onerror="this.outerHTML=\'<div style=&quot;width:140px;height:140px;display:flex;align-items:center;justify-content:center;font-size:90px&quot;>🏠</div>\'" />';
     html += '<div style="font-size:14px;color:var(--z-brown-soft);letter-spacing:6px;margin-bottom:8px;font-weight:700">ZHAIYU · 宅 域</div>';
     html += '<div class="slide-title" style="font-size:60px;color:var(--z-brown);letter-spacing:6px">宅域</div>';
     html += '<div style="font-size:18px;color:var(--z-brown-soft);letter-spacing:3px;margin-top:6px;font-weight:700">ZHAIYU</div>';
@@ -3354,7 +3407,7 @@ function renderSlide(idx){
   else if(s.kind==='thanks'){
     // ===== 宅域 封底 =====
     html += '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;background:linear-gradient(135deg,var(--z-cream-yellow) 0%,var(--z-orange) 100%);border-radius:var(--radius-sm)">';
-    html += '<img src="assets/zhaiyu-logo-240.png" style="width:120px;height:120px;filter:drop-shadow(0 6px 18px rgba(92,61,46,0.25));margin-bottom:14px" alt="宅域 LOGO" onerror="this.outerHTML=\'<div style=&quot;width:120px;height:120px;display:flex;align-items:center;justify-content:center;font-size:80px&quot;>🏠</div>\'" />';
+    html += '<img src="assets/zhaiyu-logo-240.png?v=2" style="width:120px;height:120px;filter:drop-shadow(0 6px 18px rgba(92,61,46,0.25));margin-bottom:14px" alt="宅域 LOGO" onerror="this.outerHTML=\'<div style=&quot;width:120px;height:120px;display:flex;align-items:center;justify-content:center;font-size:80px&quot;>🏠</div>\'" />';
     html += '<div class="slide-title" style="font-size:48px;color:var(--z-brown);text-shadow:3px 3px 0 var(--z-cream-white)">感谢您的关注</div>';
     html += '<div style="font-size:28px;color:var(--z-brown);font-weight:900;margin-top:10px;letter-spacing:4px">宅域 · ZHAIYU</div>';
     html += '<div style="font-size:15px;color:var(--z-brown-soft);margin-top:14px;font-weight:600">母 IP · 板块矩阵 · 平台型估值</div>';
