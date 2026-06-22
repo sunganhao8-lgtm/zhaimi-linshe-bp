@@ -1232,12 +1232,22 @@ strong{color:var(--z-brown)}
 .z-value-desc{font-size:13px;color:#7A5238;line-height:1.6}
 
 @media(max-width:960px){
-  .z-narrative-grid,.z-product-grid,.z-matrix-children,.z-value-wall{grid-template-columns:repeat(2,1fr)}
+  .z-narrative-grid,.z-product-grid,.z-matrix-children,.z-value-wall,.z-investor-qa{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:600px){
-  .z-narrative-grid,.z-product-grid,.z-matrix-children,.z-value-wall{grid-template-columns:1fr}
+  .z-narrative-grid,.z-product-grid,.z-matrix-children,.z-value-wall,.z-investor-qa{grid-template-columns:1fr}
   .z-matrix-mom-logo{font-size:24px}
 }
+
+/* ============================================================
+   v6.9.4 · 投资人 QA 卡片
+   ============================================================ */
+.z-investor-qa{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin:24px auto;max-width:1080px}
+.z-qa-card{background:#FFFFFF;border:2px solid #EFE7DC;border-radius:14px;padding:24px;box-shadow:0 4px 14px rgba(92,61,46,0.06);position:relative;display:flex;flex-direction:column;gap:12px}
+.z-qa-card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--z-orange),var(--z-orange-deep));border-radius:14px 14px 0 0}
+.z-qa-q{font-size:16px;font-weight:800;color:var(--z-brown);letter-spacing:0.04em;line-height:1.4}
+.z-qa-a{font-size:14px;color:var(--z-brown-soft);line-height:1.8}
+.z-qa-a strong{color:var(--z-orange-darker);font-weight:800}
 </style>
 </head>
 <body>
@@ -1300,6 +1310,27 @@ strong{color:var(--z-brown)}
   <!-- 品牌定位一句话 -->
   <div class="z-quote" style="margin: 32px auto; max-width: 880px; font-size: 19px; line-height: 1.9; text-align: center; color: var(--z-brown);">
     「宅」是当代年轻人最大的生活现场。我们把所有"应该出现在家里"的服务与好物，搬到离你最后一公里的地方 —— <strong style="color:var(--z-orange-darker)">先让你摸到、先让你试到、先让你信到，再让你买回家</strong>。
+  </div>
+
+  <!-- 投资人 4 问（根据真实对话整理） -->
+  <h2 class="z-h2">投资人最常问的 4 件事 · 我们的答案</h2>
+  <div class="z-investor-qa">
+    <div class="z-qa-card">
+      <div class="z-qa-q">Q1 你这几个品牌什么关系？</div>
+      <div class="z-qa-a">宅域是<strong>母 IP</strong>，宅咪是宠物板块，宅电是电竞板块。<br>就像<strong>阿里巴巴 = 天猫 + 淘宝 + 盒马</strong>，每个板块独立跑但共享母品牌信任。投资人投的是"平台格局"，不是单店。</div>
+    </div>
+    <div class="z-qa-card">
+      <div class="z-qa-q">Q2 大厂为什么不做你这个？</div>
+      <div class="z-qa-a"><strong>吃大厂所不屑</strong>。大厂做标品、做规模、做效率；我们做非标、做细节、做温度。<br>一个小区 800 户养宠家庭、单个 SKU 月销 30 件的生意，拼多多/美团/京东看不上。<strong>我们专挑这些"不上秤"的细分场景</strong>，做成小而美的本地闭环。</div>
+    </div>
+    <div class="z-qa-card">
+      <div class="z-qa-q">Q3 你怎么跟电商巨头竞争？</div>
+      <div class="z-qa-a"><strong>不竞争，是互补。</strong>网上解决不了的根本问题是<strong>"信任"</strong>——不沾毛的衣服穿身上 5 分钟才有答案，电竞房氛围灯亮起来才知道是不是你要的调性。<br>实体店是电商最大的信任补丁。我们不做流量的对手，我们做<strong>确定感的终点站</strong>。</div>
+    </div>
+    <div class="z-qa-card">
+      <div class="z-qa-q">Q4 那你到底怎么赚钱？</div>
+      <div class="z-qa-a"><strong>选品即体验。</strong>店里直接展示 → 亲手摸到 → 当场决定。<strong>不做流量生意，做回头客生意。</strong><br>每个 SKU 都支持先试后买，部分可送货上门试用 7 天。<strong>用户满意度和店员收入直接挂钩</strong>——不靠算法喂饭，靠人照顾人，这才是复利的来源。</div>
+    </div>
   </div>
 
   <!-- 6 大核心叙事 -->
