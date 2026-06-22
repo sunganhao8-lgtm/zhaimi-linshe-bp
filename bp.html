@@ -1131,6 +1131,56 @@ strong{color:var(--z-brown)}
 .valuation-summary{text-align:center;font-size:16px;color:#5C3D2E;margin-top:16px}
 .valuation-summary strong{font-size:20px;color:#C77F25}
 @media(max-width:768px){.roadmap-phases{grid-template-columns:1fr}.valuation-path{flex-direction:column}}
+
+/* ============================================================
+   v6.6 · 宅域·品牌叙事 tab 配套样式
+   ============================================================ */
+
+/* 6 大叙事卡：2 列 grid */
+.z-narrative-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin:24px auto;max-width:1080px}
+.z-narrative-card{background:#FFF9F0;border:2px solid #F4B860;border-radius:16px;padding:24px;box-shadow:0 4px 14px rgba(244,184,96,0.12);position:relative}
+.z-narrative-num{position:absolute;top:14px;right:18px;font-size:36px;font-weight:900;color:#F4B860;opacity:0.45;line-height:1}
+.z-narrative-card h3{font-size:19px;color:#5C3D2E;margin:0 0 10px;font-weight:800;letter-spacing:0.04em}
+.z-narrative-card p{font-size:14px;color:#7A5238;line-height:1.75;margin:0}
+.z-narrative-card p strong{color:#C77F25}
+
+/* 选品矩阵：4 列 grid */
+.z-product-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:24px auto;max-width:1080px}
+.z-product-card{background:#FFFFFF;border:2px solid #EFE7DC;border-radius:14px;padding:20px 16px;text-align:center;box-shadow:0 2px 8px rgba(92,61,46,0.06)}
+.z-product-icon{font-size:42px;line-height:1;margin-bottom:10px}
+.z-product-name{font-size:15px;font-weight:800;color:#5C3D2E;margin-bottom:8px;letter-spacing:0.02em}
+.z-product-why{font-size:12px;color:#7A5238;line-height:1.6}
+.z-product-why strong{color:#C77F25;font-weight:700}
+
+/* 品牌矩阵：母 IP 居中 + 3 子板块 */
+.z-matrix{margin:32px auto;max-width:1080px;background:#FFF9F0;border:2px solid #F4B860;border-radius:18px;padding:32px 24px;box-shadow:0 4px 14px rgba(244,184,96,0.12)}
+.z-matrix-mom{text-align:center;margin-bottom:28px;padding:20px;background:linear-gradient(135deg,#F4B860,#E89A3C);color:#FFFFFF;border-radius:12px;box-shadow:0 4px 12px rgba(244,184,96,0.25)}
+.z-matrix-mom-logo{font-size:30px;font-weight:900;letter-spacing:0.08em;margin-bottom:4px}
+.z-matrix-mom-sub{font-size:14px;opacity:0.95;letter-spacing:0.04em}
+.z-matrix-children{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.z-matrix-child{background:#FFFFFF;border:2px solid #EFE7DC;border-radius:14px;padding:20px 16px;text-align:center}
+.z-matrix-child.zhaimi{border-color:#E89A3C}
+.z-matrix-child.zhaidian{border-color:#1A6BFF}
+.z-matrix-child.future{border-color:#C77F25;border-style:dashed;background:#FFFBF5}
+.z-matrix-child-tag{display:inline-block;background:#F4B860;color:#FFFFFF;font-size:11px;font-weight:700;padding:3px 10px;border-radius:10px;margin-bottom:10px;letter-spacing:0.06em}
+.z-matrix-child.future .z-matrix-child-tag{background:#C77F25}
+.z-matrix-child-name{font-size:18px;font-weight:800;color:#5C3D2E;margin-bottom:8px;letter-spacing:0.02em}
+.z-matrix-child-desc{font-size:12px;color:#7A5238;line-height:1.5}
+
+/* 价值观墙：4 等分 */
+.z-value-wall{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:24px auto;max-width:1080px}
+.z-value-item{background:#FFFFFF;border:2px solid #EFE7DC;border-radius:14px;padding:24px 18px;text-align:center;box-shadow:0 2px 8px rgba(92,61,46,0.06)}
+.z-value-num{font-size:36px;line-height:1;margin-bottom:8px}
+.z-value-title{font-size:22px;font-weight:900;color:#C77F25;margin-bottom:10px;letter-spacing:0.06em}
+.z-value-desc{font-size:13px;color:#7A5238;line-height:1.6}
+
+@media(max-width:960px){
+  .z-narrative-grid,.z-product-grid,.z-matrix-children,.z-value-wall{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:600px){
+  .z-narrative-grid,.z-product-grid,.z-matrix-children,.z-value-wall{grid-template-columns:1fr}
+  .z-matrix-mom-logo{font-size:24px}
+}
 </style>
 </head>
 <body>
@@ -1156,7 +1206,8 @@ strong{color:var(--z-brown)}
 
 <!-- 标签栏 -->
 <nav class="tab-bar" role="tablist">
-  <button class="tab-btn active" data-tab="doc"><span class="tab-icon">📄</span>宅咪 BP</button>
+  <button class="tab-btn active" data-tab="zhaiyu"><span class="tab-icon">🌐</span>宅域·品牌叙事</button>
+  <button class="tab-btn" data-tab="doc"><span class="tab-icon">📄</span>宅咪 BP</button>
   <button class="tab-btn" data-tab="zhaidian"><span class="tab-icon">🎮</span>宅电 BP</button>
   <button class="tab-btn" data-tab="synergy"><span class="tab-icon">🤝</span>双品牌协同</button>
   <button class="tab-btn" data-tab="slide"><span class="tab-icon">🎬</span>演示</button>
@@ -1169,10 +1220,10 @@ strong{color:var(--z-brown)}
 
 <main>
 
-<!-- ================== 标签1: 文档 ================== -->
-<section class="tab-panel active" id="tab-doc">
+<!-- ================== 标签1: 宅域·品牌叙事 ================== -->
+<section class="tab-panel active" id="tab-zhaiyu">
   <div class="bp-title-block" style="text-align: center; padding: 60px 20px 40px; background: linear-gradient(135deg, #fef9f3 0%, #fff5e8 100%); border-bottom: 2px solid #f4b860;">
-    <h1 style="font-size: 56px; font-weight: 900; color: #5c3d2e; margin: 0 0 16px; letter-spacing: 2px;">宅域・ZHAIYU 商业计划书 v6.5</h1>
+    <h1 style="font-size: 56px; font-weight: 900; color: #5c3d2e; margin: 0 0 16px; letter-spacing: 2px;">宅域・ZHAIYU 商业计划书 v6.6</h1>
     <p style="font-size: 18px; color: #8b6f47; margin: 0 0 24px; font-weight: 500;">以「宅」为根基，构筑属于年轻人的完整生活疆域</p>
     <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 24px;">
       <span class="tag-core">🏠 人宠养护</span>
@@ -1185,6 +1236,153 @@ strong{color:var(--z-brown)}
       <span class="tag-core">🍳 家政到家</span>
     </div>
   </div>
+
+  <!-- 品牌定位一句话 -->
+  <div class="z-quote" style="margin: 32px auto; max-width: 880px; font-size: 19px; line-height: 1.9; text-align: center; color: var(--z-brown);">
+    「宅」是当代年轻人最大的生活现场。我们把所有"应该出现在家里"的服务与好物，搬到离你最后一公里的地方 —— <strong style="color:var(--z-orange-darker)">先让你摸到、先让你试到、先让你信到，再让你买回家</strong>。
+  </div>
+
+  <!-- 6 大核心叙事 -->
+  <h2 class="z-h2">宅域在做什么 · 6 句话讲清</h2>
+  <div class="z-narrative-grid">
+    <div class="z-narrative-card">
+      <div class="z-narrative-num">01</div>
+      <h3>拉近最后一公里</h3>
+      <p>不只是"送到家"，是把体验、信任、决策三件事搬到离你 1 公里的地方。店就在小区楼下，骑电动车 5 分钟，<strong>没有最后一公里的盲区</strong>。</p>
+    </div>
+    <div class="z-narrative-card">
+      <div class="z-narrative-num">02</div>
+      <h3>选品即体验</h3>
+      <p>实体店里直接摸、直接试、直接看效果。<strong>不沾毛的衣服</strong>穿在身上 5 分钟才有答案，<strong>电竞房氛围神器</strong>亮起来才知道是不是你要的调性。网上购物买不到的真实感，店里有。</p>
+    </div>
+    <div class="z-narrative-card">
+      <div class="z-narrative-num">03</div>
+      <h3>吃大厂所不屑</h3>
+      <p>SKU 太多、决策链太长、用户规模太小的生意，美团淘宝京东看不上也不想做。<strong>我们专挑这些"不上秤"的细分场景</strong>，把它们做成小而美的本地闭环。</p>
+    </div>
+    <div class="z-narrative-card">
+      <div class="z-narrative-num">04</div>
+      <h3>宠物经济 + 单身经济</h3>
+      <p>两个万亿级赛道的交汇点。养宠物的年轻人、独居的年轻人、租房养宠物的年轻人 —— <strong>三个画像重合度越来越高</strong>，是宅域的核心客群。</p>
+    </div>
+    <div class="z-narrative-card">
+      <div class="z-narrative-num">05</div>
+      <h3>解决信任感</h3>
+      <p>网上购物最大的成本是"踩雷"成本。退换、客服、纠纷、等待 —— 这些在大平台是流程，在宅域是<strong>面对面 5 分钟解决</strong>。我们卖的不是货，是确定感。</p>
+    </div>
+    <div class="z-narrative-card">
+      <div class="z-narrative-num">06</div>
+      <h3>全心全意为用户</h3>
+      <p>不是 slogan，是组织设计。门店是合伙人制，<strong>用户满意度和店员收入直接挂钩</strong>。我们不靠算法喂饭，我们靠人照顾人。</p>
+    </div>
+  </div>
+
+  <!-- 选品示例矩阵 -->
+  <h2 class="z-h2">选品示例 · 店里直接展示 · 网上买不到的真实感</h2>
+  <div class="z-product-grid">
+    <div class="z-product-card">
+      <div class="z-product-icon">👕</div>
+      <div class="z-product-name">不沾毛的家居服</div>
+      <div class="z-product-why">养猫人群痛点 · 网图看不出材质 · <strong>试穿 5 分钟立判</strong></div>
+    </div>
+    <div class="z-product-card">
+      <div class="z-product-icon">💡</div>
+      <div class="z-product-name">电竞房氛围灯带</div>
+      <div class="z-product-why">色温、亮度、灯效需要实景调 · <strong>店内设 9㎡ 体验间</strong></div>
+    </div>
+    <div class="z-product-card">
+      <div class="z-product-icon">🪑</div>
+      <div class="z-product-name">人体工学椅试用区</div>
+      <div class="z-product-why">千元到万元差价巨大 · 久坐 30 分钟才知道合不合 · <strong>本店可坐一下午</strong></div>
+    </div>
+    <div class="z-product-card">
+      <div class="z-product-icon">🐱</div>
+      <div class="z-product-name">猫砂盆 / 自动喂食器</div>
+      <div class="z-product-why">尺寸、噪音、猫主子接受度 · <strong>带猫来店里实测</strong></div>
+    </div>
+    <div class="z-product-card">
+      <div class="z-product-icon">🧹</div>
+      <div class="z-product-name">扫地机器人真机跑道</div>
+      <div class="z-product-why">建图、越障、毛发缠绕 · <strong>店内铺真实地面 + 真实宠物毛</strong></div>
+    </div>
+    <div class="z-product-card">
+      <div class="z-product-icon">🛏️</div>
+      <div class="z-product-name">记忆棉床垫 7 日试睡</div>
+      <div class="z-product-why">睡了才知道软硬度 · <strong>可送货上门试用 7 天</strong></div>
+    </div>
+    <div class="z-product-card">
+      <div class="z-product-icon">🎧</div>
+      <div class="z-product-name">降噪耳机隔音房</div>
+      <div class="z-product-why">降噪效果必须在噪音环境听 · <strong>店内设独立试听间</strong></div>
+    </div>
+    <div class="z-product-card">
+      <div class="z-product-icon">🧴</div>
+      <div class="z-product-name">宠物洗护用品 · 现场试洗</div>
+      <div class="z-product-why">香味、泡沫、宠物反应 · <strong>洗护区直接体验</strong></div>
+    </div>
+  </div>
+
+  <!-- 品牌矩阵 -->
+  <h2 class="z-h2">宅域 = 母 IP · 板块矩阵</h2>
+  <div class="z-matrix">
+    <div class="z-matrix-mom">
+      <div class="z-matrix-mom-logo">宅域·ZHAIYU</div>
+      <div class="z-matrix-mom-sub">母 IP · 年轻人生活疆域 · 最后一公里</div>
+    </div>
+    <div class="z-matrix-children">
+      <div class="z-matrix-child zhaimi">
+        <div class="z-matrix-child-tag">板块 1</div>
+        <div class="z-matrix-child-name">🐱 宅咪</div>
+        <div class="z-matrix-child-desc">人宠养护 · 洗护寄养 · 宠物零售</div>
+      </div>
+      <div class="z-matrix-child zhaidian">
+        <div class="z-matrix-child-tag">板块 2</div>
+        <div class="z-matrix-child-name">🎮 宅电</div>
+        <div class="z-matrix-child-desc">电竞空间 · 上门搭建 · 潮酷硬件</div>
+      </div>
+      <div class="z-matrix-child future">
+        <div class="z-matrix-child-tag">板块 N</div>
+        <div class="z-matrix-child-name">🛋️ 未来更多</div>
+        <div class="z-matrix-child-desc">智能家居 / 收纳整理 / 家政到家 / 维修安装 ...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 价值观墙 -->
+  <h2 class="z-h2">我们的价值观 · 写给未来的自己</h2>
+  <div class="z-value-wall">
+    <div class="z-value-item">
+      <div class="z-value-num">⚡</div>
+      <div class="z-value-title">快</div>
+      <div class="z-value-desc">5 分钟骑到店，30 分钟解决问题，1 小时内送货上门。</div>
+    </div>
+    <div class="z-value-item">
+      <div class="z-value-num">🤝</div>
+      <div class="z-value-title">真</div>
+      <div class="z-value-desc">货真价实，体验真实，承诺真切。不卖看不见摸不着的"未来"。</div>
+    </div>
+    <div class="z-value-item">
+      <div class="z-value-num">🎯</div>
+      <div class="z-value-title">准</div>
+      <div class="z-value-desc">选品精准，只卖用户在店里能体验的。不做大而全，只做小而美。</div>
+    </div>
+    <div class="z-value-item">
+      <div class="z-value-num">💛</div>
+      <div class="z-value-title">暖</div>
+      <div class="z-value-desc">人是目的不是工具。店员有股份，用户是朋友，店是社区客厅。</div>
+    </div>
+  </div>
+
+  <!-- 底部 CTA -->
+  <div class="z-quote" style="margin: 48px auto 24px; max-width: 880px; text-align: center; padding: 32px; background: #FFF9F0; border: 2px dashed var(--z-orange); border-radius: 16px;">
+    <div style="font-size: 22px; font-weight: 800; color: var(--z-brown); margin-bottom: 12px;">宅域不是一家店，是一个母 IP</div>
+    <div style="font-size: 16px; color: var(--z-brown-soft); line-height: 1.8;">宅咪是宅域的宠物板块，宅电是宅域的电竞板块，未来还有更多板块 —— 但都是为同一群人服务：<br/><strong style="color:var(--z-orange-darker)">在 1 公里生活圈内的、养宠物的、玩电竞的、租房独居的年轻人。</strong></div>
+  </div>
+</section>
+
+<!-- ================== 标签2: 文档 ================== -->
+<section class="tab-panel" id="tab-doc">
+  <h1 class="z-title">宅咪·临港 LIN 舍 · 上门洗护商业计划书</h1>
   <p class="z-lead">社区精细化洗护 + 寄养 + 优质零售 · 三位一体的综合宠物生活馆 · 浦东新区泥城镇五岭路 × 咏梅路交叉口西 120 米</p>
 
   <!-- 4个KPI -->
@@ -2689,22 +2887,22 @@ let currentSlide = 0;
     if(name==='slide'){ try{ if(typeof slides !== 'undefined') buildSlide(); }catch(e){} }
   }
   tabs.forEach(t=>t.addEventListener('click', ()=>switchTab(t.dataset.tab)));
-  let saved = 'doc';
-  try{ saved = localStorage.getItem('zhaimi-tab') || 'doc'; }catch(e){}
+  let saved = 'zhaiyu';
+  try{ saved = localStorage.getItem('zhaimi-tab') || 'zhaiyu'; }catch(e){}
   switchTab(saved);
   window.addEventListener('hashchange', ()=>{
     const h = location.hash.replace('#','');
-    if(['doc','slide','layout','map','zhaidian','synergy','roadmap','funding','about'].includes(h)) switchTab(h);
+    if(['zhaiyu','doc','slide','layout','map','zhaidian','synergy','roadmap','funding','about'].includes(h)) switchTab(h);
   });
   if(location.hash){
     const h = location.hash.replace('#','');
-    if(['doc','slide','layout','map','zhaidian','synergy','roadmap','funding','about'].includes(h)) switchTab(h);
+    if(['zhaiyu','doc','slide','layout','map','zhaidian','synergy','roadmap','funding','about'].includes(h)) switchTab(h);
   }
   // URL 参数支持：?tab=slide&slide=5（PDF 打印用）
   try {
     const params = new URLSearchParams(location.search);
     const tabParam = params.get('tab');
-    if(tabParam && ['doc','slide','layout','map','zhaidian','synergy','roadmap','funding','about'].includes(tabParam)) {
+    if(tabParam && ['zhaiyu','doc','slide','layout','map','zhaidian','synergy','roadmap','funding','about'].includes(tabParam)) {
       switchTab(tabParam);
     }
     const slideParam = parseInt(params.get('slide'));
