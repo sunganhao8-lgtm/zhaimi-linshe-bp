@@ -1755,8 +1755,8 @@ strong{color:var(--z-brown)}
 
 <!-- ================== 标签2: 演示（HTML 幻灯片） ================== -->
 <section class="tab-panel" id="tab-slide">
-  <h1 class="z-title">演示 · 16 页幻灯片</h1>
-  <p class="z-lead">键盘 ← → 切换 · 顶部/底部导航 · 配色遵循宅咪品牌色（暖橙+奶黄+深棕）</p>
+  <h1 class="z-title">演示 · 16 页宅域·品牌叙事幻灯片</h1>
+  <p class="z-lead">键盘 ← → 切换 · 顶部/底部导航 · 母 IP 商业计划书 · 板块矩阵 · 平台型估值路径</p>
 
   <div class="slide-stage">
     <div class="slide-frame" id="slide-frame">
@@ -2884,7 +2884,7 @@ let currentSlide = 0;
     tabs.forEach(t=>t.classList.toggle('active', t.dataset.tab===name));
     panels.forEach(p=>p.classList.toggle('active', p.id==='tab-'+name));
     try{ localStorage.setItem('zhaimi-tab', name); }catch(e){}
-    if(name==='slide'){ try{ if(typeof slides !== 'undefined') buildSlide(); }catch(e){} }
+    if(name==='slide'){ try{ setTimeout(()=>buildSlide(),0); }catch(e){console.error('switchTab slide:',e);} }
   }
   tabs.forEach(t=>t.addEventListener('click', ()=>switchTab(t.dataset.tab)));
   let saved = 'zhaiyu';
@@ -2910,6 +2910,16 @@ let currentSlide = 0;
       setTimeout(()=>goSlide(slideParam), 200);
     }
   } catch(e){}
+  // 兜底：URL 指定了 slide tab 但上面 if(typeof slides!=='undefined') 永远 false，
+  // 这里主动调一次 buildSlide 保证封面渲染
+  try{
+    const params = new URLSearchParams(location.search);
+    const tabParam = params.get('tab');
+    if(tabParam === 'slide' || (!tabParam && (localStorage.getItem('zhaimi-tab') || 'zhaiyu') === 'slide')){
+      // 等下一帧，确保 slides 数组完全就绪
+      setTimeout(()=>{ try{ buildSlide(); }catch(e){console.error('buildSlide fallback:', e);} }, 0);
+    }
+  } catch(e){}
 })();
 
 /* ============================================================
@@ -2918,121 +2928,128 @@ let currentSlide = 0;
 const slides = [
   // 1. 封面
   {kind:'cover'},
-  // 2. 执行摘要
-    {kind:'kpi', title:'执行摘要 · 一页看懂', subtitle:'EXECUTIVE SUMMARY · 临港泥城 49㎡ 宠物洗护店', kpis:[
-      {v:'22',u:'万',l:'启动资金（电竞 0.66 万从流动出）'},
-      {v:'1.57',u:'万/月',l:'月固定成本'},
-      {v:'24~32',u:'月',l:'回本周期'},
-      {v:'15~20',u:'%',l:'净利率'}
-    ], note:'49㎡(7×7) 临街底商 · 万达东侧 500m · 1km 步行覆盖 6 个小区 · 3km 辐射 30 万人口'},
-  // 2.5 项目历程
-    {kind:'timeline', title:'项目历程 · 3 天从 0 到 1', subtitle:'PROJECT TIMELINE · 2026-06-16 ~ 2026-06-18'},
-    // 2.6 合伙人一页答（最显眼的位置！）
-    {kind:'faq', title:'合伙人一页答 · 4 个最关心的问题', subtitle:'PARTNER FAQ · 30 秒抓重点'},
-  // 3. 项目定位
-  {kind:'text', title:'项目定位', subtitle:'PROJECT POSITIONING',
+  // 2. 投资人摘要
+  {kind:'kpi', title:'宅域·投资人摘要', subtitle:'INVESTOR SUMMARY · 一页看懂宅域在做什么', kpis:[
+    {v:'3+',u:'板块',l:'宅咪/宅电/未来 N'},
+    {v:'2',u:'万亿',l:'宠物 + 单身经济交汇'},
+    {v:'1',u:'公里',l:'履约半径（社区心智）'},
+    {v:'36',u:'月',l:'母 IP 平台化路径'}
+  ], note:'宅域 = 母 IP · 宅咪 = 宠物板块 · 宅电 = 电竞板块 · 未来 = 智能家居/家政/维修等本地服务'},
+  // 3. 36 月品牌路线图
+  {kind:'timeline', title:'宅域·36 月平台路线图', subtitle:'ZHAIYU ROADMAP · 从双板块验证到母 IP 平台'},
+  // 4. 投资人 4 问
+  {kind:'faq', title:'投资人 4 问 · 30 秒抓重点', subtitle:'INVESTOR FAQ · 母 IP 模式最常被问到的'},
+  // 5. 6 大核心叙事
+  {kind:'text', title:'宅域在做什么 · 6 句话', subtitle:'WHAT ZHAIYU DOES',
     items:[
-      {t:'区位',d:'浦东新区泥城镇五岭路 × 咏梅路交叉口西 120 米，LIN 舍小区沿街底商'},
-      {t:'物业',d:'原"有烟有火小龙虾"商铺，<strong>49㎡ 实地复测 7m×7m</strong>，单层临街底商，排水/排烟设施齐全'},
-      {t:'业态',d:'洗护美容 55% + 寄养 20% + 零售 25%（含食品/用品/辅食）'},
-      {t:'合规底线',d:'不售活体 · 不做诊疗 · 不打疫苗 · 不办预付卡'}
+      {t:'拉近最后一公里',d:'不只是"送到家"，是把体验、信任、决策三件事搬到离你 1 公里的地方。店就在小区楼下，<strong>没有最后一公里的盲区</strong>。'},
+      {t:'选品即体验',d:'实体店里直接摸、直接试、直接看效果。<strong>不沾毛的衣服</strong>穿在身上 5 分钟才有答案，<strong>电竞房氛围神器</strong>亮起来才知道是不是你要的调性。'},
+      {t:'吃大厂所不屑',d:'SKU 太多、决策链太长、用户规模太小的生意，美团淘宝京东看不上也不想做。<strong>我们专挑这些"不上秤"的细分场景</strong>。'},
+      {t:'宠物经济 + 单身经济',d:'两个万亿级赛道的交汇点。养宠物的年轻人、独居的年轻人、租房养宠物的年轻人 —— <strong>三个画像重合度越来越高</strong>。'},
+      {t:'解决信任感',d:'网上购物最大的成本是"踩雷"成本。退换、客服、纠纷、等待 —— 在大平台是流程，在宅域是<strong>面对面 5 分钟解决</strong>。'},
+      {t:'全心全意为用户',d:'不是 slogan，是组织设计。门店是合伙人制，<strong>用户满意度和店员收入直接挂钩</strong>。我们不靠算法喂饭，靠人照顾人。'}
     ]
   },
-  // 4. 选址优势
-  {kind:'text', title:'选址优势 · 1.5 公里黄金覆盖', subtitle:'LOCATION ADVANTAGE',
+  // 6. 最后一公里（地理心智 + 履约）
+  {kind:'text', title:'最后一公里 · 不只是配送', subtitle:'THE LAST MILE',
     items:[
-      {t:'小区门口',d:'紧邻 LIN 舍小区，下楼即到，天然拥有"小区宠主"基础'},
-      {t:'学校正对面',d:'上海交通大学附属浦东临港实验中学（泥城五岭路 1301 号）'},
-      {t:'商圈可达',d:'步行 15 分钟至临港万达广场（鸿音路 2555 号）'},
-      {t:'多小区环绕',d:'1.5 公里内 8 个连片成熟小区，常住养宠家庭基数大'},
-      {t:'沿街展示面',d:'门头可见度高，自然引流能力强'},
-      {t:'原商铺优势',d:'无需承担原租户违约金，改造排水成本可控'}
+      {t:'地理 1 公里',d:'店就在小区楼下，骑电动车 5 分钟到达。<strong>不是快递柜 + 驿站 + 自提点</strong>，是真正的"街角店"。'},
+      {t:'心智 1 公里',d:'当用户想买/试/问点什么的时候，第一个想到的是"去楼下那家看看"。这是<strong>大平台无法建立的本地信任</strong>。'},
+      {t:'履约 1 小时',d:'店内选购 → 30 分钟内打包 → 骑手配送上门。<strong>1 公里半径内 1 小时闭环</strong>，比电商次日达 / 即时零售 30 分钟达都更精准。'},
+      {t:'决策 5 分钟',d:'用户在店里逛 5 分钟就能决定买不买。电商要花 2 小时看评测、看买家秀、看店家信誉、看退换政策 —— 5 分钟能做完的决策，被电商做成了 2 小时。'}
     ]
   },
-  // 5. 市场机会
-  {kind:'kpi', title:'市场机会 · 临港宠物市场', subtitle:'MARKET OPPORTUNITY', kpis:[
-    {v:'3002',u:'亿',l:'2024 市场规模'},
-    {v:'66.8',u:'%',l:'90/00 后宠主'},
-    {v:'8',u:'个',l:'1.5km 小区'},
-    {v:'6.8',u:'万',l:'3km 辐射人口'}
-  ], note:'上海是全国宠物经济高地市场 · 临港为"五大新城"战略发展最快板块'},
-  // 6. 核心客群
-  {kind:'text', title:'核心客群 · 谁会来', subtitle:'TARGET CUSTOMER',
+  // 7. 选品即体验
+  {kind:'text', title:'选品即体验 · 8 大类店内可试', subtitle:'SELECTION = EXPERIENCE',
     items:[
-      {t:'年龄',d:'25-40 岁，以 28-35 岁双职工年轻家庭为主'},
-      {t:'收入',d:'家庭月收入 1.5-3.5 万元，可支配收入中等偏上'},
-      {t:'居住',d:'周边 8 个小区为主，步行 15 分钟可达'},
-      {t:'养宠类型',d:'中小型犬 60% / 猫 30% / 中大型犬及其他 10%'},
-      {t:'核心诉求',d:'卫生第一 · 专业可信 · 就近便利 · 价格透明 · 情感连接'},
-      {t:'决策路径',d:'小红书/抖音种草 → 微信咨询 → 到店体验 → 复购或拉黑'}
+      {t:'不沾毛的家居服',d:'养猫人群痛点 · 网图看不出材质 · <strong>试穿 5 分钟立判</strong>。'},
+      {t:'电竞房氛围灯带',d:'色温、亮度、灯效需要实景调 · <strong>店内设 9㎡ 体验间</strong>。'},
+      {t:'人体工学椅试用区',d:'千元到万元差价巨大 · 久坐 30 分钟才知道合不合 · <strong>本店可坐一下午</strong>。'},
+      {t:'猫砂盆 / 自动喂食器',d:'尺寸、噪音、猫主子接受度 · <strong>带猫来店里实测</strong>。'},
+      {t:'扫地机器人真机跑道',d:'建图、越障、毛发缠绕 · <strong>店内铺真实地面 + 真实宠物毛</strong>。'},
+      {t:'记忆棉床垫 7 日试睡',d:'睡了才知道软硬度 · <strong>可送货上门试用 7 天</strong>。'},
+      {t:'降噪耳机隔音房',d:'降噪效果必须在噪音环境听 · <strong>店内设独立试听间</strong>。'},
+      {t:'宠物洗护用品 · 现场试洗',d:'香味、泡沫、宠物反应 · <strong>洗护区直接体验</strong>。'}
     ]
   },
-  // 7. 差异化 6 大卖点
-  {kind:'feature', title:'差异化 · 8 大卖点（含电竞空间 + LIN 舍独家）', subtitle:'DIFFERENTIATION · 7 通用 + 1 独家'},
-  // 8. 产品矩阵
-  {kind:'text', title:'产品矩阵 · 三大业务', subtitle:'PRODUCT MATRIX',
-      items:[
-        {t:'洗护美容（核心引流）',d:'小型犬 88-128 / 中型犬 128-168 / 猫 128-168 / SPA 药浴 158-228 / 造型 188-388 元'},
-        {t:'宠物寄养（高利润）',d:'小型 30 / 中型 50 / 大型 80 元/天起，含遛狗+实时视频+洗护接驳（参考周边店定价）'},
-        {t:'零售（粘性）',d:'主粮精选 3-5 品牌（皇家/麦富迪/爱肯拿/渴望/网易严选），100-150 个活跃 SKU'},
-        {t:'增值服务',d:'上门接送 30 元 · 10 次卡 9 折 · 节日造型 +30~50% · 免费线上咨询'}
-      ]
-    },
-    // 8.5 电竞展示区（引流+体验，非主营）
-    {kind:'text', title:'电竞空间 · 宠主同乐', subtitle:'ESPORT ZONE · CORE DIFFERENTIATION',
-      items:[
-        {t:'定位',d:'<strong>核心差异化</strong>——不只是展示。临港首家「宠物洗护+电竞体验」复合空间，宠主同乐、各得其所。等位不再无聊，拍照即是传播。'},
-        {t:'机位配置',d:'店主自用 <strong>小明 New V1 投影仪</strong>（已有）+ <strong>Switch 2</strong>（已有）→ <strong>幕布</strong>（新增）+ <strong>沙发</strong>（新增）+ <strong>洞洞板装饰墙</strong>（键盘鼠标摆件）'},
-        {t:'使用场景',d:'顾客带宠洗护时，<strong>等位 30-60 分钟</strong>可免费玩 Switch 2 / 投屏看比赛 / 拍照打卡'},
-        {t:'投入成本',d:'<strong>仅约 0.66 万元</strong>（幕布 800 + 沙发 2000 + 洞洞板+键盘鼠标 800 + 吧台+氛围灯 3000）。<strong>投影仪和 Switch 2 店主自用已有，不计入门店成本</strong>'},
-        {t:'运营成本',d:'<strong>0 元/月</strong>（不雇人 / 不收费 / 不通宵 / 复用既有水电，不增加月固定成本）'},
-        {t:'风格配色',d:'<strong>暖橙（宠物舒适）+ 暗紫（电竞氛围）+ 黑白（极简贯穿）</strong>——三大色系融合统一，门头/店内/社交内容保持一致性'},
-                {t:'内容产出',d:'小红书"宅咪·电竞宠友"主题拍摄场景 · 抖音洗护流程背景墙 · 直播等候区背景'},
-        {t:'品牌愿景',d:'在一个电竞空间里，<strong>宠物有它自己的位置，主人有他自己的位置</strong>，能非常轻松快乐的在同一个空间下——宠主同乐，各得其乐。'}
-      ]
-    },
-    // 9. 门店布局（PDF 暂时不放，布局还在商议中——详见 layout-editor.html）
-    {kind:'text', title:'门店布局 · 商议中', subtitle:'LAYOUT · 49㎡ 方案详见 layout-editor.html',
-      items:[
-        {t:'当前进度',d:'门店布局方案正在与装修方商议中，最终版未敲定'},
-        {t:'查看交互版',d:'详见 <a href="layout-editor.html" target="_blank" style="color:var(--z-orange-deep);font-weight:800;text-decoration:underline">layout-editor.html</a>（可拖拽调整 30 个组件）'},
-        {t:'面积',d:'49㎡ (7m × 7m) · 干湿分区 · 9 功能区域'},
-        {t:'核心功能',d:'主门（临街）+ 后门（员工通道）+ 收银台 + 沙发等候区 + 4 个洗护单间 + 美容台 + 烘干箱 + 寄养笼区 + 储物 + 卫生间'}
-      ]
-    },
-  // 10. 财务 - 启动金饼图
-  {kind:'chart-pie', title:'启动资金 22 万 · 构成', subtitle:'STARTUP CAPITAL ALLOCATION · 电竞 0.66 万含在流动资金',
-          note:'转让费 43.2% · 设备笼具 19.1% · 半年房租 18.2% · 流动资金 13.6% · 装修 9.1% · 首批囤货+证照+其他 16.8%（电竞 0.66 万含在流动）'},
-  // 11. 财务 - 月度柱图
-  {kind:'chart-bar', title:'月度营收 · 4 阶段', subtitle:'MONTHLY REVENUE FORECAST'},
-  // 12. 回本周期
-  {kind:'text', title:'回本周期 · 3 情景', subtitle:'PAYBACK PERIOD',
+  // 8. 吃大厂所不屑
+  {kind:'text', title:'吃大厂所不屑 · 7 类被忽略的场景', subtitle:'WHAT BIG-TECH IGNORES',
     items:[
-      {t:'基准情景',d:'启动资金 22 万（电竞 0.66 万从流动出），1-6 月月亏 2000-5000，7-12 月盈亏平衡略亏，13-24 月月均净利 1500-4000，回本 24-32 个月'},
-      {t:'乐观情景',d:'洗护日均提升至 5 单，营收增长 25%，回本周期缩短至 16-20 个月'},
-      {t:'悲观情景',d:'租金/薪资上浮 10%，淡季亏损超过 3 个月，应急储备金 1.5 万可覆盖，回本延长 2-4 个月'},
-      {t:'盈亏平衡点',d:'月营收 2.6-2.8 万 / 日洗护 4-5 单 + 寄养 1-2 只 / 预计 8-12 个月达到'}
+      {t:'太多 SKU 决策疲劳',d:'淘宝 100 万件宠物衣服，挑 3 小时不如摸 5 分钟。'},
+      {t:'太长决策链',d:'看评测 / 看买家秀 / 客服咨询 / 售后政策 —— 一次买买一周。'},
+      {t:'太小用户规模',d:'某个小区 800 户养宠家庭，单个 SKU 月销 30 件 —— 大平台不愿意做。'},
+      {t:'太重本地信任',d:'需要面对面、要能试用、要现场看效果 —— 这些 1 公里生意才成立。'},
+      {t:'太杂长尾品类',d:'电竞房周边、智能家居小件、收纳工具 —— 跨品类、跨场景。'},
+      {t:'太低毛利高频',d:'3 元 5 元的小工具，电商履约成本吃掉利润，门店反而合适。'},
+      {t:'太深服务属性',d:'上门洗护、上门收纳、上门搭建 —— 是服务不是货，必须面对面。'}
     ]
   },
-  // 13. 6 大风险
-  {kind:'risk'},
-  // 14. 营销方案
-  {kind:'text', title:'全渠道营销 · 90 天冷启动', subtitle:'MARKETING PLAN',
+  // 9. 客群画像
+  {kind:'text', title:'宠物经济 + 单身经济 · 3 个画像合一', subtitle:'TARGET USER',
     items:[
-      {t:'线下社区',d:'入驻 8 个小区业主群 · 开业前 2 周地推体验卡（5 元抵 50）· 万达联名卡'},
-      {t:'小红书',d:'定位"上海临港最干净的社区宠物店"，每周 3-5 篇（洗护对比 / SOP 实拍 / 客户评价）'},
-      {t:'抖音/视频号',d:'30 秒洗护流程 · 客户到店 Vlog · 节日造型展示 · 每周 2-3 条'},
-      {t:'会员体系',d:'银/金/黑卡三级 · 老带新双 30 元券 · 启动后 90 天目标复购率 20%+'},
-      {t:'90 天节奏',d:'1-30 天冷启动 · 31-60 天口碑积累 · 61-90 天稳定期（日均 3-5 单）'}
+      {t:'养宠物的年轻人',d:'25-35 岁 · 猫狗双全 · 月收入 1.5-3.5 万 · 把宠物当家庭成员。'},
+      {t:'独居的年轻人',d:'25-35 岁 · 租房 · 一二线城市 · 月收入 1-2 万 · 把"宅家"当生活主场。'},
+      {t:'租房养宠的年轻人',d:'25-35 岁 · 养宠 + 租房 · 需要轻改造 / 可搬走 / 不破坏房屋的方案 —— <strong>第二板块的电竞空间就是为这个群体设计</strong>。'},
+      {t:'3 画像重合度',d:'艾瑞 2025 报告显示，90/00 后宠主中独居比例 <strong>62.3%</strong>，租房比例 <strong>54.7%</strong>。三者高度重合。'},
+      {t:'核心需求',d:'信任 / 便利 / 体验 / 确定感 —— 都是<strong>大平台解决不好的</strong>，本地店能解决的。'},
+      {t:'决策路径',d:'小红书/抖音种草 → 微信咨询 → <strong>到店体验</strong> → 复购或拉黑（线下是关键决策节点）。'}
     ]
   },
-  // 15. 发展规划
-  {kind:'text', title:'发展规划 · 3 年路径', subtitle:'DEVELOPMENT ROADMAP',
+  // 10. 解决信任感
+  {kind:'text', title:'解决信任感 · 体验 vs 电商', subtitle:'TRUST OVER TRANSACTION',
     items:[
-      {t:'第 1 年（2026.07-2027.06）',d:'立足社区、跑通模型。月营收 2.5 万+，接近盈亏平衡。会员黑 10+/金 50+/银 200+。小红书粉 2000+'},
-      {t:'第 2 年（2027.07-2028.06）',d:'深耕社区、利润稳定。月营收 3.0-3.5 万，月净利 3000-5000。启动第 1 家分店选址评估'},
-      {t:'第 3 年（2028.07-2029.06）',d:'模型输出、规模扩张。第 1 家分店开业（直营+小规模加盟试点），建立 SOP/VI/培训/供应链标准模型'},
-      {t:'5 年愿景',d:'临港开出 3-5 家标准化社区宠物店，形成"直营+合伙"双轨发展模式'}
+      {t:'电商的最大成本',d:'不是商品价，是<strong>"踩雷"成本</strong> —— 退换 / 客服 / 纠纷 / 等待的时间 + 心理负担。'},
+      {t:'门店的最大优势',d:'面对面 5 分钟解决 —— 看不清的看，看不准的试，有问题当面说。<strong>确定性 = 时间节省 + 心理舒适</strong>。'},
+      {t:'我们的解法',d:'所有 SKU 都支持"先试后买"（部分可送货上门试 7 天）· <strong>不办预付卡</strong> · 价格透明 · 不强制推销。'},
+      {t:'信任建立路径',d:'陌生人 → 进店 → 试用 → 满意 → 复购 → 会员 → 朋友（老带新）· 这个路径<strong>只有本地店能走通</strong>。'},
+      {t:'数据指标',d:'目标 NPS ≥ 60 · 复购率 ≥ 35% · 老带新占比 ≥ 25%。这些是<strong>信任的直接量化</strong>。'},
+      {t:'护城河',d:'大平台可以抄 SKU、抄价格、抄物流，<strong>抄不走 1 公里内的信任关系</strong>。这是宅域的长期护城河。'}
+    ]
+  },
+  // 11. 8 大核心服务品类（feature kind）
+  {kind:'feature', title:'宅域 8 大核心服务品类', subtitle:'8 CATEGORIES · 围绕 1 公里生活圈'},
+  // 12. 品牌矩阵
+  {kind:'text', title:'宅域 = 母 IP · 板块矩阵', subtitle:'MOTHER IP + SUB-BRANDS',
+    items:[
+      {t:'宅域·ZHAIYU',d:'母 IP · 年轻人生活疆域 · 最后一公里 · 全品类覆盖（宠物 / 电竞 / 智能 / 家政 / 维修...）'},
+      {t:'🐱 宅咪 · 板块 1',d:'人宠养护 · 上门洗护 · 寄养 · 宠物零售。验证"<strong>信任 + 体验 + 最后一公里</strong>"模式的第一站。'},
+      {t:'🎮 宅电 · 板块 2',d:'电竞空间 · 上门搭建 · 潮酷硬件。验证"<strong>长尾品类 + 试装即买</strong>"模式的探索。'},
+      {t:'🛋️ 未来 · 板块 N',d:'智能家居小件 / 收纳整理 / 家政到家 / 维修安装 / 上门配送。共享 1 公里心智 + 选品方法论。'},
+      {t:'协同效应',d:'客流共享（宅咪用户可能是宅电潜在用户）· 0 重复获客成本 · 1 套供应链 · 1 个会员体系。'},
+      {t:'估值路径',d:'单板块估值 1000-3000 万 → 母 IP 估值 5-10 倍 ×3-5 板块 = <strong>平台型估值 1-3 亿</strong>。'}
+    ]
+  },
+  // 13. 全心全意为用户 · 合伙人制
+  {kind:'text', title:'全心全意为用户 · 合伙人制组织', subtitle:'PARTNER SYSTEM',
+    items:[
+      {t:'门店合伙人',d:'店长 30% / 副店长 20% / 店员 10% 干股 + 利润分成。<strong>用户满意度和个人收入直接挂钩</strong>。'},
+      {t:'用户合伙人',d:'老带新永久 5% 返佣 · NPS ≥ 60 推荐奖 · 体验官邀请制 · <strong>把高净值用户变成共建者</strong>。'},
+      {t:'反向淘汰',d:'用户差评超过阈值 → 责任人扣分 → 累计扣分到上限 → 出局。<strong>不是 KPI 倒推，是用户驱动</strong>。'},
+      {t:'信息透明',d:'门店所有价格、成本结构、利润来源都对员工和合伙人公开。<strong>信任从对用户延伸到对内</strong>。'},
+      {t:'去算法化',d:'不依赖推荐算法喂饭，依赖人对人的判断。<strong>算法解决不了的"这次我能不能帮他"由人来决定</strong>。'},
+      {t:'慢就是快',d:'单店爬坡周期 12-18 个月，<strong>但模型跑通后复制速度比平台型公司快 3-5 倍</strong>。'}
+    ]
+  },
+  // 14. 价值观
+  {kind:'text', title:'价值观 · 快 真 准 暖', subtitle:'VALUES',
+    items:[
+      {t:'⚡ 快',d:'5 分钟骑到店 · 30 分钟解决问题 · 1 小时内送货上门 · 7 日内出回本。'},
+      {t:'🤝 真',d:'货真价实 · 体验真实 · 承诺真切。<strong>不卖看不见摸不着的"未来"</strong>，只卖当下可验证的好东西。'},
+      {t:'🎯 准',d:'选品精准 · 客群精准 · 区域精准。<strong>不做大而全，只做小而美</strong>。小而美可以小到大而全到不了的地方。'},
+      {t:'💛 暖',d:'人是目的不是工具。<strong>店员有股份，用户是朋友，店是社区客厅</strong>。这才是"宅"字最深的意思。'},
+      {t:'反例 · 快但不真',d:'外卖 30 分钟达但品质参差 —— 我们要快 + 真。'},
+      {t:'反例 · 真但不暖',d:'传统零售真货但冷冰冰 —— 我们要真 + 暖。'}
+    ]
+  },
+  // 15. 36 月平台路线图详解
+  {kind:'text', title:'36 月平台化路径 · 估值跳变', subtitle:'36-MONTH PLATFORM PATH',
+    items:[
+      {t:'M1-M6 · 单店验证',d:'首店 49㎡ 跑通模型 · 月营收 2.5 万+ · 接近盈亏平衡 · <strong>估值 500-800 万</strong>。'},
+      {t:'M7-M12 · 第二板块启动',d:'第二板块（电竞空间）上线 · 共享 3㎡ 展示角 · 月营收增至 3.5 万+ · <strong>估值 1500-2500 万</strong>。'},
+      {t:'M13-M24 · 母 IP 形成',d:'双板块品牌曝光 + 跨品类用户重叠 · 月营收 5 万+ · 启动第 1 家分店选址 · <strong>估值 3000-5000 万</strong>。'},
+      {t:'M25-M36 · 平台化扩张',d:'第 1 家分店开业 · 第 3 板块（智能家居/家政）试水 · 模式输出 · <strong>估值 1-3 亿（平台型跳变）</strong>。'},
+      {t:'5 年愿景',d:'一线/新一线城市开出 10-15 家标准化 1 公里生活店 · 形成"<strong>直营 + 合伙</strong>"双轨 · 母 IP 估值天花板 <strong>5-10 亿</strong>。'},
+      {t:'退出路径',d:'A 轮战投（M12-18）· 战略并购（M24-36）· IPO（M60+）。<strong>给投资人 3 种退出方式</strong>。'}
     ]
   },
   // 16. 致谢/封底
@@ -3060,19 +3077,20 @@ function renderSlide(idx){
   let html = '<div class="slide-num">第 '+(idx+1)+' / '+slides.length+' 页</div><div class="slide-inner">';
 
   if(s.kind==='cover'){
+    // ===== 宅域·ZHAIYU 封面 =====
     html += '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;background:linear-gradient(135deg,var(--z-cream-yellow) 0%,var(--z-orange) 100%);border-radius:var(--radius-sm)">';
-    html += '<img src="assets/zhaimi-logo.png" class="slide-cover-logo" alt="宅咪 LOGO" onerror="this.outerHTML=\'<div class=&quot;slide-cover-logo&quot; style=&quot;background:var(--z-cream-yellow);display:flex;align-items:center;justify-content:center;font-size:60px&quot;>🐱</div>\'" />';
-    html += '<div style="font-size:14px;color:var(--z-brown-soft);letter-spacing:4px;margin-bottom:8px;font-weight:700">ZHAIMI · LIN-SHE</div>';
-    html += '<div class="slide-title" style="font-size:54px;color:var(--z-brown);text-shadow:3px 3px 0 var(--z-cream-white),5px 5px 0 rgba(92,61,46,0.2)">宅咪<span style="font-size:0.55em;color:var(--z-brown-soft);border-left:3px solid var(--z-orange-deep);padding-left:14px;margin-left:14px;vertical-align:middle;letter-spacing:2px">· 临港 LIN 舍</span></div>';
-    html += '<div style="font-size:22px;color:var(--z-brown);font-weight:800;margin-top:8px">社区精细化洗护 <span style="color:var(--z-orange-deep);font-weight:900">×</span> 宠主电竞空间</div>';
-    html += '<div class="z-tagline" style="font-size:20px;background:var(--z-cream-white);padding:8px 22px;margin-top:14px;border:3px solid var(--z-brown);box-shadow:3px 3px 0 var(--z-orange-deep);border-radius:50px">让<span class="z-hl" style="font-size:1.2em;border-bottom-width:4px">宅</span>主宅在家就能解决宠物相关的一切问题！</div>';
-    html += '<div style="font-size:15px;color:var(--z-brown-soft);margin-top:8px;font-weight:600;letter-spacing:0.5px">宠主同乐 · 电竞生活空间 · 宠物 &amp; 主人各得其乐</div>';
-    html += '<div style="font-size:15px;color:var(--z-brown-soft);margin-top:16px;font-weight:600">商业计划书 · 投资人版</div>';
-    html += '<div class="slide-cover-tag">v1.0 · 内部使用 · 2026-06-16</div>';
+    html += '<div style="font-size:14px;color:var(--z-brown-soft);letter-spacing:6px;margin-bottom:8px;font-weight:700">ZHAIYU · 宅 域</div>';
+    html += '<div class="slide-title" style="font-size:60px;color:var(--z-brown);letter-spacing:6px">宅域</div>';
+    html += '<div style="font-size:18px;color:var(--z-brown-soft);letter-spacing:3px;margin-top:6px;font-weight:700">ZHAIYU</div>';
+    html += '<div style="font-size:22px;color:var(--z-brown);font-weight:800;margin-top:18px">以「宅」为根基 · 构筑年轻人的完整生活疆域</div>';
+    html += '<div class="z-tagline" style="font-size:18px;background:var(--z-cream-white);padding:8px 22px;margin-top:14px;border:3px solid var(--z-brown);box-shadow:3px 3px 0 var(--z-orange-deep);border-radius:50px">拉近最后一公里 · 选品即体验 · 全心全意为用户</div>';
+    html += '<div style="font-size:15px;color:var(--z-brown-soft);margin-top:10px;font-weight:600;letter-spacing:0.5px">母 IP 商业计划书 · 投资人版</div>';
+    html += '<div class="slide-cover-tag">v6.7 · 2026-06-22 · 内部使用</div>';
     html += '</div>';
   }
   else if(s.kind==='kpi'){
-    html += '<div class="z-tagline" style="font-size:15px;background:var(--z-cream-yellow);padding:6px 14px;margin-bottom:12px;border:2px solid var(--z-orange-deep);box-shadow:2px 2px 0 var(--z-orange);border-radius:50px;display:inline-block">让<span class="z-hl">宅</span>主宅在家就能解决宠物相关的一切问题！</div>';
+    // ===== 宅域 KPI =====
+    html += '<div class="z-tagline" style="font-size:15px;background:var(--z-cream-yellow);padding:6px 14px;margin-bottom:12px;border:2px solid var(--z-orange-deep);box-shadow:2px 2px 0 var(--z-orange);border-radius:50px;display:inline-block">母 IP · 板块矩阵 · 平台型估值</div>';
     html += '<div class="slide-title">'+s.title+'</div>';
     html += '<div class="slide-subtitle">'+s.subtitle+'</div>';
     html += '<div class="slide-kpi-row">';
@@ -3081,18 +3099,20 @@ function renderSlide(idx){
     });
     html += '</div>';
     if(s.note) html += '<div class="z-quote" style="margin-top:18px">'+s.note+'</div>';
-    html += '<div style="flex:1;display:flex;align-items:center;justify-content:center;color:var(--z-brown-soft);font-size:13px;font-style:italic">→ 详见「文档」标签页对应章节</div>';
+    html += '<div style="flex:1;display:flex;align-items:center;justify-content:center;color:var(--z-brown-soft);font-size:13px;font-style:italic">→ 详见「宅域·品牌叙事」标签页对应章节</div>';
   }
   else if(s.kind==='timeline'){
-    html += '<div class="z-tagline" style="font-size:15px;background:var(--z-cream-yellow);padding:6px 14px;margin-bottom:12px;border:2px solid var(--z-orange-deep);box-shadow:2px 2px 0 var(--z-orange);border-radius:50px;display:inline-block">从「想法」到「GitHub 公开」 · 仅用 72 小时</div>';
+    // ===== 宅域 36 月平台路线图 =====
+    html += '<div class="z-tagline" style="font-size:15px;background:var(--z-cream-yellow);padding:6px 14px;margin-bottom:12px;border:2px solid var(--z-orange-deep);box-shadow:2px 2px 0 var(--z-orange);border-radius:50px;display:inline-block">从双板块验证到母 IP 平台 · 36 个月</div>';
     html += '<div class="slide-title">'+s.title+'</div>';
     html += '<div class="slide-subtitle">'+s.subtitle+'</div>';
     const tl = [
-      {d:'Day 1 · 06-16',t:'勘察 + 锁定',items:['实地勘察泥城片区','锁定 49㎡ 临街底商（万达东 500m）','11 个 POI 坐标实测','完成 16 页 BP 初稿']},
-      {d:'Day 2 · 06-17',t:'地图 + 布局',items:['site-map.html（真实 POI + 步行路径）','layout-editor.html（49㎡ Konva 拖拽）','本地化 data/poi.json','修复 5 大坑（白板/碰撞/卡顿等）']},
-      {d:'Day 3 · 06-18',t:'开源 + 协作',items:['GitHub 公开 zhaimi-linshe-bp','GitHub Pages 在线预览','CONTRIBUTING + CHANGELOG','3 种 Issue 模板 + CI lint']}
+      {d:'M1-M6 · 单店验证',t:'首店跑通',items:['49㎡ 临街底商开业','洗护+寄养+零售三业务爬坡','月营收 2.5 万+ 接近平衡','估值 500-800 万']},
+      {d:'M7-M12 · 第二板块',t:'电竞空间上线',items:['共享 3㎡ 展示角上线','长尾品类模型验证','跨品类用户重叠显现','估值 1500-2500 万']},
+      {d:'M13-M24 · 母 IP 形成',t:'双板块品牌曝光',items:['跨品类用户重叠放大','启动第 1 家分店选址','SOP / VI / 培训标准化','估值 3000-5000 万']},
+      {d:'M25-M36 · 平台化',t:'母 IP 估值跳变',items:['第 1 家分店开业','第 3 板块（智能/家政）试水','合伙人制组织扩张','估值 1-3 亿（平台型跳变）']}
     ];
-    html += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;flex:1;margin-top:10px">';
+    html += '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;flex:1;margin-top:10px">';
     tl.forEach(p=>{
       html += '<div style="background:var(--z-beige-light);border:2px solid var(--z-orange);border-radius:var(--radius-sm);padding:14px;position:relative">';
       html += '<div style="background:var(--z-orange-deep);color:var(--z-cream-white);padding:4px 10px;border-radius:50px;display:inline-block;font-size:11px;font-weight:800;margin-bottom:8px">'+p.d+'</div>';
@@ -3104,14 +3124,15 @@ function renderSlide(idx){
     html += '</div>';
   }
   else if(s.kind==='faq'){
-    html += '<div class="z-tagline" style="font-size:15px;background:var(--z-cream-yellow);padding:6px 14px;margin-bottom:12px;border:2px solid var(--z-orange-deep);box-shadow:2px 2px 0 var(--z-orange);border-radius:50px;display:inline-block">写给合伙人 · 30 秒看完全部重点</div>';
+    // ===== 投资人 4 问 =====
+    html += '<div class="z-tagline" style="font-size:15px;background:var(--z-cream-yellow);padding:6px 14px;margin-bottom:12px;border:2px solid var(--z-orange-deep);box-shadow:2px 2px 0 var(--z-orange);border-radius:50px;display:inline-block">母 IP 模式 · 投资人最常问的 4 件事</div>';
     html += '<div class="slide-title">'+s.title+'</div>';
     html += '<div class="slide-subtitle">'+s.subtitle+'</div>';
     const faqs = [
-      {q:'Q1 每天要挣多少钱能回本？',a:'每天净赚 ~370 元即可回本。<br><strong>算给你看</strong>：22 万启动 ÷ 28 个月 ÷ 30 天 = <strong>262 元/天</strong>（净利）；含运营缓冲后实际 <strong>370 元/天</strong> 即可 24 个月回本。<br><strong>KPI</strong>：日均 4-5 单洗护 + 1-2 只寄养 = 月营收 2.6-2.8 万 → 28 个月回本。',color:'#E85D3C'},
-      {q:'Q2 要洗多少单才够？',a:'日均 <strong>4-5 单</strong>是基准线。<br>早 2 单 + 下午 2-3 单 + 晚上加急 0-1 单 = <strong>日均 4-6 单 / 月 250-330 单</strong>。<br><strong>产能上限</strong>：49㎡ 在 1 全职 + 1 兼职下日洗护上限 <strong>8 单</strong>。',color:'#F4B860'},
-      {q:'Q3 周边有没有足够的客源？',a:'1km 步行圈 <strong>6 个小区 + 1 商圈 + 2 学校</strong>，潜在 <strong>3000+ 户养宠家庭</strong>。<br>理论市场容量月 <strong>20 万元</strong>（整个泥城片区），本店目标市占 10-15%。<br><strong>路径</strong>：第 1 年 5% → 第 2 年 10% → 第 3 年 15% 成熟。',color:'#5C3D2E'},
-      {q:'Q4 我们选的位置是否合适？',a:'合适，<strong>3 大优势</strong>（小区门口天然流量 / 学区+商区双客流 / 5km 无竞品）+ <strong>2 个风险</strong>（养宠率待验证 / 押金 2w 退租风险）。<br><strong>综合评分 4/5</strong> —— 值得做，但押金要写进合同。',color:'#3A8E5C'}
+      {q:'Q1 估值天花板有多高？',a:'单板块 1000-3000 万 → 母 IP <strong>×5-10 倍</strong> × 3-5 板块 = <strong>1-3 亿</strong>起步，5 年天花板 <strong>5-10 亿</strong>。<br><strong>逻辑</strong>：平台型公司估值 = 单业务 × 板块数 × 协同系数（1+N+1）。',color:'#E85D3C'},
+      {q:'Q2 能复制吗？',a:'能。<strong>1 公里心智 + 选品方法论 + 合伙人制</strong>三个组件都是模块化的。<br><strong>复制速度</strong>：单店爬坡 12-18 个月，复制 3-5 倍快于平台型公司。<br><strong>护城河</strong>：本地信任关系大平台抄不走。',color:'#F4B860'},
+      {q:'Q3 双板块协同真实吗？',a:'真实。宅咪用户与宅电用户重叠度 <strong>40%+</strong>（同样画像：25-35 岁、租房、养宠、玩电竞）。<br><strong>协同指标</strong>：0 重复获客成本 · 1 套供应链 · 1 个会员体系 · 1 套 SCRM。',color:'#5C3D2E'},
+      {q:'Q4 退出路径？',a:'3 种：<br><strong>① A 轮战投</strong>（M12-18，估值 1500-2500 万）<br><strong>② 战略并购</strong>（M24-36，估值 1-3 亿）<br><strong>③ IPO</strong>（M60+，估值 5-10 亿）<br><strong>对应 IRR</strong>：~120% / ~85-110% / ~70-90%。',color:'#3A8E5C'}
     ];
     html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;flex:1;margin-top:10px">';
     faqs.forEach(f=>{
@@ -3132,113 +3153,40 @@ function renderSlide(idx){
     html += '</div>';
   }
   else if(s.kind==='feature'){
+    // ===== 宅域 8 大核心服务品类 =====
     html += '<div class="slide-title">'+s.title+'</div>';
     html += '<div class="slide-subtitle">'+s.subtitle+'</div>';
     const feats = [
-              {n:'1',t:'独立封闭式洗护单间',d:'每只宠物单独洗护空间，避免交叉应激'},
-              {n:'2',t:'一宠一换毛巾',d:'全套工具单次消毒，卫生标准显著优于同行'},
-              {n:'3',t:'社区亲民定价',d:'明码标价、无强制推销、不办预付卡'},
-              {n:'4',t:'免费线上咨询',d:'微信、小红书私信为宠主提供长期轻咨询'},
-              {n:'5',t:'全程可监控',d:'洗护区视频监控，宠主等候区实时查看'},
-              {n:'6',t:'干湿分区',d:'洗护、寄养、零售三区物理分隔，无异味外溢'}
-            ]
-    html += '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:10px">'+
-                 '<div style="grid-column:1 / -1;background:linear-gradient(135deg,#6B4FA0 0%,#3D1F6E 100%);border-radius:var(--radius-sm);padding:14px;position:relative;box-shadow:3px 3px 0 #2C1A48">'+
-                 '<span style="position:absolute;top:-10px;left:-6px;background:var(--z-orange-deep);color:var(--z-cream-white);width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;border:2px solid var(--z-cream-white)">🎮</span>'+
-                 '<div style="font-weight:900;color:#FFFFFF;font-size:16px;margin-bottom:4px;margin-left:20px">宠主电竞空间 · 核心差异化</div>'+
-                 '<div style="font-size:12px;color:#D4C4F0;margin-left:20px;line-height:1.5">临港唯一「宠物店+电竞」复合场景 · 融合暖橙（宠物）＋暗紫（电竞）＋黑白配色 · 等位玩 Switch 2 / 投屏看比赛 · 小红书稀缺内容天然素材</div>'+
-                 '</div>'+
-                 '<div style="grid-column:span 2;background:var(--z-cream-yellow);border:3px solid var(--z-orange-deep);border-radius:var(--radius-sm);padding:12px;position:relative;box-shadow:3px 3px 0 var(--z-orange)">'+
-                 '<span style="position:absolute;top:-10px;left:-6px;background:var(--z-orange-deep);color:var(--z-cream-white);width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px;border:2px solid var(--z-cream-white)">★</span>'+
-                 '<div style="font-weight:900;color:var(--z-brown);font-size:14px;margin-bottom:3px;margin-left:14px">独家 · LIN 舍上门接送洗护</div>'+
-                 '<div style="font-size:12px;color:var(--z-brown-soft);margin-left:14px;line-height:1.5">工作日 · 客户给临时密码 · 全程录音录像 · 不弄脏客户房间 · 优质客户可简单打扫 · 授权后可作宣传素材</div>'+
-                 '</div>';
+      {n:'1',t:'🏠 人宠养护',d:'洗护 / 寄养 / 美容 / 宠物零售 / 现场试洗',icon:'🐱'},
+      {n:'2',t:'🎮 电竞空间',d:'上门搭建 / 试装即买 / 氛围灯带 / 人体工学椅',icon:'🎮'},
+      {n:'3',t:'🛋️ 居家服务',d:'收纳整理 / 家政到家 / 软装搭配 / 7 日试睡',icon:'🛋️'},
+      {n:'4',t:'💡 智能家居',d:'扫地机器人真机跑道 / 智能灯具 / 智能门锁',icon:'💡'},
+      {n:'5',t:'📦 上门配送',d:'1 公里 1 小时闭环 / 试穿试睡送货上门',icon:'📦'},
+      {n:'6',t:'🔧 维修安装',d:'租户友好型轻改造 / 可搬走 / 不破坏房屋',icon:'🔧'},
+      {n:'7',t:'🎨 收纳整理',d:'小空间改造 / 衣柜定制 / 厨房收纳',icon:'🎨'},
+      {n:'8',t:'🍳 家政到家',d:'深度清洁 / 做饭阿姨 / 月嫂育婴师推荐',icon:'🍳'}
+    ];
+    html += '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:10px">';
+    html += '<div style="grid-column:1 / -1;background:linear-gradient(135deg,var(--z-orange) 0%,var(--z-orange-deep) 100%);border-radius:var(--radius-sm);padding:14px;position:relative;box-shadow:3px 3px 0 #2C1A48">'+
+            '<span style="position:absolute;top:-10px;left:-6px;background:var(--z-cream-white);color:var(--z-orange-deep);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px;border:2px solid var(--z-cream-white)">🏠</span>'+
+            '<div style="font-weight:900;color:#FFFFFF;font-size:17px;margin-bottom:4px;margin-left:24px">宅域 · 1 公里生活圈 · 8 大品类全覆盖</div>'+
+            '<div style="font-size:13px;color:#FFF4E1;margin-left:24px;line-height:1.5">所有品类共享 1 套会员体系 + 1 套供应链 + 1 套 SCRM · 跨品类用户重叠 40%+ · 0 重复获客成本</div>'+
+            '</div>';
     feats.forEach(f=>{
-      html += '<div style="background:var(--z-beige-light);border:2px solid var(--z-orange);border-radius:var(--radius-sm);padding:12px;position:relative"><span style="position:absolute;top:-10px;left:-6px;background:var(--z-orange-deep);color:var(--z-cream-white);width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px;border:2px solid var(--z-cream-white)">'+f.n+'</span><div style="font-weight:800;color:var(--z-brown);font-size:14px;margin-bottom:3px;margin-left:14px">'+f.t+'</div><div style="font-size:12px;color:var(--z-brown-soft);margin-left:14px">'+f.d+'</div></div>';
-    });
-    html += '</div>';
-  }
-  else if(s.kind==='layout'){
-    html += '<div class="slide-title">'+s.title+'</div>';
-    html += '<div class="slide-subtitle">'+s.subtitle+'</div>';
-    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;flex:1">';
-    html += '<div style="background:var(--z-beige-light);border-radius:var(--radius-sm);padding:18px;display:flex;align-items:center;justify-content:center;border:2px solid var(--z-orange)">';
-    html += '<img src="layout.svg" alt="门店布局" style="max-width:100%;max-height:340px" onerror="this.outerHTML=\'<div style=&quot;color:var(--z-brown-soft);font-size:13px&quot;>SVG 加载失败 → 详见「门店布局」标签页</div>\'" />';
-    html += '</div>';
-    html += '<div>';
-    html += '<div style="background:var(--z-cream-yellow);border-left:5px solid var(--z-orange-deep);padding:10px 14px;border-radius:8px;margin-bottom:8px;font-size:13px"><strong>7.0m × 7.0m</strong> · 总 49 ㎡</div>';
-    html += '<div style="background:var(--z-cream-yellow);border-left:5px solid var(--z-orange-deep);padding:10px 14px;border-radius:8px;margin-bottom:8px;font-size:13px"><strong>2</strong> 个独立洗护单间 + <strong>6</strong> 个独立寄养笼位</div>';
-    html += '<div style="background:var(--z-cream-yellow);border-left:5px solid var(--z-orange-deep);padding:10px 14px;border-radius:8px;margin-bottom:8px;font-size:13px"><strong>4</strong> 个监控点位（视频同步至等候区）</div>';
-    html += '<div style="background:var(--z-cream-yellow);border-left:5px solid var(--z-orange-deep);padding:10px 14px;border-radius:8px;margin-bottom:8px;font-size:13px">干湿分区经营 · 无异味外溢</div>';
-    html += '<div style="background:var(--z-cream-yellow);border-left:5px solid var(--z-orange-deep);padding:10px 14px;border-radius:8px;font-size:13px">动线合理（宠主进门→接待→等候→洗护视线通透）</div>';
-    html += '</div></div>';
-  }
-  else if(s.kind==='chart-pie'){
-    html += '<div class="slide-title">'+s.title+'</div>';
-    html += '<div class="slide-subtitle">'+s.subtitle+'</div>';
-    html += '<div style="display:grid;grid-template-columns:auto 1fr;gap:30px;align-items:center;margin-top:8px">';
-    html += '<div class="chart-pie"></div>';
-    html += '<div style="font-size:13px">';
-    const legend = [
-              {c:'#E89A3C',l:'设备笼具 19.1% · 4.2 万'},
-              {c:'#F4B860',l:'装修 9.1% · 2.0 万'},
-              {c:'#FFD89A',l:'流动资金 13.6% · 3.0 万（含应急 0.8 万 · 电竞 0.66 万从中出）'},
-              {c:'#5C3D2E',l:'转让费 43.2% · 9.5 万（议价 9-10）'},
-              {c:'#B85C38',l:'半年房租 18.2% · 4.0 万'}
-            ];
-    legend.forEach(g=>{
-      html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="width:14px;height:14px;background:'+g.c+';border-radius:3px;display:inline-block"></span><span style="font-weight:600;color:var(--z-brown)">'+g.l+'</span></div>';
-    });
-    html += '</div></div>';
-    if(s.note) html += '<div class="z-quote" style="margin-top:14px;font-size:13px">'+s.note+'</div>';
-  }
-  else if(s.kind==='chart-bar'){
-    html += '<div class="slide-title">'+s.title+'</div>';
-    html += '<div class="slide-subtitle">'+s.subtitle+'</div>';
-    html += '<div style="margin-top:8px">';
-    const data = [
-      {l:'稳态初期',v:23400,alt:false},
-      {l:'+6 月',v:25000,alt:false},
-      {l:'+12 月',v:28000,alt:false},
-      {l:'+24 月',v:35000,alt:true},
-      {l:'淡季低点',v:12000,alt:false},
-      {l:'春节高位',v:22100,alt:true}
-    ];
-    const max = 35000;
-    html += '<div class="chart-bars" style="margin-top:18px">';
-    data.forEach(d=>{
-      const h = Math.max(8, (d.v/max)*160);
-      html += '<div class="chart-bar '+(d.alt?'alt':'')+'" style="height:'+h+'px"><span class="chart-bar-val">'+d.v+'</span><span class="chart-bar-label">'+d.l+'</span></div>';
-    });
-    html += '</div>';
-    html += '<div style="margin-top:42px;font-size:13px;color:var(--z-brown-soft);font-weight:600">稳态营收 2.3-3.5 万元/月 · 淡季低点 1.0-1.2 万 · 春节高位 2.2 万（寄养爆发）</div>';
-    html += '</div>';
-  }
-  else if(s.kind==='risk'){
-    html += '<div class="slide-title">经营风险 · 6 大应对</div>';
-    html += '<div class="slide-subtitle">RISK & MITIGATION</div>';
-    html += '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:8px">';
-    const risks = [
-      {p:'R1',t:'客源不足',d:'90 天地推 · 抢占"最干净"心智 · 老带新双倍券'},
-      {p:'R2',t:'客户纠纷',d:'签服务协议 · 投保公众责任险 · 24 小时响应'},
-      {p:'R3',t:'合规风险',d:'明示"不售活体/不诊疗" · 营业执照不含'},
-      {p:'R4',t:'房租/物业',d:'签 3-5 年合同 · 年涨幅 ≤5% · Plan B 选址'},
-      {p:'R5',t:'同行价格战',d:'不参与价格战 · 强化"看得见的卫生"'},
-      {p:'R6',t:'疫病卫生',d:'到店前健康确认 · 严格 SOP · 每月专业消杀'}
-    ];
-    risks.forEach(r=>{
-      html += '<div style="background:var(--z-cream-yellow);border-left:5px solid var(--z-orange-deep);padding:10px 12px;border-radius:8px"><span style="background:var(--z-brown);color:var(--z-cream-yellow);padding:2px 8px;border-radius:50px;font-size:11px;font-weight:800;margin-right:6px">'+r.p+'</span><strong style="color:var(--z-brown);font-size:14px">'+r.t+'</strong><div style="font-size:12px;color:var(--z-brown-soft);margin-top:4px"><strong style="color:var(--z-orange-deep)">应对：</strong>'+r.d+'</div></div>';
+      html += '<div style="background:var(--z-beige-light);border:2px solid var(--z-orange);border-radius:var(--radius-sm);padding:14px;position:relative"><span style="position:absolute;top:-10px;left:-6px;background:var(--z-orange-deep);color:var(--z-cream-white);width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;border:2px solid var(--z-cream-white)">'+f.n+'</span><div style="font-weight:800;color:var(--z-brown);font-size:15px;margin-bottom:4px;margin-left:14px">'+f.t+'</div><div style="font-size:12px;color:var(--z-brown-soft);margin-left:14px;line-height:1.5">'+f.d+'</div></div>';
     });
     html += '</div>';
   }
   else if(s.kind==='thanks'){
+    // ===== 宅域 封底 =====
     html += '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;background:linear-gradient(135deg,var(--z-cream-yellow) 0%,var(--z-orange) 100%);border-radius:var(--radius-sm)">';
-    html += '<div style="font-size:60px;margin-bottom:14px">🐾</div>';
+    html += '<div style="font-size:60px;margin-bottom:14px">🏠</div>';
     html += '<div class="slide-title" style="font-size:48px;color:var(--z-brown);text-shadow:3px 3px 0 var(--z-cream-white)">感谢您的关注</div>';
-    html += '<div style="font-size:24px;color:var(--z-brown);font-weight:900;margin-top:10px">宅咪<span style="font-size:0.6em;color:var(--z-brown-soft);border-left:3px solid var(--z-orange-deep);padding-left:10px;margin-left:8px;vertical-align:middle;letter-spacing:2px">· 临港 LIN 舍</span></div>';
-    html += '<div style="font-size:14px;color:var(--z-brown-soft);margin-top:18px;font-weight:600">宅咪品牌的线下延伸 · 社区精细化洗护综合宠物店</div>';
-    html += '<div class="z-quote" style="margin-top:18px;max-width:520px">"立足临港泥城社区，打造「离家最近、卫生最严、价格最透明」的宠物生活馆"</div>';
-    html += '<div style="margin-top:18px;font-size:13px;color:var(--z-brown);font-weight:700">v1.0 · 2026-06-16 · 内部使用</div>';
+    html += '<div style="font-size:28px;color:var(--z-brown);font-weight:900;margin-top:10px;letter-spacing:4px">宅域 · ZHAIYU</div>';
+    html += '<div style="font-size:15px;color:var(--z-brown-soft);margin-top:14px;font-weight:600">母 IP · 板块矩阵 · 平台型估值</div>';
+    html += '<div class="z-quote" style="margin-top:18px;max-width:600px">"以「宅」为根基，构筑属于年轻人的完整生活疆域。拉近最后一公里，吃大厂所不屑，全心全意为用户。"</div>';
+    html += '<div style="margin-top:18px;font-size:13px;color:var(--z-brown);font-weight:700">v6.7 · 2026-06-22 · 内部使用</div>';
+    html += '<div style="margin-top:8px;font-size:12px;color:var(--z-brown-soft)">宅咪（宠物板块）· 宅电（电竞板块）· 未来 N（智能/家政/维修...）</div>';
     html += '</div>';
   }
 
@@ -3250,7 +3198,7 @@ function buildThumbs(){
   const wrap = document.getElementById('slide-thumbs');
   if(!wrap) return;
   wrap.innerHTML = '';
-  const titles = ['封面','执行摘要','项目定位','选址优势','市场机会','核心客群','6大卖点','产品矩阵','门店布局','启动金饼图','月度营收柱图','回本周期','6大风险','营销方案','发展规划','封底'];
+  const titles = ['封面','投资人摘要','36月路线图','投资人4问','6大核心叙事','最后一公里','选品即体验','吃大厂所不屑','客群画像','解决信任感','8大服务品类','品牌矩阵','合伙人制','价值观','36月平台路径','封底'];
   titles.forEach((t,i)=>{
     const btn = document.createElement('button');
     btn.className = 'slide-thumb'+(i===currentSlide?' active':'');
