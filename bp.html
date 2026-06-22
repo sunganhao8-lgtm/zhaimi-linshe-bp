@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>宅域·ZHAIYU 品牌矩阵 BP v5.2</title>
+<title>宅域·ZHAIYU 品牌矩阵 BP</title>
   <!-- cache-bust: 2026-06-18-v5.2-final -->
 <style>
 /* ============================================================
@@ -225,6 +225,59 @@ body{
   font-weight:700;
 }
 
+/* ===== v6.9 brand-bar 新结构：居中 zhaiyu logo + 左右板块 + 动效 ===== */
+.brand-center{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  flex:1;
+  justify-content:center;
+}
+.brand-center-logo{
+  width:48px;height:48px;
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1), width .35s ease, height .35s ease, filter .35s ease;
+  flex-shrink:0;
+  filter:drop-shadow(0 2px 6px rgba(92,61,46,0.15));
+}
+.brand-center:hover .brand-center-logo{transform:scale(1.08) rotate(-3deg)}
+.brand-center-logo.is-hot{transform:scale(1.4) rotate(-4deg);filter:drop-shadow(0 6px 16px rgba(232,154,60,0.45))}
+.brand-center-text{display:flex;flex-direction:column;align-items:flex-start;gap:2px}
+
+.brand-side{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:6px 12px;
+  border-radius:14px;
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1), background .35s ease, box-shadow .35s ease;
+  cursor:default;
+  min-width:0;
+}
+.brand-side-left{flex-direction:row}
+.brand-side-right{flex-direction:row-reverse}
+.brand-side-logo{
+  width:38px;height:38px;
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1), width .35s ease, height .35s ease, filter .35s ease;
+  filter:drop-shadow(0 2px 4px rgba(92,61,46,0.12));
+  flex-shrink:0;
+}
+/* 左右板块 active 时放大 + 高亮 */
+.brand-side.is-hot{
+  background:rgba(244,184,96,0.12);
+  box-shadow:0 4px 14px rgba(244,184,96,0.25);
+  transform:scale(1.18);
+}
+.brand-side.is-hot .brand-side-logo{transform:scale(1.25) rotate(5deg);filter:drop-shadow(0 4px 12px rgba(232,154,60,0.4))}
+.brand-side.is-hot .brand-side-label{color:#C77F25;font-weight:900;letter-spacing:0.04em}
+.brand-side-label{
+  font-size:12px;
+  font-weight:700;
+  color:var(--z-brown-soft);
+  letter-spacing:0.06em;
+  white-space:nowrap;
+  transition:color .35s ease, font-weight .35s ease, letter-spacing .35s ease;
+}
+
 /* 中间融合块：不做额外装饰（背景已经是橙→紫→蓝融合渐变，不需要两侧光圈） */
 
 /* 品牌栏动效容器 - 已废弃 */
@@ -286,14 +339,14 @@ main{padding:28px 36px 80px;max-width:1440px;margin:0 auto}
 
 /* 通用组件 - 深色玻璃主题 */
 h1.z-title{
-  font-size:36px;
+  font-size:clamp(20px, 4vw, 36px);
   font-weight:900;
   color:var(--z-orange-deep);
   margin-bottom:6px;
   letter-spacing:1px;
 }
 h2.z-h2{
-  font-size:24px;
+  font-size:clamp(18px, 3.5vw, 24px);
   color:var(--z-orange-deep);
   margin:32px 0 14px;
   padding-left:18px;
@@ -303,7 +356,7 @@ h2.z-h2{
   font-weight:800;
 }
 h3.z-h3{
-  font-size:18px;
+  font-size:clamp(15px, 2.8vw, 18px);
   color:var(--z-brown);
   margin:20px 0 10px;
   display:flex;align-items:center;gap:8px;
@@ -951,7 +1004,7 @@ strong{color:var(--z-brown)}
   main{padding:20px}
   .brand-bar{padding:14px 20px}
   .tab-bar{padding:10px 20px}
-  h1.z-title{font-size:30px}
+  h1.z-title{font-size:clamp(20px, 4vw, 30px)}
   .slide-title{font-size:26px}
   .slide-cover .slide-title{font-size:36px}
   .brand-left,.brand-right{min-width:auto}
@@ -1185,22 +1238,25 @@ strong{color:var(--z-brown)}
 </head>
 <body>
 
-<!-- 顶部品牌栏 - 玻璃质感 + 双品牌碰撞 -->
+<!-- 顶部品牌栏 - 居中 zhaiyu logo + 左右板块 logo + 动效 -->
 <header class="brand-bar">
-  <!-- 左：宅咪 -->
-  <div class="brand-left">
-    <img src="assets/zhaiyu-logo-120.png" alt="宅域 LOGO" class="brand-logo zhaimi" onerror="this.outerHTML='<div class=&quot;brand-logo zhaimi&quot; style=&quot;display:flex;align-items:center;justify-content:center;font-size:20px;background:rgba(255,255,255,0.95);color:#E89A3C&quot;>🏠</div>'" />
-    <div class="brand-label zhaimi">宅咪</div>
+  <!-- 左：宅咪 (切到 doc tab 时放大) -->
+  <div class="brand-side brand-side-left" data-side="zhaimi">
+    <img src="assets/zhaimi-logo-120.png" alt="宅咪 LOGO" class="brand-side-logo" onerror="this.outerHTML='<div class=&quot;brand-side-logo zhaimi-fallback&quot; style=&quot;display:flex;align-items:center;justify-content:center;font-size:28px;color:#E89A3C&quot;>🐱</div>'" />
+    <div class="brand-side-label">宅咪 ZHAIMI</div>
   </div>
-  <!-- 中：标题 -->
+  <!-- 中：宅域 (默认) -->
   <div class="brand-center">
-    <div class="brand-center-title">商业计划书</div>
-    <div class="brand-center-sub">拉近最后一公里 · 选品即体验 · 全心全意为用户</div>
+    <img src="assets/zhaiyu-logo-120.png" alt="宅域 LOGO" class="brand-center-logo" data-tab-active="zhaiyu" onerror="this.outerHTML='<div class=&quot;brand-center-logo&quot; style=&quot;display:flex;align-items:center;justify-content:center;font-size:32px;color:#E89A3C&quot;>🏠</div>'" />
+    <div class="brand-center-text">
+      <div class="brand-center-title">宅域 · ZHAIYU</div>
+      <div class="brand-center-sub">拉近最后一公里 · 选品即体验 · 全心全意为用户</div>
+    </div>
   </div>
-  <!-- 右：宅电 -->
-  <div class="brand-right">
-    <div class="brand-label zhaidian">宅电</div>
-    <img src="assets/zhaiyu-logo-120.png" alt="宅域 LOGO" class="brand-logo zhaidian-img" onerror="this.outerHTML='<div class=&quot;brand-logo zhaidian&quot; style=&quot;display:flex;align-items:center;justify-content:center;font-size:20px;background:rgba(255,255,255,0.95);color:#1A6BFF&quot;>🏠</div>'" />
+  <!-- 右：宅电 (切到 zhaidian tab 时放大) -->
+  <div class="brand-side brand-side-right" data-side="zhaidian">
+    <img src="assets/zhaidian-logo-120.png" alt="宅电 LOGO" class="brand-side-logo" onerror="this.outerHTML='<div class=&quot;brand-side-logo zhaidian-fallback&quot; style=&quot;display:flex;align-items:center;justify-content:center;font-size:28px;color:#1A6BFF&quot;>🎮</div>'" />
+    <div class="brand-side-label">宅电 ZHAIDIAN</div>
   </div>
 </header>
 
@@ -1223,7 +1279,7 @@ strong{color:var(--z-brown)}
 <!-- ================== 标签1: 宅域·品牌叙事 ================== -->
 <section class="tab-panel active" id="tab-zhaiyu">
   <div class="bp-title-block" style="text-align: center; padding: 60px 20px 40px; background: linear-gradient(135deg, #fef9f3 0%, #fff5e8 100%); border-bottom: 2px solid #f4b860;">
-    <h1 style="font-size: 56px; font-weight: 900; color: #5c3d2e; margin: 0 0 16px; letter-spacing: 2px;">宅域・ZHAIYU 商业计划书 v6.7</h1>
+    <h1 style="font-size: clamp(28px, 7vw, 56px); font-weight: 900; color: #5c3d2e; margin: 0 0 16px; letter-spacing: 2px; white-space: nowrap;">宅域・ZHAIYU 商业计划书</h1>
     <p style="font-size: 18px; color: #8b6f47; margin: 0 0 24px; font-weight: 500;">以「宅」为根基，构筑属于年轻人的完整生活疆域</p>
     <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 24px;">
       <span class="tag-core">🏠 人宠养护</span>
@@ -1755,7 +1811,7 @@ strong{color:var(--z-brown)}
 
 <!-- ================== 标签2: 演示（HTML 幻灯片） ================== -->
 <section class="tab-panel" id="tab-slide">
-  <h1 class="z-title">演示 · 16 页宅域·品牌叙事幻灯片</h1>
+  <h1 class="z-title">演示 · 宅域·品牌叙事幻灯片</h1>
   <p class="z-lead">键盘 ← → 切换 · 顶部/底部导航 · 母 IP 商业计划书 · 板块矩阵 · 平台型估值路径</p>
 
   <div class="slide-stage">
@@ -2760,7 +2816,7 @@ strong{color:var(--z-brown)}
 <!-- ================== 标签5: 关于 ================== -->
 <section class="tab-panel" id="tab-about">
   <div class="about-hero">
-    <img src="assets/zhaiyu-logo-120.png" alt="宅域 LOGO" onerror="this.outerHTML='<div style=&quot;width:120px;height:120px;border-radius:50%;background:var(--z-cream-yellow);margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:60px&quot;>🏠</div>'" />
+    <img src="assets/zhaimi-logo-120.png" alt="宅咪 LOGO" onerror="this.outerHTML='<div style=&quot;width:120px;height:120px;border-radius:50%;background:var(--z-cream-yellow);margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:60px&quot;>🐱</div>'" />
     <h2 style="font-size:36px">宅咪<span style="font-size:0.6em;color:var(--z-brown-soft);border-left:3px solid var(--z-orange-deep);padding-left:14px;margin-left:10px;vertical-align:middle;letter-spacing:2px">· 临港 LIN 舍</span></h2>
     <p>宅咪品牌的线下延伸门店 · 社区精细化洗护综合宠物店</p>
     <div class="z-tagline-hero">让<span class="z-hl">宅</span>主宅在家就能解决宠物相关的一切问题！</div>
@@ -2885,6 +2941,15 @@ let currentSlide = 0;
     panels.forEach(p=>p.classList.toggle('active', p.id==='tab-'+name));
     try{ localStorage.setItem('zhaimi-tab', name); }catch(e){}
     if(name==='slide'){ try{ setTimeout(()=>buildSlide(),0); }catch(e){console.error('switchTab slide:',e);} }
+    // v6.9 brand-bar 动效：切到 doc/zhaidian tab 时对应 side 放大；切回 zhaiyu 时中心 logo 放大
+    try{
+      const leftSide = document.querySelector('.brand-side-left');
+      const rightSide = document.querySelector('.brand-side-right');
+      const centerLogo = document.querySelector('.brand-center-logo');
+      if(name === 'doc'){ leftSide && leftSide.classList.add('is-hot'); rightSide && rightSide.classList.remove('is-hot'); centerLogo && centerLogo.classList.remove('is-hot'); }
+      else if(name === 'zhaidian'){ rightSide && rightSide.classList.add('is-hot'); leftSide && leftSide.classList.remove('is-hot'); centerLogo && centerLogo.classList.remove('is-hot'); }
+      else { leftSide && leftSide.classList.remove('is-hot'); rightSide && rightSide.classList.remove('is-hot'); centerLogo && centerLogo.classList.add('is-hot'); }
+    }catch(e){console.error('brand-bar hot:',e);}
   }
   tabs.forEach(t=>t.addEventListener('click', ()=>switchTab(t.dataset.tab)));
   let saved = 'zhaiyu';
@@ -3086,7 +3151,7 @@ function renderSlide(idx){
     html += '<div style="font-size:22px;color:var(--z-brown);font-weight:800;margin-top:18px">以「宅」为根基 · 构筑年轻人的完整生活疆域</div>';
     html += '<div class="z-tagline" style="font-size:18px;background:var(--z-cream-white);padding:8px 22px;margin-top:14px;border:3px solid var(--z-brown);box-shadow:3px 3px 0 var(--z-orange-deep);border-radius:50px">拉近最后一公里 · 选品即体验 · 全心全意为用户</div>';
     html += '<div style="font-size:15px;color:var(--z-brown-soft);margin-top:10px;font-weight:600;letter-spacing:0.5px">母 IP 商业计划书 · 投资人版</div>';
-    html += '<div class="slide-cover-tag">v6.7 · 2026-06-22 · 内部使用</div>';
+    html += '<div class="slide-cover-tag" style="display:none">v6.7</div>';
     html += '</div>';
   }
   else if(s.kind==='kpi'){
@@ -3186,7 +3251,6 @@ function renderSlide(idx){
     html += '<div style="font-size:28px;color:var(--z-brown);font-weight:900;margin-top:10px;letter-spacing:4px">宅域 · ZHAIYU</div>';
     html += '<div style="font-size:15px;color:var(--z-brown-soft);margin-top:14px;font-weight:600">母 IP · 板块矩阵 · 平台型估值</div>';
     html += '<div class="z-quote" style="margin-top:18px;max-width:600px">"以「宅」为根基，构筑属于年轻人的完整生活疆域。拉近最后一公里，吃大厂所不屑，全心全意为用户。"</div>';
-    html += '<div style="margin-top:18px;font-size:13px;color:var(--z-brown);font-weight:700">v6.7 · 2026-06-22 · 内部使用</div>';
     html += '<div style="margin-top:8px;font-size:12px;color:var(--z-brown-soft)">宅咪（宠物板块）· 宅电（电竞板块）· 未来 N（智能/家政/维修...）</div>';
     html += '</div>';
   }
