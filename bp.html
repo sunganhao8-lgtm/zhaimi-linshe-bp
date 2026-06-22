@@ -236,13 +236,13 @@ body{
 .brand-center-logo{
   width:54px;height:54px;
   border-radius:50%;
-  object-fit:contain;
+  object-fit:cover;
   transition:transform .4s cubic-bezier(.2,1.6,.5,1), width .4s ease, height .4s ease, filter .4s ease;
   flex-shrink:0;
   filter:drop-shadow(0 2px 6px rgba(92,61,46,0.15));
 }
-.brand-center:hover .brand-center-logo{transform:scale(1.12) rotate(-6deg)}
-.brand-center-logo.is-hot{transform:scale(1.8) rotate(-6deg);filter:drop-shadow(0 8px 22px rgba(232,154,60,0.55))}
+.brand-center:hover .brand-center-logo{transform:scale(1.1)}
+.brand-center-logo.is-hot{transform:scale(1.6);filter:drop-shadow(0 8px 22px rgba(232,154,60,0.55))}
 .brand-center-text{display:flex;flex-direction:column;align-items:flex-start;gap:2px}
 
 .brand-side{
@@ -258,9 +258,9 @@ body{
 .brand-side-left{flex-direction:row}
 .brand-side-right{flex-direction:row-reverse}
 .brand-side-logo{
-  width:44px;height:44px;
+  width:48px;height:48px;
   border-radius:50%;
-  object-fit:contain;
+  object-fit:cover;
   transition:transform .4s cubic-bezier(.2,1.6,.5,1), width .4s ease, height .4s ease, filter .4s ease;
   filter:drop-shadow(0 2px 4px rgba(92,61,46,0.12));
   flex-shrink:0;
@@ -269,9 +269,9 @@ body{
 .brand-side.is-hot{
   background:rgba(244,184,96,0.12);
   box-shadow:0 4px 14px rgba(244,184,96,0.25);
-  transform:scale(1.18);
+  transform:scale(1.1);
 }
-.brand-side.is-hot .brand-side-logo{transform:scale(1.5) rotate(6deg);filter:drop-shadow(0 6px 16px rgba(232,154,60,0.45))}
+.brand-side.is-hot .brand-side-logo{transform:scale(1.35);filter:drop-shadow(0 6px 16px rgba(232,154,60,0.45))}
 .brand-side.is-hot .brand-side-label{color:#C77F25;font-weight:900;letter-spacing:0.04em}
 .brand-side-label{
   font-size:12px;
