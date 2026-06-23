@@ -219,17 +219,25 @@ body{
   text-shadow:1px 1px 2px rgba(0,0,0,0.6);
 }
 .brand-center-title{
-  font-size:28px;
+  font-size:18px;
   font-weight:900;
   color:#3A2818;
-  letter-spacing:5px;
-  margin-bottom:4px;
+  letter-spacing:2px;
+  margin-bottom:2px;
+  line-height:1.1;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 .brand-center-sub{
-  font-size:12px;
+  font-size:11px;
   color:#7A5238;
-  letter-spacing:2px;
-  font-weight:700;
+  letter-spacing:1px;
+  font-weight:600;
+  line-height:1.1;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
 /* ===== v6.9 brand-bar 新结构：居中 zhaiyu logo + 左右板块 + 动效 ===== */
@@ -1012,28 +1020,32 @@ strong{color:var(--z-brown)}
   .slide-list{grid-template-columns:1fr}
   .slide-2col{grid-template-columns:1fr}
   main{padding:20px}
-  .brand-bar{padding:8px 20px;min-height:96px}
-    .brand-center{max-width:none;padding:6px 16px}
-    .brand-center-logo{width:70px;height:70px}
-    .brand-side-logo{width:54px;height:54px}
-    .brand-center-title{font-size:16px}
-    .brand-center-sub{font-size:10px}
+  .brand-bar{padding:4px 8px;min-height:auto;gap:6px;flex-wrap:nowrap}
+  .brand-center{max-width:none;padding:2px 8px;gap:6px;overflow:hidden;flex:0 1 auto;min-width:0}
+  .brand-center-logo{width:48px !important;height:48px !important;flex-shrink:0}
+  .brand-side-logo{width:44px !important;height:44px !important;flex-shrink:0}
+  .brand-center-title{font-size:13px !important;letter-spacing:0 !important;margin-bottom:0;max-width:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:0 1 auto;min-width:0}
+  .brand-center-sub{font-size:0 !important;line-height:0;max-height:0;overflow:hidden;display:none}
+  .brand-side-label{display:none !important}
+  .brand-side{padding:0;gap:0;flex:0 0 auto}
   .tab-bar{padding:10px 20px}
   h1.z-title{font-size:clamp(20px, 4vw, 30px)}
+  h1{font-size:clamp(18px, 5vw, 28px);word-break:keep-all;overflow-wrap:break-word}
+  .bp-title-block h1{font-size:clamp(18px, 5vw, 28px) !important;letter-spacing:1px !important;white-space:normal}
   .slide-title{font-size:26px}
   .slide-cover .slide-title{font-size:36px}
   .brand-left,.brand-right{min-width:auto}
-  .brand-center-title{font-size:18px;line-height:1.2;margin-bottom:2px}
-  .brand-center-sub{font-size:11px;line-height:1.2}
-  .brand-logo{height:36px;width:36px}
-  .brand-label{font-size:13px}
-}
+    .brand-center-title{font-size:16px;line-height:1.2;margin-bottom:2px;max-width:200px;overflow:hidden;text-overflow:ellipsis}
+    .brand-center-sub{font-size:11px;line-height:1.2;display:none}
+    .brand-logo{height:36px;width:36px}
+    .brand-label{font-size:13px}
+  }
 @media (max-width:640px){
   .kpi-row{grid-template-columns:1fr 1fr;gap:10px}
   .kpi-value{font-size:28px}
   .brand-left,.brand-right{min-width:auto;gap:6px}
-  .brand-center-title{font-size:15px;line-height:1.2;margin-bottom:1px}
-  .brand-center-sub{font-size:10px;line-height:1.2;display:none}
+  .brand-center-title{font-size:14px;line-height:1.2;margin-bottom:1px;max-width:120px;overflow:hidden;text-overflow:ellipsis}
+    .brand-center-sub{font-size:10px;line-height:1.2;display:none}
   .brand-logo{height:32px;width:32px}
   .brand-label{font-size:11px}
   .tab-btn{padding:10px 14px;font-size:13px}
