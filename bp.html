@@ -168,34 +168,41 @@ body{
   z-index:10;
   flex:1;
   display:flex;
-  flex-direction:column;
-  justify-content:center;
+  flex-direction:row;
   align-items:center;
-  text-align:center;
-  padding:14px 32px;
+  gap:14px;
+  justify-content:center;
+  padding:8px 24px;
   margin:0 16px;
   background:#FFFFFF;
   border-radius:18px;
   border:2px solid #5C3D2E;
   box-shadow:
-    0 6px 18px rgba(0,0,0,0.18),
-    0 2px 6px rgba(0,0,0,0.10),
-    inset 0 0 0 3px #FFF4E1;
-  transform:translateY(4px);
-  max-width:520px;
+    0 4px 14px rgba(0,0,0,0.18),
+    0 1px 4px rgba(0,0,0,0.10),
+    inset 0 0 0 2px #FFF4E1;
+  max-width:560px;
+  min-width:0;
 }
-
-/* 品牌 logo - 哑光圆形 */
-.brand-logo{
-  height:72px;
-  width:72px;
-  border-radius:50%;
-  object-fit:cover;
-  background:#FFFFFF;
-  padding:4px;
-  border:3px solid #FFFFFF;
-  flex-shrink:0;
-  box-shadow:0 4px 14px rgba(0,0,0,0.30);
+.brand-center-title{
+  font-size:18px;
+  font-weight:900;
+  color:#3A2818;
+  letter-spacing:2px;
+  margin-bottom:2px;
+  line-height:1.1;
+  white-space:nowrap;
+}
+.brand-center-sub{
+  font-size:11px;
+  color:#7A5238;
+  letter-spacing:1px;
+  font-weight:600;
+  line-height:1.1;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width:100%;
 }
 .brand-label{
   font-size:16px;
@@ -1006,6 +1013,11 @@ strong{color:var(--z-brown)}
   .slide-2col{grid-template-columns:1fr}
   main{padding:20px}
   .brand-bar{padding:8px 20px;min-height:96px}
+    .brand-center{max-width:none;padding:6px 16px}
+    .brand-center-logo{width:70px;height:70px}
+    .brand-side-logo{width:54px;height:54px}
+    .brand-center-title{font-size:16px}
+    .brand-center-sub{font-size:10px}
   .tab-bar{padding:10px 20px}
   h1.z-title{font-size:clamp(20px, 4vw, 30px)}
   .slide-title{font-size:26px}
@@ -1190,12 +1202,13 @@ strong{color:var(--z-brown)}
 @media(max-width:768px){.roadmap-phases{grid-template-columns:1fr}.valuation-path{flex-direction:column}}
 
 /* ============================================================
-   v6.9.26 · LOGO 还原为图片，圆化 + 放大 + 动效
+   v6.9.27 · LOGO 还原为图片，圆化 + 放大 + 动效
+   base 90px，mobile media query 缩到 70px
    ============================================================ */
 .z-logo{display:none}
 .brand-center-logo{
   display:block;
-  width:120px;height:120px;
+  width:90px;height:90px;
   border-radius:50%;
   object-fit:cover;
   transition:transform .4s cubic-bezier(.2,1.6,.5,1), width .4s ease, height .4s ease, filter .4s ease;
@@ -1203,17 +1216,17 @@ strong{color:var(--z-brown)}
   filter:drop-shadow(0 2px 6px rgba(92,61,46,0.15));
 }
 .brand-center:hover .brand-center-logo{transform:scale(1.05)}
-.brand-center-logo.is-hot{transform:scale(1.2);filter:drop-shadow(0 8px 22px rgba(232,154,60,0.55))}
+.brand-center-logo.is-hot{transform:scale(1.25);filter:drop-shadow(0 8px 22px rgba(232,154,60,0.55))}
 .brand-side-logo{
   display:block;
-  width:80px;height:80px;
+  width:64px;height:64px;
   border-radius:50%;
   object-fit:cover;
   transition:transform .4s cubic-bezier(.2,1.6,.5,1), width .4s ease, height .4s ease, filter .4s ease;
   filter:drop-shadow(0 2px 4px rgba(92,61,46,0.12));
   flex-shrink:0;
 }
-.brand-side.is-hot .brand-side-logo{transform:scale(1.4);filter:drop-shadow(0 6px 16px rgba(232,154,60,0.45))}
+.brand-side.is-hot .brand-side-logo{transform:scale(1.45);filter:drop-shadow(0 6px 16px rgba(232,154,60,0.45))}
 
 /* ============================================================
    v6.7 · 宅域·品牌叙事 tab 配套样式
