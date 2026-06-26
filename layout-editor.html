@@ -650,50 +650,56 @@ const INITIAL_COMPONENTS = [
   { id:'door_main',  name:'主门（临街）', x:3.0, y:6.85, w:1.0, h:0.15, color:'#F4B860', icon:'🚪', fixed:true },
   { id:'door_back',  name:'后门',         x:0,    y:3.0, w:0.15, h:1.0, color:'#E89A3C', icon:'🚪', fixed:true },
 
-  // ---- 干湿分区墙（横墙隔开前后）----
-  // 湿区（洗护+寄养）vs 干区（零售+等候），分隔墙位于 y=4.7，贯穿 0.15 → 6.0
-  { id:makeId('wall_h'), name:'分区墙①', x:0.15, y:4.55, w:3.0, h:0.15, color:'#3D2B1F', icon:'▬', isWall:true },
-  { id:makeId('wall_h'), name:'分区墙②', x:3.85, y:4.55, w:3.0, h:0.15, color:'#3D2B1F', icon:'▬', isWall:true },
-  // 洗护单间三面墙（围出独立空间）
-  { id:makeId('wall_v'), name:'单间左墙', x:3.85, y:4.70, w:0.15, h:1.5, color:'#3D2B1F', icon:'▮', isWall:true },
-  { id:makeId('wall_v'), name:'单间右墙', x:5.35, y:4.70, w:0.15, h:1.5, color:'#3D2B1F', icon:'▮', isWall:true },
-  { id:makeId('wall_h'), name:'单间顶墙', x:3.85, y:4.70, w:1.5, h:0.15, color:'#3D2B1F', icon:'▬', isWall:true },
+  // ---- 左右分区墙（中线 x=3.5，纵向贯穿全高）----
+  // 左侧 x: 0.15~3.5 = 宠物洗护区；右侧 x: 3.5~6.85 = 电竞房展示区
+  { id:makeId('wall_v'), name:'中线分区墙', x:3.42, y:0.15, w:0.15, h:5.7, color:'#3D2B1F', icon:'▮', isWall:true },
 
-  // ---- 干区（前方，y < 4.5）：零售+收银+等候+货架 ----
-  // 柜台（保留）
-  { id:'counter',    name:'柜台（保留）', x:1.0,  y:3.9, w:5.0, h:0.6, color:'#8B6F47', icon:'🛒', locked:true },
-  // 收银台
-  { id:makeId('cashier'), name:'收银台',   x:5.4, y:3.2, w:1.0, h:0.6, color:'#E89A3C', icon:'💰' },
-  // 等候沙发
-  { id:makeId('sofa'),    name:'客户沙发', x:0.5, y:2.5, w:1.5, h:0.7, color:'#F4B5A8', icon:'🛋️' },
-  // 货架墙（左墙边）
-  { id:makeId('shelf'),   name:'货架墙',   x:0.4, y:0.5, w:2.0, h:0.4, color:'#F5E6CB', icon:'🗄️' },
-  { id:makeId('shelf'),   name:'货架墙',   x:0.4, y:1.1, w:2.0, h:0.4, color:'#F5E6CB', icon:'🗄️' },
-
-  // ---- 湿区（后方，y > 4.7）：洗护+寄养+卫生间 ----
-  // 洗护单间（墙已围好，内部放洗护池）
-  { id:makeId('wash_station'), name:'洗护池①', x:4.1, y:5.0, w:0.6, h:0.5, color:'#5C3D2E', icon:'🛁' },
-  { id:makeId('wash_station'), name:'洗护池②', x:4.8, y:5.0, w:0.6, h:0.5, color:'#5C3D2E', icon:'🛁' },
-  // 烘干箱（洗护间右）
-  { id:makeId('dryer'),    name:'烘干箱',     x:5.7, y:5.0, w:0.8, h:0.6, color:'#E89A3C', icon:'🔥' },
-  // 美容造型台
-  { id:makeId('groom_table'), name:'美容造型台', x:5.7, y:5.8, w:0.8, h:0.7, color:'#F4B860', icon:'🪑' },
-  // 寄养区（左后方，湿区左侧）
-  { id:makeId('cage_cat'), name:'猫寄养笼①', x:0.5, y:5.0, w:1.2, h:0.6, color:'#FFD89A', icon:'🐈' },
-  { id:makeId('cage_cat'), name:'猫寄养笼②', x:0.5, y:5.8, w:1.2, h:0.6, color:'#FFD89A', icon:'🐈' },
-  { id:makeId('cage_dog'), name:'狗寄养笼①', x:1.8, y:5.0, w:1.5, h:0.8, color:'#F4B860', icon:'🐕' },
-  { id:makeId('cage_dog'), name:'狗寄养笼②', x:1.8, y:5.9, w:1.5, h:0.8, color:'#F4B860', icon:'🐕' },
+  // ====== 左侧：宠物洗护 + 寄养区 ======
+  // 洗护单间①（墙+洗护池组合）—— 左上
+  { id:makeId('wall_v'), name:'单间①左墙', x:0.30, y:0.30, w:0.15, h:1.5, color:'#3D2B1F', icon:'▮', isWall:true },
+  { id:makeId('wall_v'), name:'单间①右墙', x:1.80, y:0.30, w:0.15, h:1.5, color:'#3D2B1F', icon:'▮', isWall:true },
+  { id:makeId('wall_h'), name:'单间①顶墙', x:0.30, y:0.30, w:1.5, h:0.15, color:'#3D2B1F', icon:'▬', isWall:true },
+  { id:makeId('wash_station'), name:'洗护池①', x:0.5, y:0.9, w:0.6, h:0.5, color:'#5C3D2E', icon:'🛁' },
+  // 洗护单间② —— 右上
+  { id:makeId('wall_v'), name:'单间②左墙', x:2.10, y:0.30, w:0.15, h:1.5, color:'#3D2B1F', icon:'▮', isWall:true },
+  { id:makeId('wall_v'), name:'单间②右墙', x:3.10, y:0.30, w:0.15, h:1.5, color:'#3D2B1F', icon:'▮', isWall:true },
+  { id:makeId('wall_h'), name:'单间②顶墙', x:2.10, y:0.30, w:1.0, h:0.15, color:'#3D2B1F', icon:'▬', isWall:true },
+  { id:makeId('wash_station'), name:'洗护池②', x:2.3, y:0.9, w:0.6, h:0.5, color:'#5C3D2E', icon:'🛁' },
+  // 烘干箱 + 美容造型台
+  { id:makeId('dryer'),      name:'烘干箱',       x:0.4, y:2.2, w:0.8, h:0.6, color:'#E89A3C', icon:'🔥' },
+  { id:makeId('groom_table'), name:'美容造型台',  x:1.4, y:2.2, w:0.8, h:0.7, color:'#F4B860', icon:'🪑' },
+  // 寄养区 —— 左中
+  { id:makeId('cage_cat'),   name:'猫寄养笼①',  x:0.4, y:3.3, w:1.2, h:0.6, color:'#FFD89A', icon:'🐈' },
+  { id:makeId('cage_cat'),   name:'猫寄养笼②',  x:0.4, y:4.0, w:1.2, h:0.6, color:'#FFD89A', icon:'🐈' },
+  { id:makeId('cage_dog'),   name:'狗寄养笼①',  x:1.7, y:3.3, w:1.5, h:0.8, color:'#F4B860', icon:'🐕' },
+  { id:makeId('cage_dog'),   name:'狗寄养笼②',  x:1.7, y:4.1, w:1.5, h:0.8, color:'#F4B860', icon:'🐕' },
   // 储物柜
-  { id:makeId('storage'), name:'储物柜',  x:3.4, y:5.0, w:0.4, h:0.5, color:'#5C3D2E', icon:'📦' },
+  { id:makeId('storage'),    name:'储物柜',      x:0.4, y:5.0, w:0.5, h:0.5, color:'#5C3D2E', icon:'📦' },
 
-  // ---- 卫生间（右下角）----
-  { id:makeId('toilet'),  name:'卫生间',  x:5.7, y:6.0, w:1.0, h:0.7, color:'#5C3D2E', icon:'🚽' },
+  // ====== 右侧：电竞房展示区 ======
+  // 电竞吧台（沿右侧墙）—— 占据右半区上方
+  { id:makeId('esport_bar'),  name:'电竞吧台',   x:3.7,  y:0.4, w:3.0, h:0.6, color:'#6B4FA0', icon:'🎮' },
+  // 幕布墙（投影区）—— 吧台正上方墙面
+  { id:makeId('curtain'),     name:'投影幕布',   x:3.7,  y:0.05, w:2.8, h:0.20, color:'#2C2C2C', icon:'🖼️' },
+  // 电竞沙发
+  { id:makeId('esport_sofa'), name:'电竞沙发',   x:3.7,  y:2.0, w:1.8, h:0.8, color:'#2C2C2C', icon:'🛋️' },
+  // 洞洞板展示墙
+  { id:makeId('shelf'),       name:'潮酷硬件墙', x:5.7,  y:0.4, w:1.0, h:2.0, color:'#6B4FA0', icon:'🗄️' },
+  // 客户体验沙发
+  { id:makeId('sofa'),        name:'体验沙发',   x:3.7,  y:3.2, w:2.0, h:0.7, color:'#F4B5A8', icon:'🛋️' },
+  // 收银台（靠近主门，分区墙右侧）
+  { id:makeId('cashier'),     name:'收银台',     x:3.7,  y:4.4, w:1.0, h:0.6, color:'#E89A3C', icon:'💰' },
+  // 货架墙（洗护用品零售）
+  { id:makeId('shelf'),       name:'洗护用品架', x:4.9,  y:4.4, w:1.0, h:0.5, color:'#F5E6CB', icon:'🗄️' },
+  { id:makeId('shelf'),       name:'洗护用品架', x:4.9,  y:5.0, w:1.0, h:0.5, color:'#F5E6CB', icon:'🗄️' },
+  // 卫生间（右下角）
+  { id:makeId('toilet'),      name:'卫生间',     x:5.9,  y:5.0, w:0.9, h:0.7, color:'#5C3D2E', icon:'🚽' },
 
-  // ---- 摄像头 ----
-  { id:makeId('camera'), name:'CAM-1 入口',   x:3.4, y:6.65, w:0.2, h:0.2, color:'#5C3D2E', icon:'🎥' },
-  { id:makeId('camera'), name:'CAM-2 营业区', x:3.5, y:2.0, w:0.2, h:0.2, color:'#5C3D2E', icon:'🎥' },
-  { id:makeId('camera'), name:'CAM-3 洗护区', x:4.5, y:5.4, w:0.2, h:0.2, color:'#5C3D2E', icon:'🎥' },
-  { id:makeId('camera'), name:'CAM-4 寄养区', x:2.5, y:6.4, w:0.2, h:0.2, color:'#5C3D2E', icon:'🎥' },
+  // ---- 摄像头（覆盖左洗护区+右电竞区）----
+  { id:makeId('camera'), name:'CAM-1 入口',     x:3.4, y:6.65, w:0.2, h:0.2, color:'#5C3D2E', icon:'🎥' },
+  { id:makeId('camera'), name:'CAM-2 洗护区',   x:1.5, y:1.5, w:0.2, h:0.2, color:'#5C3D2E', icon:'🎥' },
+  { id:makeId('camera'), name:'CAM-3 寄养区',   x:2.5, y:4.0, w:0.2, h:0.2, color:'#5C3D2E', icon:'🎥' },
+  { id:makeId('camera'), name:'CAM-4 电竞区',   x:5.0, y:2.5, w:0.2, h:0.2, color:'#5C3D2E', icon:'🎥' },
 ];
 
 // INITIAL_COMPONENTS 现在已经预编排好坐标，无需 fixInitial
